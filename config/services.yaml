@@ -4,6 +4,11 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    univ.path: '%env(UNIV_PATH)%'
+    univ.user: '%env(UNIV_USER)%'
+    univ.pass: '%env(UNIV_USER)%'
+    univ.matchAccount: 'matcher.matchAccount'
+    univ.validation: 'validatore.validate'
 
 services:
     # default configuration for services in *this* file
