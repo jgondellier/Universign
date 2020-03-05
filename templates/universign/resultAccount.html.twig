@@ -1,0 +1,36 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">
+                <span>Email : </span>
+            </div>
+            <div class="col-md-8">
+                <span{% if '**' not in  account.email %} class="text-success"{% endif %}>{{ account.email }}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <span>Mobile : </span>
+            </div>
+            <div class="col-md-8">
+                <span {% if '**' not in  account.mobile %} class="text-success"{% endif %}>{{ account.mobile }}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <span>Nom : </span>
+            </div>
+            <div class="col-md-8">
+                <span{% if '**' not in  account.lastname %} class="text-success"{% endif %}>{{ account.lastname }}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <span>Prénom : </span>
+            </div>
+            <div class="col-md-8">
+                <span{% if '**' not in  account.firstname %} class="text-success"{% endif %}>{{ account.firstname }}</span>
+            </div>
+        </div>
+    </div>
+</div>

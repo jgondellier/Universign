@@ -1,0 +1,50 @@
+version: '3.2'
+
+services:
+    db:
+        image: percona:8.0
+        container_name: "${PROJECT_NAME}_mysql"
+        restart: always
+        volumes:
+            - Udbdata:/var/lib/mysql
+            - ./mysql/config:/etc/mysql/conf.d
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+        ports:
+            - "3306:3306"
+    php:
+        build:
+            context: php7-fpm
+            args:
+                TIMEZONE: ${TIMEZONE}
+        container_name: "${PROJECT_NAME}_php"
+        ports:
+            - 9000:9000
+        volumes:
+            #- ./php7-fpm/config/conf.ini:/usr/local/etc/php/conf.d/conf.ini
+            - ${SYMFONY_APP_PATH}:/var/www/symfony
+    nginx:
+        build: nginx
+        container_name: "${PROJECT_NAME}_nginx"
+        ports:
+            - 8050:80
+            - 8051:443
+        depends_on:
+            - php
+        volumes:
+            - ${SYMFONY_APP_PATH}:/var/www/symfony
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: "${PROJECT_NAME}_phpmyadmin"
+        depends_on:
+            - db
+        ports:
+            - 8055:80
+        links:
+            - db
+volumes:
+  Udbdata:
+    driver: local

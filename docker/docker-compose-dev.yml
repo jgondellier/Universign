@@ -1,0 +1,14 @@
+version: '3.2'
+
+services:
+    php:
+        volumes:
+            - ./php7-fpm/config/conf.ini:/usr/local/etc/php/conf.d/conf.ini
+            - app-sync:/var/www/symfony
+    nginx:
+        volumes:
+            - app-sync:/var/www/symfony
+
+volumes:
+  app-sync:
+    external: true
