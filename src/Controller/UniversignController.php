@@ -39,12 +39,9 @@ class UniversignController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // data is an array with "name", "email", and "message" keys
             $data = $form->getData();
-            //var_dump($data);
             $uri = 'https://'.$this->getParameter('univ.user').':'.$this->getParameter('univ.pass').'@'.$this->getParameter('univ.path');
             $params = array('firstname'=>$data['firstname'],'lastname'=>$data['lastname'],'email'=>$data['email'],'mobile'=>$data['mobile']);
-            //var_dump(xmlrpc_encode($params) );
             $client = new Client([
                 'base_uri'  => '',
                 'timeout'   => 200.0,
