@@ -1,24 +1,39 @@
 <?php
 
-namespace App\Universign\Utils;
+namespace App\Service;
+
+use GuzzleHttp\Client;
 
 class MatchAccount
 {
     private const OBFS='**';
+    private $uri;
     private $xmlrpcResult;
-    private $bestResult=false;
-    private $account=false;
+    private $bestResult=False;
+    private $account=False;
     private $partialAccount=False;
     private $isCertified=False;
     private $explanation;
 
     /**
      * MatchAccount constructor.
-     * @param array $xmlrpcResult
+     * @param string $uri url d'appel du service
      */
-    public function __construct(array $xmlrpcResult)
+    public function __construct($uri)
     {
-        $this->xmlrpcResult = $xmlrpcResult;
+        $this->uri = $uri;
+    }
+
+    public function match($params)
+    {
+        $client = new Client([
+            'base_uri'  => '',
+            'timeout'   => 200.0,
+            'verify'    => false,
+        ]);
+
+        $response = $client->request('GET', $this->uri, ['body' => xmlrpc_encode_request('matcher.matchAccount',$params)]);
+        $this->xmlrpcResult = xmlrpc_decode($response->getBody()->getContents());
         $this->findBestResult();
         $this->explain();
     }
@@ -64,7 +79,7 @@ class MatchAccount
             //On a trouvé le mail et le mobile dans le meme resultat on a un compte mais PB de prenom et nom
             if(array_key_exists('findEmail',$bestResult) && array_key_exists('findMobile',$bestResult)){
                 if($bestResult['findEmail']===$bestResult['findMobile']){
-                    $this->isCertified=$this->isCertified($bestResult);
+                    $this->isCertified=$this->isCertified($bestResult['findEmail']);
                     $this->partialAccount=$bestResult['findEmail'];
                     return False;
                 }
@@ -137,10 +152,10 @@ class MatchAccount
         }
         if($this->partialAccount && $this->isCertified){
             $explain = 'Compte de niveau 2 mais ';
-            if(strpos(self::OBFS,$this->partialAccount['lastname'])){
+            if(strpos($this->partialAccount['lastname'],self::OBFS)!==False){
                 $explain .= 'le nom ne correspond pas au client ';
             }
-            if(strpos(self::OBFS,$this->partialAccount['firstname'])){
+            if(strpos($this->partialAccount['firstname'],self::OBFS)!==False){
                 $explain .= 'le prénom ne correspond pas au client ';
             }
             $explain .= '. Impossible de signer en niveau 2.';

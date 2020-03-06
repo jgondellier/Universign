@@ -32,5 +32,17 @@
                 <span{% if '**' not in  account.firstname %} class="text-success"{% endif %}>{{ account.firstname }}</span>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-4">
+                <span>Certificat : </span>
+            </div>
+            <div class="col-md-8">
+                {% if account.certificateLevel is defined %}
+                    <span class="text-success">{{ account.certificateLevel }}</span>
+                {% else %}
+                    <span>Aucun</span>
+                {% endif %}
+            </div>
+        </div>
     </div>
 </div>
