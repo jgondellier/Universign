@@ -45,6 +45,8 @@ RUN echo "xdebug.var_display_max_depth=10" >> /usr/local/etc/php/conf.d/docker-p
 
 # define conf
 RUN echo "memory_limit=4G" >> /usr/local/etc/php/conf.d/docker-php-conf.ini
+RUN echo "upload_max_filesize=8M" >> /usr/local/etc/php/conf.d/docker-php-conf.ini
+RUN echo "post_max_size=8M" >> /usr/local/etc/php/conf.d/docker-php-conf.ini
 RUN echo "max_execution_time=60000" >> /usr/local/etc/php/conf.d/docker-php-conf.ini
 RUN echo "opcache.enable=1" >> /usr/local/etc/php/conf.d/docker-php-conf.ini
 RUN echo "opcache.memory_consumption=512" >> /usr/local/etc/php/conf.d/docker-php-conf.ini

@@ -25,6 +25,12 @@ class PreValidation
             'verify'    => false,
         ]);
         $response = $client->request('GET', $this->uri, ['body' => xmlrpc_encode_request('validator.validate',$params)]);
+
+        var_dump($response->getBody()->getContents());
+
         $this->xmlrpcResult = xmlrpc_decode($response->getBody()->getContents());
+
+        var_dump($this->xmlrpcResult);exit;
+
     }
 }
