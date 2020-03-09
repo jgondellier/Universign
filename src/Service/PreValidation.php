@@ -24,8 +24,15 @@ class PreValidation
             'timeout'   => 200.0,
             'verify'    => false,
         ]);
-        $response = $client->request('GET', $this->uri, ['body' => xmlrpc_encode_request('validator.validate',$params)]);
 
+        file_put_contents('prevalidBody.txt',['body' => xmlrpc_encode_request('validator.validate',$params)]);
+
+
+        $response = $client->request('POST', $this->uri, [
+            'Content-Type' => 'text/xml; charset=UTF8',
+            'body' => xmlrpc_encode_request('validator.validate',$params)]);
+
+        var_dump($response->getHeaders());
         var_dump($response->getBody()->getContents());
 
         $this->xmlrpcResult = xmlrpc_decode($response->getBody()->getContents());

@@ -71,7 +71,7 @@ class UniversignController extends AbstractController
         $form = $this->createFormBuilder($defaultData)
             ->add('lastname', TextType::class)
             ->add('firstname', TextType::class)
-            ->add('birthdate', BirthdayType::class)
+            ->add('birthdate', BirthdayType::class,['format' => 'dd-MM-yyyy',])
             ->add('type', ChoiceType::class, [
                 'choices' => [
                     'carte nationale d’identité' => 0,
@@ -90,13 +90,30 @@ class UniversignController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $params=array('idDocument'=>array('photos'=>array(base64_decode(file_get_contents($data['cni1'])),base64_decode(file_get_contents($data['cni2']))),'type'=>$data['type']),'presonalInfo'=>array('firstname'=>$data['firstname'],'lastname'=>$data['lastname'],'birthDate'=>$data['birthdate']),'allowManual'=>False,'CallbackUrl'=>'');
-            var_dump($data);
-            var_dump($params);
+            $cni1  = file_get_contents($data['cni1']);
+            xmlrpc_set_type($cni1,'base64');
+            $cni2  = file_get_contents($data['cni2']);
+            xmlrpc_set_type($cni2,'base64');
+            $birthDate = date_format($data['birthdate'],'Y-m-dTh:m:s');
+            xmlrpc_set_type($birthDate,'datetime');
+            $params=array(
+                'idDocument'=>array(
+                    'photos'=>array(
+                        $cni1,
+                        $cni2
+                    ),
+                    'type'=>$data['type']
+                ),
+                'personalInfo'=>array(
+                    'firstname'=>$data['firstname'],
+                    'lastname'=>$data['lastname'],
+                    'birthDate'=>$birthDate
+                ),
+                'allowManual'=>False,
+                'CallbackUrl'=>''
+            );
+
             $preValidation->validate($params);
-
-
-
             exit;
         }
 
