@@ -38,3 +38,7 @@ services:
     App\Service\PreValidation:
         arguments:
             $uri: 'https://%univ.user%:%univ.pass%@%univ.path%'
+
+    App\Service\TransactionSigner:
+        arguments:
+            $uri: 'https://%univ.user%:%univ.pass%@%univ.path%'

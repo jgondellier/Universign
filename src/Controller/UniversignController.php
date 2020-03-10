@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Service\MatchAccount;
 use App\Service\PreValidation;
+use App\Service\TransactionSigner;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -28,7 +29,7 @@ class UniversignController extends AbstractController
      */
     public function matchaccount(Request $request, MatchAccount $matchAccount)
     {
-        $defaultData = ['name' => ''];
+        $defaultData = ['lastname' => ''];
         $form = $this->createFormBuilder($defaultData)
             ->add('lastname', TextType::class)
             ->add('firstname', TextType::class)
@@ -42,8 +43,8 @@ class UniversignController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $data = $form->getData();
-            $params = array('firstname'=>$data['firstname'],'lastname'=>$data['lastname'],'email'=>$data['email'],'mobile'=>$data['mobile']);
-            $matchAccount->match($params);
+
+            $matchAccount->match($data);
 
             return $this->render('universign/matchaccount.html.twig', [
                 'form' => $form->createView(),
@@ -60,14 +61,14 @@ class UniversignController extends AbstractController
     }
 
     /**
-     * @Route("/universign/prevalidation", name="prevalidation")
-     * @param Request $request
-     * @param PreValidation $preValidation
-     * @return Response
-     */
+ * @Route("/universign/prevalidation", name="prevalidation")
+ * @param Request $request
+ * @param PreValidation $preValidation
+ * @return Response
+ */
     public function prevalidation(Request $request,PreValidation $preValidation)
     {
-        $defaultData = ['name' => ''];
+        $defaultData = ['lastname' => ''];
         $form = $this->createFormBuilder($defaultData)
             ->add('lastname', TextType::class)
             ->add('firstname', TextType::class)
@@ -81,7 +82,7 @@ class UniversignController extends AbstractController
                 ]])
             ->add('cni1', FileType::class,[
                 'required' => false,
-                ])
+            ])
             ->add('cni2', FileType::class,['required' => false,])
             ->add('send', SubmitType::class)
             ->getForm();
@@ -90,34 +91,53 @@ class UniversignController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $cni1  = file_get_contents($data['cni1']);
-            xmlrpc_set_type($cni1,'base64');
-            $cni2  = file_get_contents($data['cni2']);
-            xmlrpc_set_type($cni2,'base64');
-            $birthDate = date_format($data['birthdate'],'Y-m-dTh:m:s');
-            xmlrpc_set_type($birthDate,'datetime');
-            $params=array(
-                'idDocument'=>array(
-                    'photos'=>array(
-                        $cni1,
-                        $cni2
-                    ),
-                    'type'=>$data['type']
-                ),
-                'personalInfo'=>array(
-                    'firstname'=>$data['firstname'],
-                    'lastname'=>$data['lastname'],
-                    'birthDate'=>$birthDate
-                ),
-                'allowManual'=>False,
-                'CallbackUrl'=>''
-            );
 
-            $preValidation->validate($params);
+            $preValidation->validate($data);
             exit;
         }
 
         return $this->render('universign/prevalidation.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+    /**
+     * @Route("/universign/transactionsigner", name="transactionsigner")
+     * @param Request $request
+     * @param TransactionSigner $transactionSigner
+     * @return Response
+     */
+    public function transactionSigner(Request $request,TransactionSigner $transactionSigner)
+    {
+        $defaultData = ['lastname' => ''];
+        $form = $this->createFormBuilder($defaultData)
+            ->add('lastname', TextType::class)
+            ->add('firstname', TextType::class)
+            ->add('birthdate', BirthdayType::class,['format' => 'dd-MM-yyyy',])
+            ->add('email', EmailType::class)
+            ->add('mobile', TelType::class)
+            ->add('certificateType', ChoiceType::class, [
+                'choices' => [
+                    'simple' => 'simple',
+                    'certified' => 'certified',
+                    'advanced' => 'advanced',
+                ]])
+            ->add('doc', FileType::class,[
+                'required' => false,
+            ])
+            ->add('send', SubmitType::class)
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            $transactionSigner->sign($data);
+
+            exit;
+        }
+
+        return $this->render('universign/transactionsigner.html.twig', [
             'form' => $form->createView()
         ]);
     }

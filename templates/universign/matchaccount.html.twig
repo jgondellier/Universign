@@ -9,65 +9,68 @@
         <div class="my-custom-class-for-errors">
             {{ form_errors(form) }}
         </div>
-
-        <div class="card">
-            <div class="card-header">
-                Recherche de compte universign
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        {{ form_row(form.lastname) }}
+        <div class="row"><div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    Recherche de compte universign
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form_row(form.lastname) }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_row(form.firstname) }}
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        {{ form_row(form.firstname) }}
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form_row(form.email) }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_row(form.mobile) }}
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        {{ form_row(form.email) }}
-                    </div>
-                    <div class="col-md-6">
-                        {{ form_row(form.mobile) }}
-                    </div>
+                <div class="card-footer text-center">
+                    {{ form_end(form) }}
                 </div>
             </div>
-            <div class="card-footer text-center">
-                {{ form_end(form) }}
-            </div>
-        </div>
-
-
-        <div class="card" {% if explanation is not defined %} style="display:none"{% endif %}>
-            <div class="card-header">
-                Résultat
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-4">
-                        {% if bestResult.findMobile is defined %}
-                            {{ include('universign/resultAccount.html.twig', {account: bestResult.findMobile}) }}
-                        {% endif %}
-                        {% if bestResult.findEmail is defined %}
-                            {{ include('universign/resultAccount.html.twig', {account: bestResult.findEmail}) }}
-                        {% endif %}
-                        {% if bestResult.email is defined %}
-                            {{ include('universign/resultAccount.html.twig', {account: bestResult}) }}
-                        {% endif %}
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card">
-                            <div class="card-body">
-                                {% if explanation is defined %}{{ explanation }}{% endif %}
+        </div></div>
+        <div class="row mt-2"><div class="col-md-12">
+            <div class="card" {% if explanation is not defined %} style="display:none"{% endif %}>
+                <div class="card-header">
+                    Résultat
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            {% if bestResult.findMobile is defined %}
+                                {{ include('universign/resultAccount.html.twig', {account: bestResult.findMobile}) }}
+                            {% endif %}
+                            {% if bestResult.findEmail is defined %}
+                                {{ include('universign/resultAccount.html.twig', {account: bestResult.findEmail}) }}
+                            {% endif %}
+                            {% if bestResult.email is defined %}
+                                {{ include('universign/resultAccount.html.twig', {account: bestResult}) }}
+                            {% endif %}
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-body">
+                                    {% if explanation is defined %}{{ explanation }}{% endif %}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="card-footer text-muted">
+                    {% if isValid1 is defined %}<p>Eligible signature niveau 1
+                        : {{ isValid1 ? 'Oui' : 'Non' }}</p>{% endif %}
+                    {% if isValid2 is defined %}<p>Eligible signature niveau 2
+                        : {{ isValid2 ? 'Oui' : 'Non' }}</p>{% endif %}
+                </div>
             </div>
-            <div class="card-footer text-muted">
-                {% if isValid1 is defined %}<p>Eligible signature niveau 1 : {{ isValid1 ? 'Oui' : 'Non'  }}</p>{% endif %}
-                {% if isValid2 is defined %}<p>Eligible signature niveau 2 : {{ isValid2 ? 'Oui' : 'Non'  }}</p>{% endif %}
-            </div>
-        </div>
+        </div></div>
     </div>
 {% endblock %}

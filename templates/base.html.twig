@@ -3,12 +3,27 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}Bienvenue!{% endblock %}</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Universign</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="/">Accueil <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link {{(app.request.get('_route')=='matchaccount')?'active':''}}" href="{{ path('matchaccount') }}">MatchAccount</a>
+                <a class="nav-item nav-link {{(app.request.get('_route')=='prevalidation')?'active':''}}" href="{{ path('prevalidation') }}">Prevalidation</a>
+                <a class="nav-item nav-link {{(app.request.get('_route')=='transactionsigner')?'active':''}}" href="{{ path('transactionsigner') }}">TransactionSigner</a>
+            </div>
+        </div>
+    </nav>
+
+    {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

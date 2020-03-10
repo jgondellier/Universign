@@ -24,13 +24,15 @@ class MatchAccount
         $this->uri = $uri;
     }
 
-    public function match($params)
+    public function match($data)
     {
         $client = new Client([
             'base_uri'  => '',
             'timeout'   => 200.0,
             'verify'    => false,
         ]);
+
+        $params = array('firstname'=>$data['firstname'],'lastname'=>$data['lastname'],'email'=>$data['email'],'mobile'=>$data['mobile']);
 
         $response = $client->request('GET', $this->uri, ['body' => xmlrpc_encode_request('matcher.matchAccount',$params)]);
         $this->xmlrpcResult = xmlrpc_decode($response->getBody()->getContents());
