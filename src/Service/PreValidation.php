@@ -34,18 +34,17 @@ class PreValidation
         xmlrpc_set_type($cni1,'base64');
         $cni2  = file_get_contents($data['cni2']);
         xmlrpc_set_type($cni2,'base64');
-        //$birthDate = date_format($data['birthdate'],'Y-m-dTh:m:s');
-        $birthDate = gmdate('Y-m-d\\TG:i:s\\Z', strtotime('now'));
+        $birthDate = date_format($data['birthdate'],'Ymd').'T'.date_format($data['birthdate'],'h:m:s');
         xmlrpc_set_type($birthDate,'datetime');
         $params=array(
-         /*   'idDocument'=>array(
+            'idDocument'=>array(
                 'photos'=>array(
                     $cni1,
                     $cni2
                 ),
                 'type'=>$data['type']
             ),
-         */   'personalInfo'=>array(
+            'personalInfo'=>array(
                 'firstname'=>$data['firstname'],
                 'lastname'=>$data['lastname'],
                 'birthDate'=>$birthDate
@@ -54,19 +53,9 @@ class PreValidation
           //  'CallbackUrl'=>''
         );
 
-        //file_put_contents('prevalidBody.txt',['body' => xmlrpc_encode_request('validator.validate',$params)]);
-
-
         $response = $client->request('POST', $this->uri, [
-         //   'Content-Type' => 'text/xml; charset=UTF8',
             'body' => xmlrpc_encode_request('validator.validate',$params)]);
-
-
-        var_dump($response->getBody()->getContents());
-
         $this->xmlrpcResult = xmlrpc_decode($response->getBody()->getContents());
-
-        var_dump($this->xmlrpcResult);exit;
 
     }
 }

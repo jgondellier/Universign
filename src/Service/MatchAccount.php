@@ -47,7 +47,7 @@ class MatchAccount
      */
     private function findAccount()
     {
-        if(empty($this->xmlrpcResult) && (count($this->xmlrpcResult) === 1) && !in_array(self::OBFS, $this->xmlrpcResult, true)) {
+        if(!empty($this->xmlrpcResult) && (count($this->xmlrpcResult) === 1) && !in_array(self::OBFS, $this->xmlrpcResult, true)) {
             $this->isCertified=$this->isCertified($this->xmlrpcResult[0]);
             return  $this->account = $this->xmlrpcResult[0];
         }

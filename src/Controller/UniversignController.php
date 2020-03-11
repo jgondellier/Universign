@@ -93,7 +93,10 @@ class UniversignController extends AbstractController
             $data = $form->getData();
 
             $preValidation->validate($data);
-            exit;
+            return $this->render('universign/prevalidation.html.twig', [
+                'form' => $form->createView(),
+                'response' => $preValidation
+            ]);
         }
 
         return $this->render('universign/prevalidation.html.twig', [
