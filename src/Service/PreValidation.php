@@ -3,11 +3,18 @@
 namespace App\Service;
 
 use GuzzleHttp\Client;
+use http\Exception\InvalidArgumentException;
 
 class PreValidation
 {
     private $uri;
     private $xmlrpcResult;
+    private $result;
+    private $reason;
+    private $id;
+    private $status;
+    private $explanation;
+
     /**
      * PreValidation constructor.
      * @param string $uri url d'appel du service
@@ -30,18 +37,28 @@ class PreValidation
         $responseTest = $client->request('POST', $urlTest, ['auth' =>  ['apikey_7AlYWEx66P119SVeW9Y2PK89v', '']]);
         var_dump($responseTest);exit;*/
 
-        $cni1  = file_get_contents($data['cni1']);
-        xmlrpc_set_type($cni1,'base64');
-        $cni2  = file_get_contents($data['cni2']);
-        xmlrpc_set_type($cni2,'base64');
+        if(!isset($data['birthdate']) || !isset($data['firstname']) || !isset($data['lastname']) || !isset($data['type']) || !isset($data['cni1']) ){
+            throw new \InvalidArgumentException('Un parametre est manquant.');
+        }
+
+        $photos=array();
+        if(isset($data['cni1'])){
+            $cni1  = file_get_contents($data['cni1']);
+            xmlrpc_set_type($cni1,'base64');
+            $photos[]=$cni1;
+        }else{
+            throw new \InvalidArgumentException('Une CNI doit être fourni.');
+        }
+        if(isset($data['cni2'])){
+            $cni2  = file_get_contents($data['cni2']);
+            xmlrpc_set_type($cni2,'base64');
+            $photos[]=$cni2;
+        }
         $birthDate = date_format($data['birthdate'],'Ymd').'T'.date_format($data['birthdate'],'h:m:s');
         xmlrpc_set_type($birthDate,'datetime');
         $params=array(
             'idDocument'=>array(
-                'photos'=>array(
-                    $cni1,
-                    $cni2
-                ),
+                'photos'=>$photos,
                 'type'=>$data['type']
             ),
             'personalInfo'=>array(
@@ -54,8 +71,27 @@ class PreValidation
         );
 
         $response = $client->request('POST', $this->uri, [
-            'body' => xmlrpc_encode_request('validator.validate',$params)]);
+            'body' => xmlrpc_encode_request('validator.validate',$params)
+        ]);
         $this->xmlrpcResult = xmlrpc_decode($response->getBody()->getContents());
+        $this->result = $this->xmlrpcResult['result'];
+        $this->reason = $this->xmlrpcResult['reason'];
+        $this->id = $this->xmlrpcResult['id'];
+        $this->status = $this->xmlrpcResult['status'];
 
+    }
+    public function getValidationResult()
+    {
+        switch ($this->status) {
+            case 0:
+                $this->explanation='En cours';
+                break;
+            case 1:
+                $this->explanation='Validé';
+                break;
+            case 2:
+                $this->explanation='Refusé';
+                break;
+        }
     }
 }

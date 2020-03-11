@@ -81,7 +81,7 @@ class UniversignController extends AbstractController
                     'permis de conduire Européen' => 3,
                 ]])
             ->add('cni1', FileType::class,[
-                'required' => false,
+                'required' => true,
             ])
             ->add('cni2', FileType::class,['required' => false,])
             ->add('send', SubmitType::class)
