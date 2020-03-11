@@ -74,24 +74,69 @@ class PreValidation
             'body' => xmlrpc_encode_request('validator.validate',$params)
         ]);
         $this->xmlrpcResult = xmlrpc_decode($response->getBody()->getContents());
+        //Erreur dans l'appel
+        if(isset($this->xmlrpcResult['faultCode'])){
+            throw new \InvalidArgumentException($this->xmlrpcResult['faultString']);
+        }
         $this->result = $this->xmlrpcResult['result'];
         $this->reason = $this->xmlrpcResult['reason'];
         $this->id = $this->xmlrpcResult['id'];
         $this->status = $this->xmlrpcResult['status'];
-
+        $this->traitValidationResult();
     }
-    public function getValidationResult()
+
+    /**
+     * Permet d'interpréter la réponse qu'universign a fait.
+     *
+     */
+    private function traitValidationResult():void
     {
         switch ($this->status) {
             case 0:
-                $this->explanation='En cours';
+                $this->explanation[]='En cours';
                 break;
             case 1:
-                $this->explanation='Validé';
+                $this->explanation[]='Validé';
                 break;
             case 2:
-                $this->explanation='Refusé';
+                $this->explanation[]='Refusé';
+                switch ($this->reason) {
+                    case 4:
+                        $this->explanation[]='Lecture impossible de la pièce. Mauvaise qualité ?';
+                        break;
+                }
+                if(is_array($this->result)){
+                    foreach ($this->result as $field => $result){
+                        if($result['valid']===false){
+                            $this->explanation[]='Le champs : '.$field.' on recherche : '.$result['expected'].' mais on a trouvé : '.$result['found'];
+                        }
+                    }
+                }
                 break;
         }
     }
+
+    /**
+     * @return array le tableau de resultat de l'interpretation de la reponse d'universign
+     */
+    public function getValidationResult():array
+    {
+        return $this->explanation;
+    }
+    /**
+     * @return array le résultalt de la requete formaté en array
+     */
+    public function getRequestResult():array
+    {
+        return $this->xmlrpcResult;
+    }
+
+    /**
+     * @return string l'id retourné par universign
+     */
+    public function getId():string
+    {
+        return $this->id;
+    }
+
 }
