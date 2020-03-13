@@ -3,12 +3,17 @@
 namespace App\Service;
 
 use GuzzleHttp\Client;
+use http\Exception\InvalidArgumentException;
 
 class MatchAccount
 {
     private const OBFS='**';
     private $uri;
-    private $xmlrpcResult;
+    private $firstname;
+    private $lastname;
+    private $email;
+    private $mobile;
+    private $originalResult;
     private $bestResult=False;
     private $account=False;
     private $partialAccount=False;
@@ -24,7 +29,50 @@ class MatchAccount
         $this->uri = $uri;
     }
 
-    public function match($data)
+    /**
+     * Le prenom a rechercher
+     *
+     * @param mixed $firstname
+     */
+    public function setFirstname($firstname): void
+    {
+        $this->firstname = $firstname;
+    }
+
+    /**
+     * Le nom a rechercher
+     *
+     * @param mixed $lastname
+     */
+    public function setLastname($lastname): void
+    {
+        $this->lastname = $lastname;
+    }
+
+    /**
+     * L'email a rechercher
+     *
+     * @param mixed $email
+     */
+    public function setEmail($email): void
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * Le telephone protable a rechercher
+     *
+     * @param mixed $mobile
+     */
+    public function setMobile($mobile): void
+    {
+        $this->mobile = $mobile;
+    }
+
+    /**
+     * Initialise la recherche...
+     */
+    public function match():void
     {
         $client = new Client([
             'base_uri'  => '',
@@ -32,10 +80,14 @@ class MatchAccount
             'verify'    => false,
         ]);
 
-        $params = array('firstname'=>$data['firstname'],'lastname'=>$data['lastname'],'email'=>$data['email'],'mobile'=>$data['mobile']);
+        if(empty($this->firstname) || empty($this->lastname) || empty($this->email) || empty($this->mobile)){
+            throw new \InvalidArgumentException('Empty required parameter.');
+        }
+
+        $params = array('firstname'=>$this->firstname,'lastname'=>$this->lastname,'email'=>$this->email,'mobile'=>$this->mobile);
 
         $response = $client->request('GET', $this->uri, ['body' => xmlrpc_encode_request('matcher.matchAccount',$params)]);
-        $this->xmlrpcResult = xmlrpc_decode($response->getBody()->getContents());
+        $this->originalResult = xmlrpc_decode($response->getBody()->getContents());
         $this->findBestResult();
         $this->explain();
     }
@@ -47,22 +99,27 @@ class MatchAccount
      */
     private function findAccount()
     {
-        if(!empty($this->xmlrpcResult) && (count($this->xmlrpcResult) === 1) && !in_array(self::OBFS, $this->xmlrpcResult, true)) {
-            $this->isCertified=$this->isCertified($this->xmlrpcResult[0]);
-            return  $this->account = $this->xmlrpcResult[0];
+        if(!empty($this->originalResult) && (count($this->originalResult) === 1) && !in_array(self::OBFS, $this->originalResult, true)) {
+            $this->isCertified=$this->isCertified($this->originalResult[0]);
+            return  $this->account = $this->originalResult[0];
         }
         return False;
     }
 
-    private function findBestResult(): bool
+    /**
+     * Universign retourne une liste de compte trié par ordre alaphabetique sur les nom et prénom des comptes trouvés.
+     * L'unicité d'un compte aujourd'hui est l'email et le telephone.
+     * On recherche dans la liste de résultat les plus pertinents.
+     */
+    private function findBestResult(): void
     {
         if(!$this->findAccount()){
             $bestResult = array();
-            if(empty($this->xmlrpcResult)){
-                return False;
+            if(empty($this->originalResult)){
+                return;
             }
 
-            foreach($this->xmlrpcResult as $result){
+            foreach($this->originalResult as $result){
                 //On a trouvé l'email
                 if(strpos($result['email'],self::OBFS)===False){
                     $bestResult['findEmail']=$result;
@@ -83,7 +140,7 @@ class MatchAccount
                 if($bestResult['findEmail']===$bestResult['findMobile']){
                     $this->isCertified=$this->isCertified($bestResult['findEmail']);
                     $this->partialAccount=$bestResult['findEmail'];
-                    return False;
+                    return;
                 }
             }elseif(array_key_exists('findEmail',$bestResult)){
                 $this->bestResult = $bestResult;
@@ -91,8 +148,6 @@ class MatchAccount
                 $this->bestResult = $bestResult;
             }
         }
-
-        return False;
     }
 
     /**
@@ -111,12 +166,20 @@ class MatchAccount
         return $this->bestResult;
     }
 
+    /**
+     * Est ce qu'un certificat a été trouvé ?
+     *
+     * @param array $account
+     * @return bool
+     */
     private function isCertified(array $account): bool
     {
         return array_key_exists('certificateLevel', $account) && $account['certificateLevel'] === 'certified';
     }
 
     /**
+     * Permet de savoir en fonction du niveau de signature que l'on souhaite si le compte peut signé en l'état.
+     *
      * @param int $neededSignLevel Niveau de la signature souhaité
      * @return bool
      */

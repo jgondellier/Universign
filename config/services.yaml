@@ -7,6 +7,7 @@ parameters:
     univ.path: '%env(UNIV_PATH)%'
     univ.user: '%env(UNIV_USER)%'
     univ.pass: '%env(UNIV_PASS)%'
+    univ.uri: 'https://%univ.user%:%univ.pass%@%univ.path%'
     univ.matchaccount: 'matcher.matchAccount'
     univ.validation: 'validatore.validate'
 

@@ -5,6 +5,10 @@ namespace App\Controller;
 use App\Service\MatchAccount;
 use App\Service\PreValidation;
 use App\Service\TransactionSigner;
+use Gondellier\UniversignBundle\Classes\Request\IdDocument;
+use Gondellier\UniversignBundle\Classes\Request\PersonalInfo;
+use Gondellier\UniversignBundle\Classes\Request\ValidationRequest;
+use Gondellier\UniversignBundle\Service\ValidationRequestService;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -20,6 +24,34 @@ use Symfony\Component\Validator\Constraints\File;
 
 class UniversignController extends AbstractController
 {
+    /**
+     * @Route("/testBundle", name="testBundle")
+    */
+    public function testBundle(Request $request)
+    {
+        $IdDocument = new IdDocument();
+        $IdDocument->setType(0);
+        $IdDocument->addPhotos('CNI-Corinne_Berthier-Recto.jpg');
+        $IdDocument->addPhotos('CNI-Corinne_Berthier-Verso.jpg');
+
+        $personalInfo = new PersonalInfo();
+        $personalInfo->setFirstname('Corinne');
+        $personalInfo->setLastname('Berthier');
+        $personalInfo->setBirthDate(new \DateTime('1976-05-17'));
+
+        $validationRequest = new ValidationRequest();
+        $validationRequest->setPersonalInfo($personalInfo);
+        $validationRequest->setIdDocument($IdDocument);
+        $validationRequest->setAllowManual(0);
+        $validationRequest->setCallbackURL('http://localhost/toto');
+
+        $validationRequestService = new ValidationRequestService($this->getParameter('univ.uri'));
+        $validationRequestService->validate($validationRequest);
+
+
+        return;
+    }
+
 
     /**
      * @Route("/universign/matchaccount", name="matchaccount")
@@ -27,7 +59,7 @@ class UniversignController extends AbstractController
      * @param MatchAccount $matchAccount
      * @return Response
      */
-    public function matchaccount(Request $request, MatchAccount $matchAccount)
+    public function matchaccount(Request $request, MatchAccount $matchAccount): Response
     {
         $defaultData = ['lastname' => ''];
         $form = $this->createFormBuilder($defaultData)
@@ -44,7 +76,11 @@ class UniversignController extends AbstractController
 
             $data = $form->getData();
 
-            $matchAccount->match($data);
+            $matchAccount->setFirstname($data['firstname']);
+            $matchAccount->setLastname($data['lastname']);
+            $matchAccount->setEmail($data['email']);
+            $matchAccount->setMobile($data['mobile']);
+            $matchAccount->match();
 
             return $this->render('universign/matchaccount.html.twig', [
                 'form' => $form->createView(),
@@ -66,7 +102,7 @@ class UniversignController extends AbstractController
  * @param PreValidation $preValidation
  * @return Response
  */
-    public function prevalidation(Request $request,PreValidation $preValidation)
+    public function prevalidation(Request $request,PreValidation $preValidation): Response
     {
         $defaultData = ['lastname' => ''];
         $form = $this->createFormBuilder($defaultData)

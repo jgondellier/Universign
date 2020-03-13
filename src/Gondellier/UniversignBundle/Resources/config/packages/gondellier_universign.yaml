@@ -1,0 +1,19 @@
+gondellier_universign:
+    xmlprc:
+        path: '%env(UNIV_PATH)%'
+        user: '%env(UNIV_USER)%'
+        pass: '%env(UNIV_PASS)%'
+        matchaccount: 'matcher.matchAccount'
+        validate: 'validatore.validate'
+        requestTransaction: 'requester.requestTransaction'
+        StandaloneRegistrationRequest: 'requester.StandaloneRegistrationRequest'
+    apirest:
+        token: '%env(UNIV_TOKEN)%'
+
+services:
+    _defaults:
+        bind:
+            $universign_xmlprc_uri: 'https://%univ.user%:%univ.pass%@%univ.path%'
+    Gondellier\UniversignBundle\:
+        resource: '../src/*'
+        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
