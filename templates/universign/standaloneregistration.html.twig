@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Matchaccount service{% endblock %}
+
+{% block body %}
+
+{% endblock %}
+{% block javascripts %}
+    <script>
+        $('#form_cni1').on('change', function () {
+            var fileName = $(this).val();
+            $(this).next('.custom-file-label').html(fileName);
+        })
+        $('#form_cni2').on('change', function () {
+            var fileName = $(this).val();
+            $(this).next('.custom-file-label').html(fileName);
+        })
+    </script>
+{% endblock %}

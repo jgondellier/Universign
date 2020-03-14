@@ -3,12 +3,12 @@
 namespace App\Controller;
 
 use App\Service\MatchAccount;
-use App\Service\PreValidation;
-use App\Service\TransactionSigner;
 use Gondellier\UniversignBundle\Classes\Request\IdDocument;
 use Gondellier\UniversignBundle\Classes\Request\PersonalInfo;
+use Gondellier\UniversignBundle\Classes\Request\RegistrationRequest;
 use Gondellier\UniversignBundle\Classes\Request\ValidationRequest;
 use Gondellier\UniversignBundle\Service\ValidationRequestService;
+use Gondellier\UniversignBundle\Classes\Request\TransactionSigner;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -29,24 +29,34 @@ class UniversignController extends AbstractController
     */
     public function testBundle(Request $request)
     {
-        $IdDocument = new IdDocument();
-        $IdDocument->setType(0);
-        $IdDocument->addPhotos('CNI-Corinne_Berthier-Recto.jpg');
-        $IdDocument->addPhotos('CNI-Corinne_Berthier-Verso.jpg');
+        $IdDocument = new RegistrationRequest();
+        $IdDocument->setType('id_card_fr');
+        $IdDocument->addDocuments('CNI-Corinne_Berthier-Recto.jpg');
+        $IdDocument->addDocuments('CNI-Corinne_Berthier-Verso.jpg');
 
-        $personalInfo = new PersonalInfo();
-        $personalInfo->setFirstname('Corinne');
-        $personalInfo->setLastname('Berthier');
-        $personalInfo->setBirthDate(new \DateTime('1976-05-17'));
-
-        $validationRequest = new ValidationRequest();
-        $validationRequest->setPersonalInfo($personalInfo);
-        $validationRequest->setIdDocument($IdDocument);
-        $validationRequest->setAllowManual(0);
-        $validationRequest->setCallbackURL('http://localhost/toto');
-
-        $validationRequestService = new ValidationRequestService($this->getParameter('univ.uri'));
-        $validationRequestService->validate($validationRequest);
+        $transactionSigner = new TransactionSigner();
+        $transactionSigner->setFirstname('Corinne');
+        $transactionSigner->setLastname('Berthier');
+        $transactionSigner->setBirthDate(new \DateTime('1976-05-17'));
+        $transactionSigner->setOrganization();
+        $transactionSigner->setProfile();
+        $transactionSigner->setEmailAddress();
+        $transactionSigner->setPhoneNum();
+        $transactionSigner->setLanguage();
+        $transactionSigner->setRole();
+        $transactionSigner->setUniversignId();
+        $transactionSigner->setSuccessRedirection();
+        $transactionSigner->setCancelRedirection();
+        $transactionSigner->setFailRedirection();
+        $transactionSigner->setCertificateType();
+        $transactionSigner->setIdDocuments();
+        $transactionSigner->setValidationSessionId();
+        $transactionSigner->setRedirectPolicy();
+        $transactionSigner->setRedirectWait();
+        $transactionSigner->setAutoSendAgreements();
+        
+        var_dump($transactionSigner->getArray());
+        var_dump($transactionSigner->getArray());exit;
 
 
         return;
@@ -99,10 +109,9 @@ class UniversignController extends AbstractController
     /**
  * @Route("/universign/prevalidation", name="prevalidation")
  * @param Request $request
- * @param PreValidation $preValidation
  * @return Response
  */
-    public function prevalidation(Request $request,PreValidation $preValidation): Response
+    public function prevalidation(Request $request): Response
     {
         $defaultData = ['lastname' => ''];
         $form = $this->createFormBuilder($defaultData)
@@ -128,11 +137,31 @@ class UniversignController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
-            $preValidation->validate($data);
+            $IdDocument = new IdDocument();
+            $IdDocument->setType(0);
+            $IdDocument->addPhotos($data['cni1']);
+            if(isset($data['cni2'])){
+                $IdDocument->addPhotos($data['cni2']);
+            }
+
+            $personalInfo = new PersonalInfo();
+            $personalInfo->setFirstname($data['firstname']);
+            $personalInfo->setLastname($data['lastname']);
+            $personalInfo->setBirthDate($data['birthdate']);
+
+            $validationRequest = new ValidationRequest();
+            $validationRequest->setPersonalInfo($personalInfo);
+            $validationRequest->setIdDocument($IdDocument);
+            $validationRequest->setAllowManual(0);
+            $validationRequest->setCallbackURL('http://localhost/toto');
+
+            $validationRequestService = new ValidationRequestService($this->getParameter('univ.uri'));
+            $validationRequestService->validate($validationRequest);
+
             return $this->render('universign/prevalidation.html.twig', [
                 'form' => $form->createView(),
-                'requestresponse' => $preValidation->getRequestResult(),
-                'explanation' => $preValidation->getValidationResult()
+                'requestresponse' => $validationRequestService->getOriginalResult(),
+                'explanation' => $validationRequestService->getExplanation()
             ]);
         }
 

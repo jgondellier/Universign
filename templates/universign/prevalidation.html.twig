@@ -39,6 +39,11 @@
                         {{ form_row(form.cni2) }}
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        {{ form_row(form.send) }}
+                    </div>
+                </div>
                 {{ form_end(form) }}
             </div>
         </div>
@@ -48,14 +53,24 @@
                 Résultat
             </div>
             <div class="card-body">
-                {% if explanation is defined %}
-                <ul class="list-group">
-                    {% for explain in explanation %}
-                        <li class="list-group-item">{{ explain }}</li>
-                    {% endfor %}
-                </ul>
+                {% if requestresponse.status == 1 %}
+                    <div class="row">
+                        <div class="alert alert-success col-md-2 offset-md-5 text-center" role="alert">
+                            Validé !
+                        </div>
+                    </div>
+                    {#<span class="">Id de validation : {{ requestresponse.id }}</span> #}
+                {% else %}
+
+                    {% if explanation is defined %}
+                        <ul class="list-group">
+                            {% for explain in explanation %}
+                                <li class="list-group-item">{{ explain }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
                 {% endif %}
-                <p class="mt-2 text-align">
+                <p class="mt-2 text-right">
                     <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseDetail" aria-expanded="false" aria-controls="collapseDetail">
                         Détail complet de la reponse
                     </button>
@@ -73,11 +88,11 @@
 {% endblock %}
 {% block javascripts %}
     <script>
-        $('#form_cni1').on('change',function(){
+        $('#form_cni1').on('change', function () {
             var fileName = $(this).val();
             $(this).next('.custom-file-label').html(fileName);
         })
-        $('#form_cni2').on('change',function(){
+        $('#form_cni2').on('change', function () {
             var fileName = $(this).val();
             $(this).next('.custom-file-label').html(fileName);
         })

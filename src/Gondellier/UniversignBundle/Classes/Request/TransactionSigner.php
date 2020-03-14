@@ -26,10 +26,42 @@ class TransactionSigner
     private $failRedirection;
     private $certificateType;
     private $idDocuments;
-    private $velidationSessionId;
+    private $validationSessionId;
     private $redirectPolicy;
     private $redirectWait;
     private $autoSendAgreements;
+
+
+    public function getTestArray(){
+        var_dump(get_object_vars($this));
+    }
+
+    /**
+     * @return array
+     */
+    public function getArray():array
+    {
+        return array('firstname'=>$this->firstname,
+            'lastname'=>$this->lastname,
+            'organization'=>$this->organization,
+            'profile'=>$this->profile,
+            'emailAddress'=>$this->emailAddress,
+            'phoneNum'=>$this->phoneNum,
+            'language'=>$this->language,
+            'role'=>$this->role,
+            'birthDate'=>$this->birthDate,
+            'universignId'=>$this->universignId,
+            'successRedirection'=>$this->successRedirection,
+            'cancelRedirection'=>$this->cancelRedirection,
+            'failRedirection'=>$this->failRedirection,
+            'certificateType'=>$this->certificateType,
+            'idDocuments'=>$this->idDocuments,
+            'validationSessionId'=>$this->validationSessionId,
+            'redirectPolicy'=>$this->redirectPolicy,
+            'redirectWait'=>$this->redirectWait,
+            'autoSendAgreements'=>$this->autoSendAgreements
+        );
+    }
 
     /**
      * @return string
@@ -282,17 +314,17 @@ class TransactionSigner
     /**
      * @return string
      */
-    public function getVelidationSessionId():string
+    public function getValidationSessionId():string
     {
-        return $this->velidationSessionId;
+        return $this->validationSessionId;
     }
 
     /**
-     * @param string $velidationSessionId
+     * @param string $validationSessionId
      */
-    public function setVelidationSessionId(string $velidationSessionId): void
+    public function setValidationSessionId(string $validationSessionId): void
     {
-        $this->velidationSessionId = $velidationSessionId;
+        $this->validationSessionId = $validationSessionId;
     }
 
     /**

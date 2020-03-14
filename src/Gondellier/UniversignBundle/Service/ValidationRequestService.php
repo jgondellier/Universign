@@ -64,7 +64,20 @@ class ValidationRequestService{
                 if(is_array($this->result)){
                     foreach ($this->result as $field => $result){
                         if($result['valid']===false){
-                            $this->explanation[]='Le champs : '.$field.' on recherche : '.$result['expected'].' mais on a trouvé : '.$result['found'];
+                            switch ($field) {
+                                case 'firstname':
+                                    $this->explanation[]='Le prénom du client ( '.$result['expected'].' ) ne correspond pas a celui trouvé sur la carte : '.$result['found'];
+                                    break;
+                                case 'lastname':
+                                    $this->explanation[]='Le nom du client ( '.$result['expected'].' ) ne correspond pas a celui trouvé sur la carte : '.$result['found'];
+                                    break;
+                                case 'birthdate':
+                                    $this->explanation[]='La date de naissance du client ( '.$result['expected'].' ) ne correspond pas a celle trouvée sur la carte : '.$result['found'];
+                                    break;
+                                default:
+                                    $this->explanation[]='Le champs : '.$field.' on recherche : '.$result['expected'].' mais on a trouvé : '.$result['found'];
+                                    break;
+                            }
                         }
                     }
                 }

@@ -21,6 +21,24 @@ class IdDocument
     }
 
     /**
+     * Verify if the number of doc is the same as expected.
+     *
+     * @return bool
+     */
+    public function verifyTypeWithPhoto():bool
+    {
+        //Controle if 2 docs are upload
+        if($this->type === self::CARTE_NATIONAL_IDENTITE || $this->type === self::PERMIS_SEJOUR){
+            if (count($this->photos) !== 2){
+                return False;
+            }
+        }else if (count($this->photos) !== 1){
+            return False;
+        }
+        return True;
+    }
+
+    /**
      * @return array
      */
     public function getPhotos():array
@@ -61,6 +79,4 @@ class IdDocument
         }
         $this->type = $type;
     }
-
-
 }
