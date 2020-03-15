@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Gondellier\UniversignBundle\Classes\Request\RedirectionConfig;
 use Gondellier\UniversignBundle\Classes\Request\RegistrationRequest;
 use Gondellier\UniversignBundle\Classes\Request\TransactionSigner;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -38,16 +39,15 @@ class StandaloneRegistrationController extends AbstractController
                     'permis de séjour' => 2,
                     'permis de conduire Européen' => 3,
                 ]])
-            ->add('cni1', FileType::class,[
-                'required' => true,
-            ])
-            ->add('cni2', FileType::class,['required' => false,])
+            ->add('cni1', FileType::class,['required' => false])
+            ->add('cni2', FileType::class,['required' => false])
             ->add('certificateType', ChoiceType::class, [
                 'choices' => [
                     'simple' => 'simple',
                     'certified' => 'certified',
                     'advanced' => 'advanced',
                 ]])
+            ->add('validationSessionId', TextType::class,['required' => false])
             ->add('email', EmailType::class)
             ->add('mobile', TelType::class)
             ->add('send', SubmitType::class)
@@ -58,10 +58,10 @@ class StandaloneRegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
-            $IdDocument = new RegistrationRequest();
-            $IdDocument->setType('id_card_fr');
-            $IdDocument->addDocuments('CNI-Corinne_Berthier-Recto.jpg');
-            $IdDocument->addDocuments('CNI-Corinne_Berthier-Verso.jpg');
+            $registrationRequest = new RegistrationRequest();
+            $registrationRequest->setType('id_card_fr');
+            $registrationRequest->addDocuments('CNI-Corinne_Berthier-Recto.jpg');
+            $registrationRequest->addDocuments('CNI-Corinne_Berthier-Verso.jpg');
 
             $transactionSigner = new TransactionSigner();
             $transactionSigner->setFirstname($data['firstname']);
@@ -73,18 +73,32 @@ class StandaloneRegistrationController extends AbstractController
             $transactionSigner->setPhoneNum($data['mobile']);
             $transactionSigner->setLanguage('fr');
             $transactionSigner->setRole('signer');
-            $transactionSigner->setUniversignId();
-            $transactionSigner->setSuccessRedirection('https://localhost/success');
-            $transactionSigner->setCancelRedirection('https://localhost/cancel');
-            $transactionSigner->setFailRedirection('https://localhost/fail');
+            //$transactionSigner->setUniversignId('qsfsdq');
+            $succesUrl = new RedirectionConfig();
+            $succesUrl->setURL('https://localhost/success');
+            $succesUrl->setDisplayName('SuccessUrl');
+            $transactionSigner->setSuccessRedirection($succesUrl);
+            $cancelUrl = new RedirectionConfig();
+            $cancelUrl->setURL('https://localhost/cancel');
+            $cancelUrl->setDisplayName('CancelUrl');
+            $transactionSigner->setCancelRedirection($cancelUrl);
+            $failUrl = new RedirectionConfig();
+            $failUrl->setURL('https://localhost/fail');
+            $failUrl->setDisplayName('FailUrl');
+            $transactionSigner->setFailRedirection($failUrl);
             $transactionSigner->setCertificateType($data['certificateType']);
-            $transactionSigner->setIdDocuments();
-            $transactionSigner->setValidationSessionId();
+            if($registrationRequest){
+                $transactionSigner->setIdDocuments($registrationRequest->getArray());
+            }
+            if(!empty($data['validationSessionId'])){
+                $transactionSigner->setValidationSessionId($data['validationSessionId']);
+            }
+
             $transactionSigner->setRedirectPolicy('dashboard');
             $transactionSigner->setRedirectWait(5);
             $transactionSigner->setAutoSendAgreements(true);
 
-            var_dump($transactionSigner->getArray());
+            $transactionSigner->getTestArray();
             var_dump($transactionSigner->getArray());exit;
 
 

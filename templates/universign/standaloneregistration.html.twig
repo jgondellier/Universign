@@ -1,9 +1,70 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Matchaccount service{% endblock %}
+{% block title %}StandaloneRegistration service{% endblock %}
 
 {% block body %}
+   <div class="container mt-2">
+        {{ form_start(form) }}
+        <div class="my-custom-class-for-errors">
+            {{ form_errors(form) }}
+        </div>
 
+        <div class="card">
+            <div class="card-header">
+                Recherche de compte universign
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        {{ form_row(form.lastname) }}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form_row(form.firstname) }}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form_row(form.birthdate) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        {{ form_row(form.type) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        {{ form_row(form.cni1) }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form_row(form.cni2) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        {{ form_row(form.validationSessionId) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        {{ form_row(form.email) }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form_row(form.mobile) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        {{ form_row(form.certificateType) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        {{ form_row(form.send) }}
+                    </div>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+   </div>
 {% endblock %}
 {% block javascripts %}
     <script>

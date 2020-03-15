@@ -304,9 +304,9 @@ class TransactionSigner
     }
 
     /**
-     * @param RegistrationRequest $idDocuments
+     * @param array $idDocuments
      */
-    public function setIdDocuments(RegistrationRequest $idDocuments): void
+    public function setIdDocuments(array $idDocuments): void
     {
         $this->idDocuments = $idDocuments;
     }
