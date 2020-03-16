@@ -2,7 +2,7 @@
 
 namespace Gondellier\UniversignBundle\Classes\Request;
 
-class TransactionSigner
+class TransactionSigner extends Base
 {
     private const ROLE_SIGNER                   = 'Signer';
     private const ROLE_OBSERVER                 = 'Observer';
@@ -11,57 +11,25 @@ class TransactionSigner
     private const CERTIFICATE_TYPE_CERTIFIED    = 'certified';
     private const CERTIFICATE_TYPE_ADVANCED     = 'advanced';
 
-    private $firstname;
-    private $lastname;
-    private $organization;
-    private $profile;
-    private $emailAddress;
-    private $phoneNum;
-    private $language;
-    private $role;
-    private $birthDate;
-    private $universignId;
-    private $successRedirection;
-    private $cancelRedirection;
-    private $failRedirection;
-    private $certificateType;
-    private $idDocuments;
-    private $validationSessionId;
-    private $redirectPolicy;
-    private $redirectWait;
-    private $autoSendAgreements;
-
-
-    public function getTestArray(){
-        var_dump(get_object_vars($this));
-    }
-
-    /**
-     * @return array
-     */
-    public function getArray():array
-    {
-        return array('firstname'=>$this->firstname,
-            'lastname'=>$this->lastname,
-            'organization'=>$this->organization,
-            'profile'=>$this->profile,
-            'emailAddress'=>$this->emailAddress,
-            'phoneNum'=>$this->phoneNum,
-            'language'=>$this->language,
-            'role'=>$this->role,
-            'birthDate'=>$this->birthDate,
-            'universignId'=>$this->universignId,
-            'successRedirection'=>$this->successRedirection,
-            'cancelRedirection'=>$this->cancelRedirection,
-            'failRedirection'=>$this->failRedirection,
-            'certificateType'=>$this->certificateType,
-            'idDocuments'=>$this->idDocuments,
-            'validationSessionId'=>$this->validationSessionId,
-            'redirectPolicy'=>$this->redirectPolicy,
-            'redirectWait'=>$this->redirectWait,
-            'autoSendAgreements'=>$this->autoSendAgreements
-        );
-    }
+    public $firstname;
+    public $lastname;
+    public $organization;
+    public $profile;
+    public $emailAddress;
+    public $phoneNum;
+    public $language;
+    public $role;
+    public $birthDate;
+    public $universignId;
+    public $successRedirection;
+    public $cancelRedirection;
+    public $failRedirection;
+    public $certificateType;
+    public $idDocuments;
+    public $validationSessionId;
+    public $redirectPolicy;
+    public $redirectWait;
+    public $autoSendAgreements;
 
     /**
      * @return string
@@ -238,7 +206,7 @@ class TransactionSigner
      */
     public function setSuccessRedirection(RedirectionConfig $successRedirection): void
     {
-        $this->successRedirection = $successRedirection;
+        $this->successRedirection = $successRedirection->getArray();
     }
 
     /**
@@ -254,7 +222,7 @@ class TransactionSigner
      */
     public function setCancelRedirection(RedirectionConfig $cancelRedirection): void
     {
-        $this->cancelRedirection = $cancelRedirection;
+        $this->cancelRedirection = $cancelRedirection->getArray();
     }
 
     /**
@@ -270,7 +238,7 @@ class TransactionSigner
      */
     public function setFailRedirection($failRedirection): void
     {
-        $this->failRedirection = $failRedirection;
+        $this->failRedirection = $failRedirection->getArray();
     }
 
     /**
@@ -304,11 +272,11 @@ class TransactionSigner
     }
 
     /**
-     * @param array $idDocuments
+     * @param RegistrationRequest $idDocuments
      */
-    public function setIdDocuments(array $idDocuments): void
+    public function setIdDocuments(RegistrationRequest $idDocuments): void
     {
-        $this->idDocuments = $idDocuments;
+        $this->idDocuments = $idDocuments->getArray();
     }
 
     /**

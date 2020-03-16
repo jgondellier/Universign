@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}StandaloneRegistration service{% endblock %}
+{% block title %}Création de compte{% endblock %}
 
 {% block body %}
-   <div class="container mt-2">
+    <div class="container mt-2">
         {{ form_start(form) }}
         <div class="my-custom-class-for-errors">
             {{ form_errors(form) }}
@@ -11,9 +11,14 @@
 
         <div class="card">
             <div class="card-header">
-                Recherche de compte universign
+                Création de compte Universign
             </div>
             <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        {{ form_row(form.certificateType) }}
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-4">
                         {{ form_row(form.lastname) }}
@@ -27,10 +32,21 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        {{ form_row(form.type) }}
+                        {{ form_row(form.email) }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form_row(form.mobile) }}
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" id="prevalCNI">
+                    <div class="col-md-12">
+                        {{ form_row(form.prevalCNI) }}
+                    </div>
+                </div>
+                <div class="row border" id="identityVal">
+                    <div class="col-md-12">
+                        {{ form_row(form.type) }}
+                    </div>
                     <div class="col-md-6">
                         {{ form_row(form.cni1) }}
                     </div>
@@ -38,22 +54,9 @@
                         {{ form_row(form.cni2) }}
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" id="identityPreVal">
                     <div class="col-md-12">
                         {{ form_row(form.validationSessionId) }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        {{ form_row(form.email) }}
-                    </div>
-                    <div class="col-md-6">
-                        {{ form_row(form.mobile) }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        {{ form_row(form.certificateType) }}
                     </div>
                 </div>
                 <div class="row">
@@ -64,17 +67,70 @@
                 {{ form_end(form) }}
             </div>
         </div>
-   </div>
+        {% if requestresponse is defined %}
+            <div class="card mt-2">
+                <div class="card-header">
+                    Résultat
+                </div>
+                <div class="card-body">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createAccount" data-whatever="@mdo">Ouverture de la creation de compte</button>
+                </div>
+                <div class="card-footer text-muted">
+                    {{ include('universign/completeResponse.html.twig',{requestresponse:requestresponse}) }}
+                </div>
+            </div>
+            {% if requestresponse.url is defined %}
+                <div class="modal fade" id="createAccount" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl" role="document">
+                        <div class="modal-content">
+                            <iframe src="{{ requestresponse.url }}" id="createAccountiframe"></iframe>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
 {% endblock %}
 {% block javascripts %}
     <script>
+        $('#identityPreVal').hide();
         $('#form_cni1').on('change', function () {
-            var fileName = $(this).val();
+            let fileName = $(this).val();
             $(this).next('.custom-file-label').html(fileName);
         })
         $('#form_cni2').on('change', function () {
-            var fileName = $(this).val();
+            let fileName = $(this).val();
             $(this).next('.custom-file-label').html(fileName);
         })
+
+        $(document).ready(function () {
+            let intFrameHeight = window.innerHeight;
+            $('#createAccountiframe').height(intFrameHeight);
+            $('#createAccount').modal('show');
+        });
+
+        function changePrevalChoice() {
+            let form_prevalCNI = document.getElementById("form_prevalCNI");
+            if (form_prevalCNI.checked) {
+                $('#identityVal').hide();
+                $('#identityPreVal').show();
+            } else {
+                $('#identityPreVal').hide();
+                $('#identityVal').show();
+            }
+        }
+
+        function changeCertificateTypeChoice() {
+            let certificateTypeChoice = document.getElementById("form_certificateType").value;
+            if (certificateTypeChoice === "simple") {
+                $('#identityVal').hide();
+                $('#identityPreVal').hide();
+                $('#prevalCNI').hide();
+            } else {
+                $('#identityVal').show();
+                $('#identityPreVal').show();
+                $('#prevalCNI').show();
+            }
+        }
     </script>
 {% endblock %}

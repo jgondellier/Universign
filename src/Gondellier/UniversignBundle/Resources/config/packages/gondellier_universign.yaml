@@ -6,7 +6,7 @@ gondellier_universign:
         matchaccount: 'matcher.matchAccount'
         validate: 'validatore.validate'
         requestTransaction: 'requester.requestTransaction'
-        StandaloneRegistrationRequest: 'requester.StandaloneRegistrationRequest'
+        StandaloneRegistrationRequest: 'requester.requestRegistration'
     apirest:
         token: '%env(UNIV_TOKEN)%'
 
@@ -17,3 +17,5 @@ services:
     Gondellier\UniversignBundle\:
         resource: '../src/*'
         exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+    Gondellier\UniversignBundle\Service\MatchAccountRequestService:
+        parent: Gondellier\UniversignBundle\Service\UniversignRequestService

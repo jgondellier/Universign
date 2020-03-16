@@ -1,24 +1,22 @@
 <?php
 
-namespace App\Service;
+namespace Gondellier\UniversignBundle\Service;
 
+use Gondellier\UniversignBundle\Classes\Request\MatchAccount;
 use GuzzleHttp\Client;
-use http\Exception\InvalidArgumentException;
 
-class MatchAccount
+class MatchAccountRequestService
 {
     private const OBFS='**';
-    private $uri;
-    private $firstname;
-    private $lastname;
-    private $email;
-    private $mobile;
-    private $originalResult;
-    private $bestResult=False;
+    private $bestResult;
     private $account=False;
     private $partialAccount=False;
     private $isCertified=False;
     private $explanation;
+    public $uri;
+    public $client;
+    public $originalResult;
+    public $fault;
 
     /**
      * MatchAccount constructor.
@@ -27,73 +25,32 @@ class MatchAccount
     public function __construct($uri)
     {
         $this->uri = $uri;
-    }
-
-    /**
-     * Le prenom a rechercher
-     *
-     * @param mixed $firstname
-     */
-    public function setFirstname($firstname): void
-    {
-        $this->firstname = $firstname;
-    }
-
-    /**
-     * Le nom a rechercher
-     *
-     * @param mixed $lastname
-     */
-    public function setLastname($lastname): void
-    {
-        $this->lastname = $lastname;
-    }
-
-    /**
-     * L'email a rechercher
-     *
-     * @param mixed $email
-     */
-    public function setEmail($email): void
-    {
-        $this->email = $email;
-    }
-
-    /**
-     * Le telephone protable a rechercher
-     *
-     * @param mixed $mobile
-     */
-    public function setMobile($mobile): void
-    {
-        $this->mobile = $mobile;
-    }
-
-    /**
-     * Initialise la recherche...
-     */
-    public function match():void
-    {
-        $client = new Client([
+        $this->client = new Client([
             'base_uri'  => '',
             'timeout'   => 200.0,
             'verify'    => false,
         ]);
-
-        if(empty($this->firstname) || empty($this->lastname) || empty($this->email) || empty($this->mobile)){
-            throw new \InvalidArgumentException('Empty required parameter.');
-        }
-
-        $params = array('firstname'=>$this->firstname,'lastname'=>$this->lastname,'email'=>$this->email,'mobile'=>$this->mobile);
-
-        $response = $client->request('GET', $this->uri, ['body' => xmlrpc_encode_request('matcher.matchAccount',$params)]);
-        $this->originalResult = xmlrpc_decode($response->getBody()->getContents());
-        $this->findBestResult();
-        $this->explain();
     }
 
     /**
-     *  Donne le compte trouvé s'il y a unseul résultat et que ca correspond
+     * Initialise la recherche...
+     * @param MatchAccount $matchAccount
+     */
+    public function match(MatchAccount $matchAccount):void
+    {
+        $response = $this->client->request('GET', $this->uri.'/ra/rpc/', ['body' => xmlrpc_encode_request('matcher.matchAccount',$matchAccount->getArray())]);
+        $this->originalResult = xmlrpc_decode($response->getBody()->getContents());
+
+        $this->fault = $matchAccount->checkResponseFault($this->originalResult);
+
+        if(empty($this->fault)){
+            $this->findBestResult();
+            $this->explain();
+        }
+    }
+
+    /**
+     *  Donne le compte trouvé s'il y a un seul résultat et que ca correspond
      *
      * @return bool|array
      */
@@ -259,5 +216,11 @@ class MatchAccount
     {
         return $this->explanation;
     }
-
+    /**
+     * @return array
+     */
+    public function getOriginalResult():array
+    {
+        return $this->originalResult;
+    }
 }

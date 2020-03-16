@@ -2,26 +2,17 @@
 
 namespace Gondellier\UniversignBundle\Classes\Request;
 
-class ValidationRequest
+class ValidationRequest extends Base
 {
-    private $idDocument;
-    private $personalInfo;
-    private $allowManual;
-    private $callbackURL;
-
-
-    /**
-     * @return array
-     */
-    public function getArray():array
-    {
-        return array('idDocument'=>$this->idDocument,'personalInfo'=>$this->personalInfo,'allowManual'=>$this->allowManual,'callbackURL'=>$this->callbackURL);
-    }
+    public $idDocument;
+    public $personalInfo;
+    public $allowManual;
+    public $callbackURL;
 
     /**
      * @return array
      */
-    public function getIdDocument():array
+    public function getIdDocument(): array
     {
         return $this->idDocument;
     }
@@ -31,13 +22,15 @@ class ValidationRequest
      */
     public function setIdDocument(IdDocument $idDocument): void
     {
+        //Check if document type match with the document number
+        $idDocument->verifyTypeWithPhoto();
         $this->idDocument = $idDocument->getArray();
     }
 
     /**
-     * @return Array
+     * @return array
      */
-    public function getPersonalInfo():Array
+    public function getPersonalInfo(): array
     {
         return $this->personalInfo;
     }

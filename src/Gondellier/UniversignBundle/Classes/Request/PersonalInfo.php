@@ -2,19 +2,12 @@
 
 namespace Gondellier\UniversignBundle\Classes\Request;
 
-class PersonalInfo
+class PersonalInfo extends Base
 {
-    private $firstname;
-    private $lastname;
-    private $birthDate;
+    public $firstname;
+    public $lastname;
+    public $birthDate;
 
-    /**
-     * @return array
-     */
-    public function getArray():array
-    {
-        return array('firstname'=>$this->firstname,'lastname'=>$this->lastname,'birthDate'=>$this->birthDate);
-    }
 
     /**
      * @return string

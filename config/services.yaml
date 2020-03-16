@@ -31,15 +31,3 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-
-    App\Service\MatchAccount:
-        arguments:
-            $uri: 'https://%univ.user%:%univ.pass%@%univ.path%'
-
-    App\Service\PreValidation:
-        arguments:
-            $uri: 'https://%univ.user%:%univ.pass%@%univ.path%'
-
-    App\Service\TransactionSigner:
-        arguments:
-            $uri: 'https://%univ.user%:%univ.pass%@%univ.path%'

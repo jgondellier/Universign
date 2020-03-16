@@ -4,9 +4,12 @@ namespace App\Controller;
 
 use Gondellier\UniversignBundle\Classes\Request\RedirectionConfig;
 use Gondellier\UniversignBundle\Classes\Request\RegistrationRequest;
+use Gondellier\UniversignBundle\Classes\Request\StandaloneRegistration;
 use Gondellier\UniversignBundle\Classes\Request\TransactionSigner;
+use Gondellier\UniversignBundle\Service\StandaloneRegistrationRequestService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -27,17 +30,24 @@ class StandaloneRegistrationController extends AbstractController
      */
     public function standaloneregistration(Request $request): Response
     {
-        $defaultData = ['lastname' => ''];
+        $defaultData = ['send' => ''];
         $form = $this->createFormBuilder($defaultData)
             ->add('lastname', TextType::class)
             ->add('firstname', TextType::class)
             ->add('birthdate', BirthdayType::class,['format' => 'dd-MM-yyyy',])
+            ->add('prevalCNI',CheckboxType::class, [
+                'label' => 'Pièce d\'identité déja validée ?',
+                'required' => false,
+                'attr' => array(
+                    'onchange' => 'changePrevalChoice()',
+                ),
+            ])
             ->add('type', ChoiceType::class, [
                 'choices' => [
-                    'carte nationale d’identité' => 0,
-                    'passeport' => 1,
-                    'permis de séjour' => 2,
-                    'permis de conduire Européen' => 3,
+                    'carte nationale d’identité' => 'id_card_fr',
+                    'passeport' => 'passport_eu',
+                    'permis de séjour' => 'titre_sejour',
+                    'permis de conduire Européen' => 'drive_license',
                 ]])
             ->add('cni1', FileType::class,['required' => false])
             ->add('cni2', FileType::class,['required' => false])
@@ -46,8 +56,15 @@ class StandaloneRegistrationController extends AbstractController
                     'simple' => 'simple',
                     'certified' => 'certified',
                     'advanced' => 'advanced',
-                ]])
-            ->add('validationSessionId', TextType::class,['required' => false])
+                ],
+                'attr' => array(
+                    'onchange' => 'changeCertificateTypeChoice()',
+                ),
+                'data' => 'certified',
+                ])
+            ->add('validationSessionId', TextType::class,[
+                'required' => false
+                ])
             ->add('email', EmailType::class)
             ->add('mobile', TelType::class)
             ->add('send', SubmitType::class)
@@ -57,11 +74,6 @@ class StandaloneRegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-
-            $registrationRequest = new RegistrationRequest();
-            $registrationRequest->setType('id_card_fr');
-            $registrationRequest->addDocuments('CNI-Corinne_Berthier-Recto.jpg');
-            $registrationRequest->addDocuments('CNI-Corinne_Berthier-Verso.jpg');
 
             $transactionSigner = new TransactionSigner();
             $transactionSigner->setFirstname($data['firstname']);
@@ -87,8 +99,14 @@ class StandaloneRegistrationController extends AbstractController
             $failUrl->setDisplayName('FailUrl');
             $transactionSigner->setFailRedirection($failUrl);
             $transactionSigner->setCertificateType($data['certificateType']);
-            if($registrationRequest){
-                $transactionSigner->setIdDocuments($registrationRequest->getArray());
+            if($data['cni1']){
+                $registrationRequest = new RegistrationRequest();
+                $registrationRequest->setType($data['type']);
+                $registrationRequest->addDocuments($data['cni1']);
+                $registrationRequest->addDocuments($data['cni2']);
+                if($registrationRequest){
+                    $transactionSigner->setIdDocuments($registrationRequest);
+                }
             }
             if(!empty($data['validationSessionId'])){
                 $transactionSigner->setValidationSessionId($data['validationSessionId']);
@@ -96,14 +114,18 @@ class StandaloneRegistrationController extends AbstractController
 
             $transactionSigner->setRedirectPolicy('dashboard');
             $transactionSigner->setRedirectWait(5);
-            $transactionSigner->setAutoSendAgreements(true);
+            $transactionSigner->setAutoSendAgreements(false);
 
-            $transactionSigner->getTestArray();
-            var_dump($transactionSigner->getArray());exit;
+            $standaloneRegistration = new StandaloneRegistration();
+            $standaloneRegistration->setProfile('default');
+            $standaloneRegistration->setSigner($transactionSigner);
+            $standaloneRegistrationRequestService = new StandaloneRegistrationRequestService($this->getParameter('univ.uri'));
+            $standaloneRegistrationRequestService->validate($standaloneRegistration);
 
 
             return $this->render('universign/standaloneregistration.html.twig', [
-                'form' => $form->createView()
+                'form' => $form->createView(),
+                'requestresponse' => $standaloneRegistrationRequestService->getOriginalResult(),
             ]);
         }
         return $this->render('universign/standaloneregistration.html.twig', [

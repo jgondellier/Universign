@@ -2,23 +2,15 @@
 
 namespace Gondellier\UniversignBundle\Classes\Request;
 
-class IdDocument
+class IdDocument extends Base
 {
     private const CARTE_NATIONAL_IDENTITE = 0;
     private const PASSEPORT = 1;
     private const PERMIS_SEJOUR = 2;
     private const PERMIS_CONDUIRE_EUROPE = 3;
 
-    private $photos;
-    private $type;
-
-    /**
-     * @return array
-     */
-    public function getArray():array
-    {
-        return array('photos'=>$this->photos,'type'=>$this->type);
-    }
+    public $photos;
+    public $type;
 
     /**
      * Verify if the number of doc is the same as expected.

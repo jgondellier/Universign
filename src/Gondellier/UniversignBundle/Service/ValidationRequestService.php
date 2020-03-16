@@ -13,6 +13,8 @@ class ValidationRequestService{
     private $id;
     private $status;
     private $explanation;
+    public $client;
+    public $fault;
 
     /**
      * ValidationRequest constructor.
@@ -21,25 +23,29 @@ class ValidationRequestService{
     public function __construct($uri)
     {
         $this->uri = $uri;
-    }
-
-    public function validate(ValidationRequest $validationRequest)
-    {
-        $client = new Client([
+        $this->client = new Client([
             'base_uri'  => '',
             'timeout'   => 200.0,
             'verify'    => false,
         ]);
+    }
 
-        $response = $client->request('POST', $this->uri.'/ra/rpc/', [
+    public function validate(ValidationRequest $validationRequest): void
+    {
+        $response = $this->client->request('POST', $this->uri.'/ra/rpc/', [
             'body' => xmlrpc_encode_request('validator.validate',$validationRequest->getArray())
         ]);
         $this->originalResult = xmlrpc_decode($response->getBody()->getContents());
-        $this->result = $this->originalResult['result'];
-        $this->reason = $this->originalResult['reason'];
-        $this->id = $this->originalResult['id'];
-        $this->status = $this->originalResult['status'];
-        $this->traitValidationResult();
+
+        $this->fault = $validationRequest->checkResponseFault($this->originalResult);
+
+        if(empty($this->fault)){
+            $this->result = $this->originalResult['result'];
+            $this->reason = $this->originalResult['reason'];
+            $this->id = $this->originalResult['id'];
+            $this->status = $this->originalResult['status'];
+            $this->traitValidationResult();
+        }
     }
     /**
      * Permet d'interpréter la réponse qu'universign a fait.

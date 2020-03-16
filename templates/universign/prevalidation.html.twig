@@ -1,18 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UniversignController!{% endblock %}
+{% block title %}Prevalidation de Carte d'Identité{% endblock %}
 
 {% block body %}
 
     <div class="container mt-2">
-        {{ form_start(form) }}
+        {{ form_start(form, {
+            'attr': {
+                'id': 'myform'
+            }
+        })}}
         <div class="my-custom-class-for-errors">
             {{ form_errors(form) }}
         </div>
 
         <div class="card">
             <div class="card-header">
-                Recherche de compte universign
+                Pré-validation d'une pièce d'identité
             </div>
             <div class="card-body">
                 <div class="row">
@@ -42,48 +46,47 @@
                 <div class="row">
                     <div class="col-md-12 text-center">
                         {{ form_row(form.send) }}
+                        <div class="spinner-grow text-primary" role="status" id="spinner" style="display: none">
+                            <span class="sr-only">Loading...</span>
+                        </div>
                     </div>
                 </div>
                 {{ form_end(form) }}
             </div>
         </div>
-
-        <div class="card mt-2" {% if requestresponse is not defined %} style="display:none"{% endif %}>
-            <div class="card-header">
-                Résultat
-            </div>
-            <div class="card-body">
-                {% if requestresponse.status == 1 %}
+        {% if requestresponse is defined %}
+            <div class="card mt-2">
+                <div class="card-header">
+                    Résultat
+                </div>
+                <div class="card-body">
                     <div class="row">
-                        <div class="alert alert-success col-md-2 offset-md-5 text-center" role="alert">
-                            Validé !
-                        </div>
-                    </div>
-                    {#<span class="">Id de validation : {{ requestresponse.id }}</span> #}
-                {% else %}
-
-                    {% if explanation is defined %}
-                        <ul class="list-group">
-                            {% for explain in explanation %}
-                                <li class="list-group-item">{{ explain }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                {% endif %}
-                <p class="mt-2 text-right">
-                    <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseDetail" aria-expanded="false" aria-controls="collapseDetail">
-                        Détail complet de la reponse
-                    </button>
-                </p>
-                <div class="collapse" id="collapseDetail">
-                    <div class="card card-body">
-                        {% if requestresponse is defined %}
-                            {{ dump(requestresponse) }}
-                        {% endif %}
+                        {% if validationRequestService.fault is defined and validationRequestService.fault is not null %}
+                            {{ include('universign/fault.html.twig', {fault: validationRequestService.fault}) }}
+                        {% else %}
+                            {% if requestresponse.status == 1 %}
+                                <div class="alert alert-success col-md-2 offset-md-5 text-center" role="alert">
+                                    Validé !
+                                </div>
+                                <div class="col-md-12">
+                                    <span class="">Id de validation : {{ requestresponse.id }}</span>
+                                </div>
+                            {% else %}
+                                {% if explanation is defined %}
+                                    <div class="col-md-12">
+                                        <ul class="list-group">
+                                            {% for explain in explanation %}
+                                                <li class="list-group-item">{{ explain }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
+                            {% endif %}{% endif %}
+                        {{ include('universign/completeResponse.html.twig',{requestresponse:requestresponse}) }}
                     </div>
                 </div>
             </div>
-        </div>
+        {% endif %}
     </div>
 {% endblock %}
 {% block javascripts %}
@@ -96,5 +99,8 @@
             var fileName = $(this).val();
             $(this).next('.custom-file-label').html(fileName);
         })
+        $("#myform").on("submit", function(){
+            $("#spinner").show();
+        });
     </script>
 {% endblock %}

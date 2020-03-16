@@ -2,10 +2,10 @@
 
 namespace Gondellier\UniversignBundle\Classes\Request;
 
-class RedirectionConfig
+class RedirectionConfig extends Base
 {
-    private $URL;
-    private $displayName;
+    public $URL;
+    public $displayName;
 
     /**
      * @return string
