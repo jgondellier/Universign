@@ -72,8 +72,8 @@ class ValidationController extends AbstractController
 
             return $this->render('universign/prevalidation.html.twig', [
                 'form' => $form->createView(),
-                'requestresponse' => $validationRequestService->getOriginalResult(),
-                'validationRequestService' => $validationRequestService,
+                'originalResult' => $validationRequestService->getOriginalResult(),
+                'service' => $validationRequestService,
                 'explanation' => $validationRequestService->getExplanation()
             ]);
         }

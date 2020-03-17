@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container mt-2">
+        {{ form_start(form, {'attr': {'id': 'myform'}}) }}
+        <div class="my-custom-class-for-errors">
+            {{ form_errors(form) }}
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    {% block form_content %}{% endblock %}
+                    <div class="card-footer text-center">
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                {{ form_row(form.send) }}
+                                <div class="spinner-grow text-primary" role="status" id="spinner" style="display: none">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if service is defined %}
+        <div class="row mt-2">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        Résultat
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            {% block form_result %}{% endblock %}
+                        </div>
+                    </div>
+                    <div class="card-footer text-muted">
+                        {% block form_orinal_result %}
+                            {{ include('universign/shared/completeResponse.html.twig',{originalResult:originalResult}) }}
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        $("#myform").on("submit", function () {
+            $("#spinner").show();
+        });
+    </script>
+    {% block form_javascripts %}{% endblock %}
+{% endblock %}

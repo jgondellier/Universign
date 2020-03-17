@@ -1,99 +1,78 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_form.html.twig' %}
 
 {% block title %}Création de compte{% endblock %}
 
-{% block body %}
-    <div class="container mt-2">
-        {{ form_start(form) }}
-        <div class="my-custom-class-for-errors">
-            {{ form_errors(form) }}
-        </div>
-
-        <div class="card">
-            <div class="card-header">
-                Création de compte Universign
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        {{ form_row(form.certificateType) }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        {{ form_row(form.lastname) }}
-                    </div>
-                    <div class="col-md-4">
-                        {{ form_row(form.firstname) }}
-                    </div>
-                    <div class="col-md-4">
-                        {{ form_row(form.birthdate) }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        {{ form_row(form.email) }}
-                    </div>
-                    <div class="col-md-6">
-                        {{ form_row(form.mobile) }}
-                    </div>
-                </div>
-                <div class="row" id="prevalCNI">
-                    <div class="col-md-12">
-                        {{ form_row(form.prevalCNI) }}
-                    </div>
-                </div>
-                <div class="row border" id="identityVal">
-                    <div class="col-md-12">
-                        {{ form_row(form.type) }}
-                    </div>
-                    <div class="col-md-6">
-                        {{ form_row(form.cni1) }}
-                    </div>
-                    <div class="col-md-6">
-                        {{ form_row(form.cni2) }}
-                    </div>
-                </div>
-                <div class="row" id="identityPreVal">
-                    <div class="col-md-12">
-                        {{ form_row(form.validationSessionId) }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 text-center">
-                        {{ form_row(form.send) }}
-                    </div>
-                </div>
-                {{ form_end(form) }}
+{% block form_content %}
+    <div class="card-header">
+        Creation d'un compte universign
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(form.certificateType) }}
             </div>
         </div>
-        {% if requestresponse is defined %}
-            <div class="card mt-2">
-                <div class="card-header">
-                    Résultat
-                </div>
-                <div class="card-body">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createAccount" data-whatever="@mdo">Ouverture de la creation de compte</button>
-                </div>
-                <div class="card-footer text-muted">
-                    {{ include('universign/completeResponse.html.twig',{requestresponse:requestresponse}) }}
-                </div>
+        <div class="row">
+            <div class="col-md-4">
+                {{ form_row(form.lastname) }}
             </div>
-            {% if requestresponse.url is defined %}
-                <div class="modal fade" id="createAccount" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-xl" role="document">
-                        <div class="modal-content">
-                            <iframe src="{{ requestresponse.url }}" id="createAccountiframe"></iframe>
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
-        {% endif %}
+            <div class="col-md-4">
+                {{ form_row(form.firstname) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.birthdate) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_row(form.email) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.mobile) }}
+            </div>
+        </div>
+        <div class="row" id="prevalCNI">
+            <div class="col-md-12">
+                {{ form_row(form.prevalCNI) }}
+            </div>
+        </div>
+        <div class="row border" id="identityVal">
+            <div class="col-md-12">
+                {{ form_row(form.type) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.cni1) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.cni2) }}
+            </div>
+        </div>
+        <div class="row" id="identityPreVal">
+            <div class="col-md-12">
+                {{ form_row(form.validationSessionId) }}
+            </div>
+        </div>
     </div>
 {% endblock %}
-{% block javascripts %}
+{% block form_result %}
+    {% if service.fault is defined and service.fault is not null %}
+        {{ include('universign/shared/fault.html.twig', {fault: service.fault}) }}
+    {% else %}
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createAccount" data-whatever="@mdo">Ouverture de la creation de compte
+        </button>
+        {% if originalResult.url is defined %}
+            <div class="modal fade" id="createAccount" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content">
+                        <iframe src="{{ originalResult.url }}" id="createAccountiframe"></iframe>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+{% endblock %}
+{% block form_javascripts %}
     <script>
-        $('#identityPreVal').hide();
         $('#form_cni1').on('change', function () {
             let fileName = $(this).val();
             $(this).next('.custom-file-label').html(fileName);
@@ -104,6 +83,7 @@
         })
 
         $(document).ready(function () {
+            $('#identityPreVal').hide();
             let intFrameHeight = window.innerHeight;
             $('#createAccountiframe').height(intFrameHeight);
             $('#createAccount').modal('show');

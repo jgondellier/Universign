@@ -16,8 +16,8 @@ class RequestTool
     {
         if(isset($originalResult['faultCode'])) {
             $fault = new FaultResponse();
-            $fault->setFaultCode($this->originalResult['faultCode']);
-            $fault->setFaultString($this->originalResult['faultString']);
+            $fault->setFaultCode($originalResult['faultCode']);
+            $fault->setFaultString($originalResult['faultString']);
             return $fault;
         }
         return null;

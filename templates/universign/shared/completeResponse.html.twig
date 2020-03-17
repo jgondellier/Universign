@@ -1,0 +1,12 @@
+{% if originalResult is defined %}
+    <p class="mt-2 text-right">
+        <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseDetail" aria-expanded="false" aria-controls="collapseDetail">
+            Détail complet de la reponse
+        </button>
+    </p>
+    <div class="collapse" id="collapseDetail">
+        <div class="card card-body">
+            {{ dump(originalResult) }}
+        </div>
+    </div>
+{% endif %}

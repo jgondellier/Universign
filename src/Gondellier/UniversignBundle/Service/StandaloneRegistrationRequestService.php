@@ -8,11 +8,7 @@ use GuzzleHttp\Client;
 class StandaloneRegistrationRequestService{
     private $uri;
     private $originalResult;
-    private $result;
-    private $reason;
-    private $id;
-    private $status;
-    private $explanation;
+    public $fault;
 
     /**
      * ValidationRequest constructor.
@@ -34,6 +30,8 @@ class StandaloneRegistrationRequestService{
             'body' => xmlrpc_encode_request('requester.requestRegistration',$StandaloneRegistration->getArray())
         ]);
         $this->originalResult = xmlrpc_decode($response->getBody()->getContents());
+        $this->fault = $StandaloneRegistration->checkResponseFault($this->originalResult);
+
     }
     /**
      * @return mixed

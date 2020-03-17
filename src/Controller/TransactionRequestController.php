@@ -7,14 +7,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class UniversignController extends AbstractController
+class TransactionRequestController extends AbstractController
 {
     /**
-     * @Route("/universign", name="universign")
+     * @Route("/universign/transactionrequest", name="transactionrequest")
      * @param Request $request
      * @return Response
      */
-    public function index(Request $request): Response
+    public function transactionrequest(Request $request): Response
     {
         return $this->render('universign/index.html.twig');
     }

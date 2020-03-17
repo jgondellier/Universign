@@ -7,11 +7,11 @@ use GuzzleHttp\Client;
 
 class MatchAccountRequestService
 {
-    private const OBFS='**';
+    private const OBFS='*';
     private $bestResult;
-    private $account=False;
-    private $partialAccount=False;
-    private $isCertified=False;
+    private $account;
+    private $partialAccount;
+    private $isCertified;
     private $explanation;
     public $uri;
     public $client;
@@ -46,6 +46,7 @@ class MatchAccountRequestService
         if(empty($this->fault)){
             $this->findBestResult();
             $this->explain();
+            //$this->bestResult = $this->getBestResult();
         }
     }
 
@@ -78,14 +79,14 @@ class MatchAccountRequestService
 
             foreach($this->originalResult as $result){
                 //On a trouvé l'email
-                if(strpos($result['email'],self::OBFS)===False){
+                if(array_key_exists('email',$result) && strpos($result['email'],self::OBFS)===False){
                     $bestResult['findEmail']=$result;
                     if(array_key_exists('findMobile',$bestResult)){
                         break;
                     }
                 }
                 //On a trouvé le mobile
-                if(strpos($result['mobile'],self::OBFS)===False){
+                if(array_key_exists('mobile',$result) && strpos($result['mobile'],self::OBFS)===False){
                     $bestResult['findMobile']=$result;
                     if(array_key_exists('findEmail',$bestResult)){
                         break;
@@ -98,6 +99,8 @@ class MatchAccountRequestService
                     $this->isCertified=$this->isCertified($bestResult['findEmail']);
                     $this->partialAccount=$bestResult['findEmail'];
                     return;
+                }else{
+                    $this->bestResult = $bestResult;
                 }
             }elseif(array_key_exists('findEmail',$bestResult)){
                 $this->bestResult = $bestResult;
@@ -202,8 +205,7 @@ class MatchAccountRequestService
                 return;
             }
         }
-
-        if($this->account===False && $this->partialAccount===False && $this->bestResult===False){
+        if($this->account===null && $this->partialAccount===null && $this->bestResult===null){
             $this->explanation = 'Aucun compte trouvé.';
             return;
         }

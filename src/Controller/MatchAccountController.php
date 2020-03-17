@@ -49,8 +49,8 @@ class MatchAccountController extends AbstractController
 
             return $this->render('universign/matchaccount.html.twig', [
                 'form' => $form->createView(),
-                'requestresponse' => $matchAccountService->getOriginalResult(),
-                'matchAccountService' => $matchAccountService,
+                'originalResult' => $matchAccountService->getOriginalResult(),
+                'service' => $matchAccountService,
                 'isValid1' => $matchAccountService->isValid(1),
                 'isValid2' => $matchAccountService->isValid(2),
             ]);

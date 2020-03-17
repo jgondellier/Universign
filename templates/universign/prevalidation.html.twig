@@ -1,95 +1,62 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_form.html.twig' %}
 
 {% block title %}Prevalidation de Carte d'Identité{% endblock %}
 
-{% block body %}
-
-    <div class="container mt-2">
-        {{ form_start(form, {
-            'attr': {
-                'id': 'myform'
-            }
-        })}}
-        <div class="my-custom-class-for-errors">
-            {{ form_errors(form) }}
-        </div>
-
-        <div class="card">
-            <div class="card-header">
-                Pré-validation d'une pièce d'identité
+{% block form_content %}
+    <div class="card-header">
+        Pré-validation d'une pièce d'identité
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">
+                {{ form_row(form.lastname) }}
             </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-4">
-                        {{ form_row(form.lastname) }}
-                    </div>
-                    <div class="col-md-4">
-                        {{ form_row(form.firstname) }}
-                    </div>
-                    <div class="col-md-4">
-                        {{ form_row(form.birthdate) }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        {{ form_row(form.type) }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        {{ form_row(form.cni1) }}
-                    </div>
-                    <div class="col-md-6">
-                        {{ form_row(form.cni2) }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 text-center">
-                        {{ form_row(form.send) }}
-                        <div class="spinner-grow text-primary" role="status" id="spinner" style="display: none">
-                            <span class="sr-only">Loading...</span>
-                        </div>
-                    </div>
-                </div>
-                {{ form_end(form) }}
+            <div class="col-md-4">
+                {{ form_row(form.firstname) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.birthdate) }}
             </div>
         </div>
-        {% if requestresponse is defined %}
-            <div class="card mt-2">
-                <div class="card-header">
-                    Résultat
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        {% if validationRequestService.fault is defined and validationRequestService.fault is not null %}
-                            {{ include('universign/fault.html.twig', {fault: validationRequestService.fault}) }}
-                        {% else %}
-                            {% if requestresponse.status == 1 %}
-                                <div class="alert alert-success col-md-2 offset-md-5 text-center" role="alert">
-                                    Validé !
-                                </div>
-                                <div class="col-md-12">
-                                    <span class="">Id de validation : {{ requestresponse.id }}</span>
-                                </div>
-                            {% else %}
-                                {% if explanation is defined %}
-                                    <div class="col-md-12">
-                                        <ul class="list-group">
-                                            {% for explain in explanation %}
-                                                <li class="list-group-item">{{ explain }}</li>
-                                            {% endfor %}
-                                        </ul>
-                                    </div>
-                                {% endif %}
-                            {% endif %}{% endif %}
-                        {{ include('universign/completeResponse.html.twig',{requestresponse:requestresponse}) }}
-                    </div>
-                </div>
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_row(form.type) }}
             </div>
-        {% endif %}
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_row(form.cni1) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.cni2) }}
+            </div>
+        </div>
     </div>
 {% endblock %}
-{% block javascripts %}
+{% block form_result %}
+    {% if validationRequestService.fault is defined and validationRequestService.fault is not null %}
+        {{ include('universign/shared/fault.html.twig', {fault: validationRequestService.fault}) }}
+    {% else %}
+        {% if originalResult.status == 1 %}
+            <div class="alert alert-success col-md-2 offset-md-5 text-center" role="alert">
+                Validé !
+            </div>
+            <div class="col-md-12">
+                <span class="">Id de validation : {{ originalResult.id }}</span>
+            </div>
+        {% else %}
+            {% if explanation is defined %}
+                <div class="col-md-12">
+                    <ul class="list-group">
+                        {% for explain in explanation %}
+                            <li class="list-group-item">{{ explain }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endif %}{% endif %}
+{% endblock %}
+{% block form_javascripts %}
     <script>
         $('#form_cni1').on('change', function () {
             var fileName = $(this).val();
@@ -99,8 +66,5 @@
             var fileName = $(this).val();
             $(this).next('.custom-file-label').html(fileName);
         })
-        $("#myform").on("submit", function(){
-            $("#spinner").show();
-        });
     </script>
 {% endblock %}

@@ -35,4 +35,14 @@ class Base
         }
         return null;
     }
+
+    public function checkValue($field,$selectedValue,$posibleValue)
+    {
+        foreach($posibleValue as $value){
+            if($selectedValue===$value){
+                return true;
+            }
+        }
+        Throw new \InvalidArgumentException($field.' value must be : '.implode(' or ',$posibleValue));
+    }
 }

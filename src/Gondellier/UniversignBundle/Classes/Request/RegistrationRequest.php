@@ -9,7 +9,16 @@ class RegistrationRequest extends Base
     private const TYPE_TITRE_SEJOUR     = 'titre_sejour';
     private const TYPE_DRIVE_LICENSE    = 'drive_license';
 
+    /**
+     * List of ID documents to use to register the signer. The number of these documents is indicated in the following comment.
+     */
     public $documents = array();
+    /**
+     * The type of the provided ID documents.
+     * id_card_fr : French ID card. Two ID documents should be provided.
+     * passport_eu : French Passport. Only one ID document should be provided.
+     * titre_sejour : Residence Permit. Two ID documents should be provided.
+     */
     public $type;
 
     /**
@@ -66,12 +75,7 @@ class RegistrationRequest extends Base
      */
     public function setType(string $type): void
     {
-        if($type !== self::TYPE_ID_CARD_FR &&
-            $type !== self::TYPE_PASSPORT_EU &&
-            $type !== self::TYPE_TITRE_SEJOUR &&
-            $type !== self::TYPE_DRIVE_LICENSE){
-            Throw new \InvalidArgumentException('The type must be '.self::TYPE_ID_CARD_FR.' or '.self::TYPE_PASSPORT_EU.' or '.self::TYPE_TITRE_SEJOUR.' or '.self::TYPE_DRIVE_LICENSE);
-        }
+        $this->checkValue('Type',$type,array(self::TYPE_ID_CARD_FR,self::TYPE_PASSPORT_EU,self::TYPE_TITRE_SEJOUR,self::TYPE_DRIVE_LICENSE));
         $this->type = $type;
     }
 }
