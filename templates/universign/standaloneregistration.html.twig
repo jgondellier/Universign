@@ -75,11 +75,17 @@
     <script>
         $('#form_cni1').on('change', function () {
             let fileName = $(this).val();
-            $(this).next('.custom-file-label').html(fileName);
+            let n = fileName.lastIndexOf('\\');
+            n = (n === undefined)?fileName.lastIndexOf('/'):n;
+            let result = fileName.substring(n + 1);
+            $(this).next('.custom-file-label').html(result);
         })
         $('#form_cni2').on('change', function () {
             let fileName = $(this).val();
-            $(this).next('.custom-file-label').html(fileName);
+            let n = fileName.lastIndexOf('\\');
+            n = (n === undefined)?fileName.lastIndexOf('/'):n;
+            let result = fileName.substring(n + 1);
+            $(this).next('.custom-file-label').html(result);
         })
 
         $(document).ready(function () {

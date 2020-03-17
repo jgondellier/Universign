@@ -7,7 +7,6 @@ use Gondellier\UniversignBundle\Classes\Request\RegistrationRequest;
 use Gondellier\UniversignBundle\Classes\Request\StandaloneRegistration;
 use Gondellier\UniversignBundle\Classes\Request\TransactionSigner;
 use Gondellier\UniversignBundle\Service\StandaloneRegistrationRequestService;
-use libphonenumber\ValidationResult;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -20,9 +19,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use libphonenumber\PhoneNumberFormat;
-use Misd\PhoneNumberBundle\Form\Type\PhoneNumberType;
-use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber;
+use Symfony\Component\Validator\Constraints\Length;
 
 class StandaloneRegistrationController extends AbstractController
 {
@@ -70,9 +67,10 @@ class StandaloneRegistrationController extends AbstractController
                 'required' => false
                 ])
             ->add('email', EmailType::class)
-            ->add('mobile', PhoneNumberType::class, [
-                'default_region' => 'FR',
-                ])
+            ->add('mobile', TelType::class, [
+                'required' => true,
+                'constraints' => [new Length(['min' => 10,'max' => 10])]
+            ])
             ->add('send', SubmitType::class)
             ->getForm();
 
