@@ -2,20 +2,18 @@
 
 namespace App\Controller;
 
+use App\Form\Type\DocSignatureFormType;
+use App\Form\Type\DocumentFormType;
+use App\Form\Type\TransactionRequestFormType;
+use App\Form\Type\TransactionSignerFormType;
+use App\Util\DataTool;
+use Gondellier\UniversignBundle\Classes\Request\TransactionRequest;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TelType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints\Length;
 
 class TransactionRequestController extends AbstractController
 {
@@ -26,66 +24,77 @@ class TransactionRequestController extends AbstractController
      */
     public function transactionrequest(Request $request): Response
     {
+
         $defaultData = ['send' => ''];
         $form = $this->createFormBuilder($defaultData)
-            ->add('lastname', TextType::class)
-            ->add('firstname', TextType::class)
-            ->add('birthdate', BirthdayType::class, ['format' => 'dd-MM-yyyy',])
-            ->add('prevalCNI', CheckboxType::class, [
-                'label' => 'Pièce d\'identité déja validée ?',
-                'required' => false,
-                'attr' => array(
-                    'onchange' => 'changePrevalChoice()',
-                ),
-            ])
-            ->add('type', ChoiceType::class, [
-                'choices' => [
-                    'carte nationale d’identité' => 'id_card_fr',
-                    'passeport' => 'passport_eu',
-                    'permis de séjour' => 'titre_sejour',
-                    'permis de conduire Européen' => 'drive_license',
-                ]])
-            ->add('cni1', FileType::class, ['required' => false])
-            ->add('cni2', FileType::class, ['required' => false])
-            ->add('certificateType', ChoiceType::class, [
-                'choices' => [
-                    'simple' => 'simple',
-                    'certified' => 'certified',
-                    'advanced' => 'advanced',
-                ],
-                'attr' => array(
-                    'onchange' => 'changeCertificateTypeChoice()',
-                ),
-                'data' => 'certified',
-            ])
-            ->add('validationSessionId', TextType::class, [
-                'required' => false
-            ])
-            ->add('email', EmailType::class)
-            ->add('mobile', TelType::class, [
-                'required' => true,
-                'constraints' => [new Length(['min' => 10, 'max' => 10])]
-            ])
+            ->add('signer',TransactionSignerFormType::class)
             ->add('send', SubmitType::class)
             ->add('readDocuments', CollectionType::class, [
-                    'label' => 'Documents a lire',
-                    'entry_type' => FileType::class,
-                    'allow_add' => true,
-                    'allow_delete' => true,
-                ]
-            )
+                'label' => 'Documents à lire',
+                'entry_type' => DocumentFormType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'prototype' => true,
+                'attr' => array(
+                    'class' => 'read-documents',
+                )
+            ])
             ->add('signDocuments', CollectionType::class, [
-                    'label' => 'Documents a signer',
-                    'entry_type' => FileType::class,
+                    'label' => 'Documents à signer',
+                    'entry_type' => DocumentFormType::class,
                     'allow_add' => true,
                     'allow_delete' => true,
+                    'prototype' => true,
+                    'attr' => array(
+                        'class' => 'sign-documents',
+                    ),
                 ]
             )
+            ->add('confdocsign', CollectionType::class, [
+                    'label' => 'Option du cartouche de signature',
+                    'entry_type' => DocSignatureFormType::class,
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'prototype' => true,
+                    'attr' => array(
+                        'class' => 'conf-doc-sign',
+                    ),
+                ]
+            )
+            ->add('confsign',TransactionRequestFormType::class)
             ->getForm();
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
+            $dataTool = new DataTool();
+            $transactionSigner = $dataTool->setSigner($data);
+            $docSignatureField = $dataTool->setDocSignatureField($data);
+            $transactionDocument = $dataTool->setTransactionDocument($data);
+            $transactionDocument->setSignatureFields($docSignatureField);
+            $transactionRequest = new TransactionRequest();
+            $transactionRequest->setProfile();
+            $transactionRequest->setCustomId();
+            $transactionRequest->setMustContactFirstSigner();
+            $transactionRequest->setFinalDocRequesterSent();
+            $transactionRequest->setFinalDocSent();
+            $transactionRequest->setFinalDocObserverSent();
+            $transactionRequest->setDescription();
+            $transactionRequest->setCertificateType();
+            $transactionRequest->setLanguage('fr');
+            $transactionRequest->setHandwrittenSignatureMode(0);
+            $transactionRequest->setChainingMode('web');
+            $transactionRequest->setSigners($transactionSigner);
+            $transactionRequest->setDocuments($transactionDocument);
+            $transactionRequest->setFinalDocCCeMails();
+            $transactionRequest->setAutoValidationURL();
+            $transactionRequest->setRedirectPolicy();
+            $transactionRequest->setRedirectWait();
+            $transactionRequest->setAutoSendAgreements();
+            $transactionRequest->setOperator();
+            $transactionRequest->setRegistrationCallbackURL();
+
+            var_dump($data);exit;
         }
 
         return $this->render('universign/transactionrequest.html.twig', [

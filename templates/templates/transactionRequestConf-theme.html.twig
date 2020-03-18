@@ -1,0 +1,154 @@
+{% block tansaction_request %}
+    <div class="row">
+        <div class="col-md-4">
+            <div class="alert alert-secondary" role="alert">
+                The name of the signature profile to use. Signature profiles mainly differ by the displayed company name and logo, and the pre-configured signature field stored
+                within. Signature profiles are set up by the UNIVERSIGN team. The default value is "default".
+            </div>
+            {{ form_row(form.profile) }}
+        </div>
+        <div class="col-md-4">
+            <div class="alert alert-secondary" role="alert">
+                A requester-set unique id that can be used to identify this transaction. If not unique, a fault will be thrown. Note that UNIVERSIGN generate its own unique id for
+                each transaction and return it to the requester
+            </div>
+            {{ form_row(form.customId) }}
+        </div>
+        <div class="col-md-4">
+            <div class="alert alert-secondary" role="alert">
+                If set to True, the first signer will receive an invitation to sign the document(s) by e-mail as soon as the transaction is requested. False by default.
+            </div>
+            {{ form_row(form.mustContactFirstSigner) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="alert alert-secondary" role="alert">
+                Tells whether each signer must receive the signed documents by e-mail when the transaction is completed. False by default.
+            </div>
+            {{ form_row(form.finalDocSent) }}
+        </div>
+        <div class="col-md-4">
+            <div class="alert alert-secondary" role="alert">
+                Tells whether the requester must receive the signed documents via e-mail when the transaction is completed. False by default.
+            </div>
+            {{ form_row(form.finalDocRequesterSent) }}
+        </div>
+        <div class="col-md-4">
+            <div class="alert alert-secondary" role="alert">
+                Tells whether the observers must receive the signed documents via e-mail when the transaction is completed. It takes the finalDocSent value by default.
+            </div>
+            {{ form_row(form.finalDocObserverSent) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="alert alert-secondary" role="alert">
+                Description or title of the signature.
+            </div>
+            {{ form_row(form.description) }}
+        </div>
+        <div class="col-md-4">
+            <div class="alert alert-secondary" role="alert">
+                Option that indicates which certificate type will be used to perform the signature (and therefore which type of signature is expected).
+            </div>
+            {{ form_row(form.certificateType) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="alert alert-secondary" role="alert">
+                The interface language for this transaction.
+            </div>
+            {{ form_row(form.language) }}
+        </div>
+        <div class="col-md-4">
+            <div class="alert alert-secondary" role="alert">
+                The mode to enable the handwritten signature. If handwritten signature is enabled, the signer is prompted to draw a signature on the web interface and the
+                SignatureField bean becomes mandatory for each of the TransactionSigners. This signature is added in his signature field, as an image would be.
+                HandwrittenSignatureMode can not be enabled against a transaction containing only document for presentation.
+            </div>
+            {{ form_row(form.handwrittenSignatureMode) }}
+        </div>
+        <div class="col-md-4">
+            <div class="alert alert-secondary" role="alert">
+                This option indicates how the signers are chained during the signing process.
+            </div>
+            {{ form_row(form.chainingMode) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="alert alert-secondary" role="alert">
+                This option allows to send a copy of the final signed documents to a list of email addresses (finalDocSent must be sent to True.)
+            </div>
+            {{ form_row(form.finalDocCCeMails) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="alert alert-secondary" role="alert">
+                The configuration of the signer redirection in the event that an advanced signature is interrupted after the automatic validation step.
+            </div>
+            {{ form_row(form.autoValidationRedirection) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="alert alert-secondary" role="alert">
+                This option allow to customize the way signers are redirect after signing documents.This field can be overridden in TransactionSigner for a specific signer.
+            </div>
+            {{ form_row(form.redirectPolicy) }}
+        </div>
+        <div class="col-md-6">
+            <div class="alert alert-secondary" role="alert">
+                The waiting time in seconds for signers to be redirected if redirectPolicy is dashboard.The lower bound is "2", the upper bound is "30" and default value is "5".
+            </div>
+            {{ form_row(form.redirectWait) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="alert alert-secondary" role="alert">
+                Whether the subscription agreements email should be automatically sent to signers. If set to false, the email will be sent by the transaction’s operator himself.
+                This field can be overridden in TransactionSigner for a specific signer.
+            </div>
+            {{ form_row(form.autoSendAgreements) }}
+        </div>
+        <div class="col-md-6">
+            <div class="alert alert-secondary" role="alert">
+                The default registration authority operator email address. This field is used only for advanced transactions. This address must match with a wellknown registration
+                authority operator by Universign. It is only used to send the transaction creation email. If not specified, the email is sent to the transaction creator.
+            </div>
+            {{ form_row(form.operator) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="alert alert-secondary" role="alert">
+                The callback URL to be requested when the RA validation is completed. This field is used only for advanced transactions.
+            </div>
+            {{ form_row(form.registrationCallbackURL) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="alert alert-secondary" role="alert">
+                The configuration of the signer redirection in the event that the signing process is successfully completed.
+            </div>
+            {{ form_row(form.successRedirection) }}
+        </div>
+        <div class="col-md-4">
+            <div class="alert alert-secondary" role="alert">
+                The configuration of the signer redirection in the event that the signing process is canceled.
+            </div>
+            {{ form_row(form.cancelRedirection) }}
+        </div>
+        <div class="col-md-4">
+            <div class="alert alert-secondary" role="alert">
+                The configuration of the signer redirection in the event that the signing process fails.
+            </div>
+            {{ form_row(form.failRedirection) }}
+        </div>
+    </div>
+{% endblock %}

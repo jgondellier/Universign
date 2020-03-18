@@ -24,33 +24,33 @@ class SignatureField extends Base
     public $y;
 
     /**
-     * @param mixed $name
+     * @param string $name
      */
-    public function setName($name): void
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
     /**
-     * @param mixed $page
+     * @param int $page
      */
-    public function setPage($page): void
+    public function setPage(int $page): void
     {
         $this->page = $page;
     }
 
     /**
-     * @param mixed $x
+     * @param int $x
      */
-    public function setX($x): void
+    public function setX(int $x): void
     {
         $this->x = $x;
     }
 
     /**
-     * @param mixed $y
+     * @param int $y
      */
-    public function setY($y): void
+    public function setY(int $y): void
     {
         $this->y = $y;
     }

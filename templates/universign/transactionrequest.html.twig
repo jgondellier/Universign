@@ -7,7 +7,7 @@
         <div class="card">
             <div class="card-header" id="headingOne">
                 <h2 class="mb-0">
-                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <button class="btn btn-lg btn-block" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                         Compte universign pour signer
                     </button>
                 </h2>
@@ -15,76 +15,47 @@
 
             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
                 <div class="card-body">
-                    {{ include('universign/shared/transactionSignerForm.html.twig', {form: form}) }}
+                    {{ form_row(form.signer) }}
                 </div>
             </div>
         </div>
         <div class="card">
             <div class="card-header" id="headingTwo">
                 <h2 class="mb-0">
-                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        Documents a signer
+                    <button class="btn btn-lg btn-block collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Documents envoyés en signature
                     </button>
                 </h2>
             </div>
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            {{ form_label(form.readDocuments) }}
-                            {{ form_errors(form.readDocuments) }}
-                            <div class="row js-documents-wrapper" id="readdocuments-fields-list"
-                                 data-prototype="<div class=&quot;input-group&quot;>{{ form_widget(form.readDocuments.vars.prototype)|e('html_attr') }}
-                                 <div class=&quot;input-group-append&quot;><button class=&quot;btn btn-outline-secondary js-remove-document&quot; type=&quot;button&quot;>
-                                 Remove</button></div>"
-                                 data-widget-tags="<div class='col-md-6 js-document-item'></div>"
-                                 data-widget-counter="{{ form.readDocuments|length }}">
-                                {% for readDocumentField in form.readDocuments %}
-                                    <div class='col-md-6 js-document-item'>
-                                        {{ form_errors(readDocumentField) }}
-                                        <div class="input-group">
-                                            {{ form_widget(readDocumentField.vars.prototype)|e('html_attr') }}
-                                            <div class="input-group-append">
-                                                <button class="btn btn-outline-secondary" type="button">Remove</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                            <button type="button"
-                                    class="btn btn-primary add-another-collection-widget mt-3"
-                                    data-list-selector="#readdocuments-fields-list">Add another document
-                            </button>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            {{ form_label(form.signDocuments) }}
-                            {{ form_errors(form.signDocuments) }}
-                            <div class="row js-documents-wrapper" id="signdocuments-fields-list"
-                                 data-prototype="<div class=&quot;input-group&quot;>{{ form_widget(form.signDocuments.vars.prototype)|e('html_attr') }}
-                                 <div class=&quot;input-group-append&quot;><button class=&quot;btn btn-outline-secondary js-remove-document&quot; type=&quot;button&quot;>
-                                 Remove</button></div>"
-                                 data-widget-tags="<div class='col-md-6 js-document-item'></div>"
-                                 data-widget-counter="{{ form.signDocuments|length }}">
-                                {% for signDocumentField in form.signDocuments %}
-                                    <div class='col-md-6 js-document-item'>
-                                        {{ form_errors(signDocumentField) }}
-                                        <div class="input-group">
-                                            {{ form_widget(signDocumentField.vars.prototype)|e('html_attr') }}
-                                            <div class="input-group-append">
-                                                <button class="btn btn-outline-secondary" type="button">Remove</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                            <button type="button"
-                                    class="btn btn-primary add-another-collection-widget mt-3"
-                                    data-list-selector="#signdocuments-fields-list">Add another document
-                            </button>
-                        </div>
-                    </div>
+                    {{ form_row(form.readDocuments) }}
+                    {{ form_row(form.signDocuments) }}
+                </div>
+            </div>
+            <div class="card">
+            <div class="card-header" id="headingTree">
+                <h2 class="mb-0">
+                    <button class="btn btn-lg btn-block collapsed" type="button" data-toggle="collapse" data-target="#collapseTree" aria-expanded="false" aria-controls="collapseTree">
+                        Option du cartouche de signature
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseTree" class="collapse" aria-labelledby="headingTree" data-parent="#accordionExample">
+                <div class="card-body">
+                    {{ form_row(form.confdocsign) }}
+                </div>
+            </div>
+            <div class="card-header" id="headingFoor">
+                <h2 class="mb-0">
+                    <button class="btn btn-lg btn-block collapsed" type="button" data-toggle="collapse" data-target="#collapseFoor" aria-expanded="false" aria-controls="collapseFoor">
+                        Comportement de la signature
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseTree" class="collapse" aria-labelledby="headingFoor" data-parent="#accordionExample">
+                <div class="card-body">
+                    {{ form_row(form.confdocsign) }}
                 </div>
             </div>
         </div>
@@ -94,43 +65,38 @@
 {% endblock %}
 {% block form_javascripts %}
     <script>
+
         jQuery(document).ready(function () {
-            jQuery('.add-another-collection-widget').click(function (e) {
-                var list = jQuery(jQuery(this).attr('data-list-selector'));
-                // Try to find the counter of the list or use the length of the list
-                var counter = list.data('widget-counter') || list.children().length;
-
-                // grab the prototype template
-                var newWidget = list.attr('data-prototype');
-                // replace the "__name__" used in the id and name of the prototype
-                // with a number that's unique to your emails
-                // end name attribute looks like name="contact[emails][2]"
-                newWidget = newWidget.replace(/__name__/g, counter);
-                newWidget = newWidget.replace(/class=/g, 'onchange="loadFileName(this)" class=');
-                // Increase the counter
-                counter++;
-                // And store it, the length cannot be used if deleting widgets is allowed
-                list.data('widget-counter', counter);
-
-                // create a new list element and add it to the list
-                var newElem = jQuery(list.attr('data-widget-tags')).html(newWidget);
-                newElem.appendTo(list);
-                connectRemove();
+            $('.conf-doc-sign').collection({
+                prefix: 'config-sign-collection',
+                init_with_n_elements: 1,
+                add_at_the_end: false,
+                allow_up: false,
+                allow_down: false,
+                allow_duplicate: false,
+                add: '<button type="button" class="btn btn-outline-primary m-2">Ajouter</button>',
+                remove: '<button type="button" class="btn btn-outline-primary m-2">Supprimer</button>',
             });
-            function connectRemove(){
-                var $wrapper = $('.js-documents-wrapper');
-                $wrapper.on('click', '.js-remove-document', function (e) {
-                    e.preventDefault();
-                    $(this).closest('.js-document-item').remove();
-                });
-            }
+             $('.read-documents').collection({
+                prefix: 'read-documents-collection',
+                add_at_the_end: true,
+                allow_duplicate: false,
+                allow_up: false,
+                allow_down: false,
+                add: '<button type="button" class="btn btn-outline-primary m-2">Ajouter un document à lire</button>',
+                remove: '<button type="button" class="btn btn-outline-primary">Supprimer</button>',
+             });
+             $('.sign-documents').collection({
+                prefix: 'sign-documents-collection',
+                add_at_the_end: true,
+                allow_duplicate: false,
+                allow_up: false,
+                allow_down: false,
+                add: '<button type="button" class="btn btn-outline-primary m-2">Ajouter un document à signer</button>',
+                remove: '<button type="button" class="btn btn-outline-primary">Supprimer</button>',
+             });
+
         });
-        function loadFileName(selectObject){
-            var fileName = selectObject.value;
-            var n = fileName.lastIndexOf('\\');
-            n = (n === undefined)?fileName.lastIndexOf('/'):n;
-            var result = fileName.substring(n + 1);
-            $(selectObject).next('.custom-file-label').html(result);
-        }
+
     </script>
 {% endblock %}

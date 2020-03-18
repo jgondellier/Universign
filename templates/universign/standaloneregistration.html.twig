@@ -7,51 +7,7 @@
         Creation d'un compte universign
     </div>
     <div class="card-body">
-        <div class="row">
-            <div class="col-md-12">
-                {{ form_row(form.certificateType) }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                {{ form_row(form.lastname) }}
-            </div>
-            <div class="col-md-4">
-                {{ form_row(form.firstname) }}
-            </div>
-            <div class="col-md-4">
-                {{ form_row(form.birthdate) }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                {{ form_row(form.email) }}
-            </div>
-            <div class="col-md-6">
-                {{ form_row(form.mobile) }}
-            </div>
-        </div>
-        <div class="row" id="prevalCNI">
-            <div class="col-md-12">
-                {{ form_row(form.prevalCNI) }}
-            </div>
-        </div>
-        <div class="row border" id="identityVal">
-            <div class="col-md-12">
-                {{ form_row(form.type) }}
-            </div>
-            <div class="col-md-6">
-                {{ form_row(form.cni1) }}
-            </div>
-            <div class="col-md-6">
-                {{ form_row(form.cni2) }}
-            </div>
-        </div>
-        <div class="row" id="identityPreVal">
-            <div class="col-md-12">
-                {{ form_row(form.validationSessionId) }}
-            </div>
-        </div>
+        {{ form_row(form.signer) }}
     </div>
 {% endblock %}
 {% block form_result %}
@@ -73,50 +29,10 @@
 {% endblock %}
 {% block form_javascripts %}
     <script>
-        $('#form_cni1').on('change', function () {
-            let fileName = $(this).val();
-            let n = fileName.lastIndexOf('\\');
-            n = (n === undefined)?fileName.lastIndexOf('/'):n;
-            let result = fileName.substring(n + 1);
-            $(this).next('.custom-file-label').html(result);
-        })
-        $('#form_cni2').on('change', function () {
-            let fileName = $(this).val();
-            let n = fileName.lastIndexOf('\\');
-            n = (n === undefined)?fileName.lastIndexOf('/'):n;
-            let result = fileName.substring(n + 1);
-            $(this).next('.custom-file-label').html(result);
-        })
-
         $(document).ready(function () {
-            $('#identityPreVal').hide();
             let intFrameHeight = window.innerHeight;
             $('#createAccountiframe').height(intFrameHeight);
             $('#createAccount').modal('show');
         });
-
-        function changePrevalChoice() {
-            let form_prevalCNI = document.getElementById("form_prevalCNI");
-            if (form_prevalCNI.checked) {
-                $('#identityVal').hide();
-                $('#identityPreVal').show();
-            } else {
-                $('#identityPreVal').hide();
-                $('#identityVal').show();
-            }
-        }
-
-        function changeCertificateTypeChoice() {
-            let certificateTypeChoice = document.getElementById("form_certificateType").value;
-            if (certificateTypeChoice === "simple") {
-                $('#identityVal').hide();
-                $('#identityPreVal').hide();
-                $('#prevalCNI').hide();
-            } else {
-                $('#identityVal').show();
-                $('#identityPreVal').show();
-                $('#prevalCNI').show();
-            }
-        }
     </script>
 {% endblock %}

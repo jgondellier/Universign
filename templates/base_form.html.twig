@@ -18,6 +18,7 @@
                                     <span class="sr-only">Loading...</span>
                                 </div>
                             </div>
+
                             {{ form_end(form) }}
                         </div>
                     </div>
@@ -52,6 +53,36 @@
         $("#myform").on("submit", function () {
             $("#spinner").show();
         });
+        function loadFileName(selectObject){
+            var fileName = selectObject.value;
+            var n = fileName.lastIndexOf('\\');
+            n = (n === undefined)?fileName.lastIndexOf('/'):n;
+            var result = fileName.substring(n + 1);
+            $(selectObject).next('.custom-file-label').html(result);
+        }
+        function changePrevalChoice() {
+            let form_prevalCNI = document.getElementById("form_prevalCNI");
+            if (form_prevalCNI.checked) {
+                $('#identityVal').hide();
+                $('#identityPreVal').show();
+            } else {
+                $('#identityPreVal').hide();
+                $('#identityVal').show();
+            }
+        }
+
+        function changeCertificateTypeChoice() {
+            let certificateTypeChoice = document.getElementById("form_certificateType").value;
+            if (certificateTypeChoice === "simple") {
+                $('#identityVal').hide();
+                $('#identityPreVal').hide();
+                $('#prevalCNI').hide();
+            } else {
+                $('#identityVal').show();
+                $('#identityPreVal').show();
+                $('#prevalCNI').show();
+            }
+        }
     </script>
     {% block form_javascripts %}{% endblock %}
 {% endblock %}

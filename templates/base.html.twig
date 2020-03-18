@@ -1,33 +1,36 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>{% block title %}Bienvenue!{% endblock %}</title>
-        <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Universign</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-                <a class="nav-item nav-link" href="/">Accueil <span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link {{(app.request.get('_route')=='matchaccount')?'active':''}}" href="{{ path('matchaccount') }}">MatchAccount</a>
-                <a class="nav-item nav-link {{(app.request.get('_route')=='prevalidation')?'active':''}}" href="{{ path('prevalidation') }}">Prevalidation</a>
-                <a class="nav-item nav-link {{(app.request.get('_route')=='standaloneregistration')?'active':''}}" href="{{ path('standaloneregistration') }}">StandaloneRegistration</a>
-                <a class="nav-item nav-link {{(app.request.get('_route')=='transactionrequest')?'active':''}}" href="{{ path('transactionrequest') }}">TransactionRequest</a>
-            </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}Bienvenue!{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Universign</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+            aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" href="/">Accueil <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link {{ (app.request.get('_route')=='matchaccount')?'active':'' }}" href="{{ path('matchaccount') }}">MatchAccount</a>
+            <a class="nav-item nav-link {{ (app.request.get('_route')=='prevalidation')?'active':'' }}" href="{{ path('prevalidation') }}">Prevalidation</a>
+            <a class="nav-item nav-link {{ (app.request.get('_route')=='standaloneregistration')?'active':'' }}"
+               href="{{ path('standaloneregistration') }}">StandaloneRegistration</a>
+            <a class="nav-item nav-link {{ (app.request.get('_route')=='transactionrequest')?'active':'' }}" href="{{ path('transactionrequest') }}">TransactionRequest</a>
         </div>
-    </nav>
+    </div>
+</nav>
 
-    {% block body %}{% endblock %}
-        <script src="{{ asset('js/jquery-3.4.1.slim.min.js') }}"></script>
-        <script src="{{ asset('js/popper.min.js') }}"></script>
-        <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-    {% block javascripts %}{% endblock %}
-    </body>
+{% block body %}{% endblock %}
+<script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
+<script src="{{ asset('js/popper.min.js') }}"></script>
+<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('js/jquery.collection.js') }}"></script>
+{% block javascripts %}{% endblock %}
+</body>
 </html>
