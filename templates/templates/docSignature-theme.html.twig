@@ -1,46 +1,24 @@
 {%  block docSignatureFormType_row %}
 <div class="row">
     <div class="col-md-12">
-        <div class="alert alert-secondary" role="alert">
-            Nom du champ de signature déjà présent dans le document : lors de la signature, ce champ sera remplacé par le cartouche de signature. Si le nom est renseigné, la page, et les coordonnées x et y deviennent alors optionnels. Le cartouche de signature existant doit avoir la même taille que le cartouche de signature électronique. Si le champ correspondant au name n’est pas trouvé dans le document PDF, alors, les attributs x, y et page sont obligatoires
-        </div>
         {{ form_row(form.name) }}
     </div>
     <div class="col-md-6">
-        <div class="alert alert-secondary" role="alert">
-            Numéro de la page du document qui commence à 1. La valeur -1 correspond à la dernière page.
-        </div>
         {{ form_row(form.page) }}
     </div>
     <div class="col-md-3">
-        <div class="alert alert-secondary" role="alert">
-            Coordonnées x du champ de signature dans une page, valant de 0 à 595 pour une page A4 en portrait. Si aucune valeur n’est saisie, la valeur 0 est attribuée par défaut.
-        </div>
         {{ form_row(form.x) }}
     </div>
     <div class="col-md-3">
-        <div class="alert alert-secondary" role="alert">
-            Coordonnées y du champ de signature dans une page, valant de 0 à 842 pour une page A4 en portrait.
-            Si aucune valeur n’est saisie, la valeur 0 est attribuée par défaut.
-        </div>
         {{ form_row(form.y) }}
     </div>
     <div class="col-md-12">
-        <div class="alert alert-secondary" role="alert">
-            Index du signataire de la collecte, le 1er signataire porte l’index 0.
-        </div>
         {{ form_row(form.signerIndex) }}
     </div>
     <div class="col-md-6">
-        <div class="alert alert-secondary" role="alert">
-            Libellé correspondant au cartouche de signature personnalisé. Universign propose un cartouche par défaut nommé « default », en l’absence de valeur, le cartouche «default » est utilisé.
-        </div>
         {{ form_row(form.patternName) }}
     </div>
     <div class="col-md-6">
-        <div class="alert alert-secondary" role="alert">
-            Intitulé de la signature du document.
-        </div>
         {{ form_row(form.label) }}
     </div>
 </div>

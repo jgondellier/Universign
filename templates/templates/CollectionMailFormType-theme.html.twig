@@ -1,0 +1,15 @@
+{% block CollectionMailFormType_widget %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    {{ form_label(form.mail,null,{'label_attr':{'class':'input-group-text'}}) }}
+                </div>
+                {{ form_widget(form.mail) }}
+                <div class="input-group-append">
+                    <button class="final-doc-ccemails-remove btn btn-outline-secondary" type="button">Supprimer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

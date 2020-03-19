@@ -53,9 +53,10 @@ class TransactionSignerFormType extends AbstractType
                     'advanced' => 'advanced',
                 ],
                 'attr' => array(
-                    'onchange' => 'changeCertificateTypeChoice()',
+                    'onchange' => 'changeCertificateTypeChoice(this)',
                 ),
-                'data' => 'certified',
+                'empty_data' => 'certified',
+                'preferred_choices' => ['certified'],
             ])
             ->add('validationSessionId', TextType::class, [
                 'required' => false

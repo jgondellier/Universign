@@ -5,4 +5,7 @@ twig:
         'templates/docSignature-theme.html.twig',
         'templates/transactionSigner-theme.html.twig',
         'templates/document-theme.html.twig',
+        'templates/transactionRequestConf-theme.html.twig',
+        'templates/CollectionMailFormType-theme.html.twig',
+        'templates/redirection_config-theme.html.twig',
         'jquery.collection.html.twig']

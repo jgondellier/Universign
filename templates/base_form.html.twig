@@ -61,7 +61,7 @@
             $(selectObject).next('.custom-file-label').html(result);
         }
         function changePrevalChoice() {
-            let form_prevalCNI = document.getElementById("form_prevalCNI");
+            let form_prevalCNI = document.getElementById("form_signer_prevalCNI");
             if (form_prevalCNI.checked) {
                 $('#identityVal').hide();
                 $('#identityPreVal').show();
@@ -83,6 +83,12 @@
                 $('#prevalCNI').show();
             }
         }
+        $(function () {
+            $('[data-toggle="popover"]').popover();
+            $('.popover-dismiss').popover({
+                trigger: 'focus'
+            })
+        })
     </script>
     {% block form_javascripts %}{% endblock %}
 {% endblock %}

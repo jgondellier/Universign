@@ -143,6 +143,21 @@ class TransactionRequest extends Base
     public $registrationCallbackURL;
 
     /**
+     * The configuration of the signer redirection in the event that the signing process is successfully completed.
+     */
+    public $successRedirection;
+
+    /**
+     * The configuration of the signer redirection in the event that the signing process is canceled.
+     */
+    public $cancelRedirection;
+
+    /**
+     * The configuration of the signer redirection in the event that the signing process fails.
+     */
+    public $failRedirection;
+
+    /**
      * @param string $profile
      */
     public function setProfile(string $profile): void
@@ -313,4 +328,29 @@ class TransactionRequest extends Base
     {
         $this->registrationCallbackURL = $registrationCallbackURL;
     }
+
+    /**
+     * @param mixed $successRedirection
+     */
+    public function setSuccessRedirection($successRedirection): void
+    {
+        $this->successRedirection = $successRedirection;
+    }
+
+    /**
+     * @param mixed $cancelRedirection
+     */
+    public function setCancelRedirection($cancelRedirection): void
+    {
+        $this->cancelRedirection = $cancelRedirection;
+    }
+
+    /**
+     * @param mixed $failRedirection
+     */
+    public function setFailRedirection($failRedirection): void
+    {
+        $this->failRedirection = $failRedirection;
+    }
+
 }

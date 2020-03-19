@@ -7,7 +7,12 @@ use App\Form\Type\DocumentFormType;
 use App\Form\Type\TransactionRequestFormType;
 use App\Form\Type\TransactionSignerFormType;
 use App\Util\DataTool;
+use App\Util\DocSignatureFieldDataTool;
+use App\Util\TransactionDocumentDataTool;
+use App\Util\TransactionRequestDataTool;
+use App\Util\TransactionSignerDataTool;
 use Gondellier\UniversignBundle\Classes\Request\TransactionRequest;
+use Gondellier\UniversignBundle\Service\TransactionRequestService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -27,74 +32,34 @@ class TransactionRequestController extends AbstractController
 
         $defaultData = ['send' => ''];
         $form = $this->createFormBuilder($defaultData)
-            ->add('signer',TransactionSignerFormType::class)
-            ->add('send', SubmitType::class)
-            ->add('readDocuments', CollectionType::class, [
-                'label' => 'Documents à lire',
-                'entry_type' => DocumentFormType::class,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'prototype' => true,
-                'attr' => array(
-                    'class' => 'read-documents',
-                )
-            ])
-            ->add('signDocuments', CollectionType::class, [
-                    'label' => 'Documents à signer',
-                    'entry_type' => DocumentFormType::class,
-                    'allow_add' => true,
-                    'allow_delete' => true,
-                    'prototype' => true,
-                    'attr' => array(
-                        'class' => 'sign-documents',
-                    ),
-                ]
-            )
-            ->add('confdocsign', CollectionType::class, [
-                    'label' => 'Option du cartouche de signature',
-                    'entry_type' => DocSignatureFormType::class,
-                    'allow_add' => true,
-                    'allow_delete' => true,
-                    'prototype' => true,
-                    'attr' => array(
-                        'class' => 'conf-doc-sign',
-                    ),
-                ]
-            )
-            ->add('confsign',TransactionRequestFormType::class)
+            ->add('transactionrequest',TransactionRequestFormType::class,['label' => false,])
             ->getForm();
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $dataTool = new DataTool();
-            $transactionSigner = $dataTool->setSigner($data);
-            $docSignatureField = $dataTool->setDocSignatureField($data);
-            $transactionDocument = $dataTool->setTransactionDocument($data);
+            var_dump($data);
+            $docSignatureFieldDatTool = new DocSignatureFieldDataTool();
+            $transactionSignerDataTool = new TransactionSignerDataTool();
+            $transactionDocumentDataTool = new TransactionDocumentDataTool();
+            $transactionRequestDataTool = new TransactionRequestDataTool;
+            $transactionSigner = $transactionSignerDataTool->setData($data);
+            $docSignatureField = $docSignatureFieldDatTool->setData($data);
+            $transactionDocument = $transactionDocumentDataTool->setData($data);
             $transactionDocument->setSignatureFields($docSignatureField);
-            $transactionRequest = new TransactionRequest();
-            $transactionRequest->setProfile();
-            $transactionRequest->setCustomId();
-            $transactionRequest->setMustContactFirstSigner();
-            $transactionRequest->setFinalDocRequesterSent();
-            $transactionRequest->setFinalDocSent();
-            $transactionRequest->setFinalDocObserverSent();
-            $transactionRequest->setDescription();
-            $transactionRequest->setCertificateType();
-            $transactionRequest->setLanguage('fr');
-            $transactionRequest->setHandwrittenSignatureMode(0);
-            $transactionRequest->setChainingMode('web');
+            $transactionRequest = $transactionRequestDataTool->setData($data);
             $transactionRequest->setSigners($transactionSigner);
             $transactionRequest->setDocuments($transactionDocument);
-            $transactionRequest->setFinalDocCCeMails();
-            $transactionRequest->setAutoValidationURL();
-            $transactionRequest->setRedirectPolicy();
-            $transactionRequest->setRedirectWait();
-            $transactionRequest->setAutoSendAgreements();
-            $transactionRequest->setOperator();
-            $transactionRequest->setRegistrationCallbackURL();
+            var_dump($transactionRequest);
 
-            var_dump($data);exit;
+            $transactionRequestService = new TransactionRequestService($this->getParameter('univ.uri'));
+            $transactionRequestService->validate($transactionRequest);
+
+            return $this->render('universign/transactionrequest.html.twig', [
+                'form' => $form->createView(),
+                'originalResult' => $transactionRequestService->getOriginalResult(),
+                'service' => $transactionRequestService
+            ]);
         }
 
         return $this->render('universign/transactionrequest.html.twig', [

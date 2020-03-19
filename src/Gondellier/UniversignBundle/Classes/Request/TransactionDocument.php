@@ -93,6 +93,9 @@ class TransactionDocument extends Base
      */
     public function setFileName(string $fileName): void
     {
+        if(empty($fileName)){
+            Throw new \InvalidArgumentException('The document filename must not be empty.');
+        }
         $this->fileName = $fileName;
     }
 
@@ -134,5 +137,11 @@ class TransactionDocument extends Base
     public function setSEPAData(SEPAData $SEPAData): void
     {
         $this->SEPAData = $SEPAData->getArray();
+    }
+
+    public function check(){
+        if(empty($this->content) && empty($this->url) ){
+            Throw new \InvalidArgumentException('At least content or url must be not empty');
+        }
     }
 }

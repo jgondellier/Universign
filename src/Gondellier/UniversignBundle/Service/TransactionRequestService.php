@@ -3,9 +3,11 @@
 namespace Gondellier\UniversignBundle\Service;
 
 use Gondellier\UniversignBundle\Classes\Request\StandaloneRegistration;
+use Gondellier\UniversignBundle\Classes\Request\TransactionRequest;
 use GuzzleHttp\Client;
 
-class StandaloneRegistrationRequestService{
+class TransactionRequestService
+{
     private $uri;
     public $client;
     private $originalResult;
@@ -24,15 +26,18 @@ class StandaloneRegistrationRequestService{
             'verify'    => false,
         ]);
     }
-    public function validate(StandaloneRegistration $StandaloneRegistration)
+
+    public function validate(TransactionRequest $transactionRequest)
     {
+
+        var_dump($transactionRequest->getArray());
         $response = $this->client->request('POST', $this->uri.'/sign/rpc/', [
-            'body' => xmlrpc_encode_request('requester.requestRegistration',$StandaloneRegistration->getArray())
+            'body' => xmlrpc_encode_request('requester.requestTransaction',$transactionRequest->getArray())
         ]);
         $this->originalResult = xmlrpc_decode($response->getBody()->getContents());
-        $this->fault = $StandaloneRegistration->checkResponseFault($this->originalResult);
-
+        $this->fault = $transactionRequest->checkResponseFault($this->originalResult);
     }
+
     /**
      * @return mixed
      */
