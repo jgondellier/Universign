@@ -2,13 +2,11 @@
 
 namespace App\Form\Type;
 
-use Gondellier\UniversignBundle\Classes\Request\SEPAData;
-use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,7 +16,7 @@ class TransactionDocumentFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('id', Integer::class,[
+            ->add('id', IntegerType::class,[
                 'required' => false,
                 'help'=>'A unique identifier of this document.'
             ])
@@ -34,12 +32,18 @@ class TransactionDocumentFormType extends AbstractType
                         pdf-for-presentation This value marks the document as view only. pdf-optional This type of PDF document can be refused and not signed by any signer without canceling the transaction.
                         sepa Using this value, no PDF document is provided,but UNIVERSIGN creates a SEPA mandate from data sent in SEPAData, which becomes the single relevant member.',
             ])
-            ->add('content', DocumentFormType::class,[
+            ->add('content', FileType::class,[
                 'required' => false,
+                'row_attr' => array(
+                    'class' => 'loadtypecontent',
+                ),
                 'help'=>'The raw content of the PDF document. You can provide the document using the url field, otherwise this field is mandatory.'
             ])
             ->add('url', UrlType::class,[
                 'required'   => false,
+                'row_attr' => array(
+                    'class' => 'loadtypeurl',
+                ),
                 'help' =>'The URL to download the PDF document. Note that this field is mandatory if the content is not set'
             ])
             ->add('fileName', TextType::class,[
@@ -68,7 +72,9 @@ class TransactionDocumentFormType extends AbstractType
                 'help' => 'A structure containing data to create a SEPA mandate PDF.'
             ])
         ;
-
-
+    }
+    public function getBlockPrefix(): string
+    {
+        return 'TransactionDocumentFormType';
     }
 }

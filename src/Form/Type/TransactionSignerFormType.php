@@ -20,13 +20,6 @@ class TransactionSignerFormType extends AbstractType
             ->add('lastname', TextType::class)
             ->add('firstname', TextType::class)
             ->add('birthdate', BirthdayType::class, ['format' => 'dd-MM-yyyy',])
-            ->add('prevalCNI', CheckboxType::class, [
-                'label' => 'Pièce d\'identité déja validée ?',
-                'required' => false,
-                'attr' => array(
-                    'onchange' => 'changePrevalChoice()',
-                ),
-            ])
             ->add('type', ChoiceType::class, [
                 'choices' => [
                     'carte nationale d’identité' => 'id_card_fr',
@@ -71,6 +64,6 @@ class TransactionSignerFormType extends AbstractType
 
     public function getBlockPrefix():string
     {
-        return 'tansaction_signer';
+        return 'TransactionSignerFormType';
     }
 }

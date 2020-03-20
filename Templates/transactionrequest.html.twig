@@ -2,7 +2,7 @@
 
 {% block title %}Signature de documents{% endblock %}
 
-{% block form_content %}
+{% block form_content %}{{ dump(form) }}
     <div class="accordion" id="accordionExample">
         <div class="card">
             <div class="card-header" id="headingOne">
@@ -15,7 +15,7 @@
 
             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
                 <div class="card-body">
-                    {{ form_row(form.signer) }}
+                    {{ form_row(form.transactionrequest.signers) }}
                 </div>
             </div>
         </div>
@@ -30,8 +30,9 @@
             </div>
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                 <div class="card-body">
-                    {{ form_row(form.readDocuments) }}
-                    {{ form_row(form.signDocuments) }}
+                    {{ form_row(form.transactionrequest.documents) }}
+{#                    {{ form_row(form.readDocuments) }}#}
+{#                    {{ form_row(form.signDocuments) }}#}
                 </div>
             </div>
         </div>
@@ -46,7 +47,7 @@
             </div>
             <div id="collapseTree" class="collapse" aria-labelledby="headingTree" data-parent="#accordionExample">
                 <div class="card-body">
-                    {{ form_row(form.confdocsign) }}
+{#                    {{ form_row(form.confdocsign) }}#}
                 </div>
             </div>
         </div>
@@ -61,7 +62,7 @@
             </div>
             <div id="collapseFoor" class="collapse" aria-labelledby="headingFoor" data-parent="#accordionExample">
                 <div class="card-body">
-                    {{ form_row(form.confsign) }}
+{#                    {{ form_row(form.confsign) }}#}
                 </div>
             </div>
         </div>
@@ -69,7 +70,7 @@
 {% endblock %}
 {% block form_result %}
     {% if service.fault is defined and service.fault is not null %}
-        {{ include('universign/shared/fault.html.twig', {fault: service.fault}) }}
+        {{ include('shared/fault.html.twig', {fault: service.fault}) }}
     {% else %}
         {% if originalResult is defined %}
 
@@ -78,9 +79,60 @@
 {% endblock %}
 {% block form_javascripts %}
     <script>
+        function commuteDisplay(selectObject){
+            const cible = $(selectObject).data("linkedfields");
+            const fields = cible.split(',');
+            let fieldValue = $(selectObject).find(":checked").val();
+            for (var i=0; i < fields.length; i++) {
+                if(fields[i].includes(fieldValue)){
+                    $('.'+fields[i]).show();
+                }else{
+                    $('.'+fields[i]).hide();
+                }
+            }
+        }
+        function toggleDisplay(selectObject){
+            const hide = $(selectObject).data("hide");
+            const show = $(selectObject).data("show");
+            const listshow = show.split(',');
+            console.log(listshow);
+            for (var i=0; i < listshow.length; i++) {
+                console.log(listshow[i]);
+                $('.'+listshow[i]).show();
+            }
+            const listhide = hide.split(',');
+            console.log(listhide);
+            for (var i=0; i < listhide.length; i++) {
+                console.log(listhide[i]);
+                $('.'+listhide[i]).hide();
+            }
 
+
+        }
         jQuery(document).ready(function () {
-            changePrevalChoice();
+            $('.signers').collection({
+                prefix: 'signers',
+                init_with_n_elements: 1,
+                add_at_the_end: true,
+                allow_up: false,
+                allow_down: false,
+                allow_duplicate: false,
+                add: '<button type="button" class="btn btn-outline-primary m-2">Ajouter un signataire</button>'
+            });
+            $('.documents').collection({
+                prefix: 'documents',
+                init_with_n_elements: 1,
+                add_at_the_end: true,
+                allow_up: false,
+                allow_down: false,
+                allow_duplicate: false,
+                add: '<button type="button" class="btn btn-outline-primary m-2">Ajouter un signataire</button>'
+            });
+
+
+
+
+
             $('.conf-doc-sign').collection({
                 prefix: 'config-sign-collection',
                 init_with_n_elements: 1,

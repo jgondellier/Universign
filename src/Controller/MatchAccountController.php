@@ -47,7 +47,7 @@ class MatchAccountController extends AbstractController
             $matchAccountService = new MatchAccountRequestService($this->getParameter('univ.uri'));
             $matchAccountService->match($matchAccount);
 
-            return $this->render('universign/matchaccount.html.twig', [
+            return $this->render('matchaccount.html.twig', [
                 'form' => $form->createView(),
                 'originalResult' => $matchAccountService->getOriginalResult(),
                 'service' => $matchAccountService,
@@ -56,7 +56,7 @@ class MatchAccountController extends AbstractController
             ]);
         }
 
-        return $this->render('universign/matchaccount.html.twig', [
+        return $this->render('matchaccount.html.twig', [
             'form' => $form->createView()
         ]);
     }

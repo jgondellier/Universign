@@ -39,7 +39,7 @@
                     </div>
                     <div class="card-footer text-muted">
                         {% block form_orinal_result %}
-                            {{ include('universign/shared/completeResponse.html.twig',{originalResult:originalResult}) }}
+                            {{ include('shared/completeResponse.html.twig',{originalResult:originalResult}) }}
                         {% endblock %}
                     </div>
                 </div>
@@ -60,17 +60,6 @@
             var result = fileName.substring(n + 1);
             $(selectObject).next('.custom-file-label').html(result);
         }
-        function changePrevalChoice() {
-            let form_prevalCNI = document.getElementById("form_signer_prevalCNI");
-            if (form_prevalCNI.checked) {
-                $('#identityVal').hide();
-                $('#identityPreVal').show();
-            } else {
-                $('#identityPreVal').hide();
-                $('#identityVal').show();
-            }
-        }
-
         function changeCertificateTypeChoice() {
             let certificateTypeChoice = document.getElementById("form_certificateType").value;
             if (certificateTypeChoice === "simple") {

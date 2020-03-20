@@ -1,11 +1,12 @@
 twig:
-    default_path: '%kernel.project_dir%/templates'
+    default_path: '%kernel.project_dir%/Templates'
     form_themes: [
         'bootstrap_4_layout.html.twig',
-        'templates/docSignature-theme.html.twig',
-        'templates/transactionSigner-theme.html.twig',
-        'templates/document-theme.html.twig',
-        'templates/transactionRequestConf-theme.html.twig',
-        'templates/CollectionMailFormType-theme.html.twig',
-        'templates/redirection_config-theme.html.twig',
+        'Form/DocSignatureFormType-theme.html.twig',
+        'Templates/document-theme.html.twig',
+        'Form/TransactionRequestFormType-theme.html.twig',
+        'Form/CollectionMailFormType-theme.html.twig',
+        'Form/RedirectionConfigFormType-theme.html.twig',
+        'Form/CollectionSignersFormType-theme.html.twig',
+        'Form/CollectionDocumentsFormType-theme.html.twig',
         'jquery.collection.html.twig']

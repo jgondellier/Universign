@@ -1,6 +1,8 @@
+{% if fault is defined %}
 <div class="alert alert-danger col-md-12" role="alert">
     <h4 class="alert-heading">Erreur dans la requête</h4>
     <p><span>Description : </span>{{ fault.faultString }}</p>
     <hr>
     <p class="mb-0">Code Erreur : {{ fault.faultCode }}</p>
 </div>
+{% endif %}

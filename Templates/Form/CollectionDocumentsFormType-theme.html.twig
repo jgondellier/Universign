@@ -1,0 +1,24 @@
+{% block DocumentsFormType_label %}{% endblock %}
+{% block DocumentsFormType_errors %}{% endblock %}
+
+{% block TransactionDocumentFormType_label %}{% endblock %}
+{% block TransactionDocumentFormType_errors %}{% endblock %}
+
+{% block TransactionDocumentFormType_row %}
+    {{ form_errors(form) }}
+    {{ form_widget(form) }}
+{% endblock %}
+
+{% block TransactionDocumentFormType_widget %}
+    <div class="col-md-12 border">
+        {{ include('shared/Document.html.twig',{form:form}) }}
+        <br/>
+        <p class="text-center">
+            <button class="signers-remove btn btn-outline-warning" type="button">Supprimer</button>
+        </p>
+    </div>
+{% endblock %}
+
+{% block DocumentsFormType_widget %}
+    {{ form_widget(form) }}
+{% endblock %}

@@ -1,0 +1,24 @@
+{% block SignersFormType_label %}{% endblock %}
+{% block SignersFormType_errors %}{% endblock %}
+
+{% block TransactionSignerFormType_label %}{% endblock %}
+{% block TransactionSignerFormType_errors %}{% endblock %}
+
+{% block TransactionSignerFormType_row %}
+    {{ form_errors(form) }}
+    {{ form_widget(form) }}
+{% endblock %}
+
+{% block TransactionSignerFormType_widget %}
+    <div class="col-md-12 border">
+        {{ include('shared/Signer.html.twig',{form:form}) }}
+        <br/>
+        <p class="text-center">
+            <button class="signers-remove btn btn-outline-warning" type="button">Supprimer</button>
+        </p>
+    </div>
+{% endblock %}
+
+{% block SignersFormType_widget %}
+    {{ form_widget(form) }}
+{% endblock %}

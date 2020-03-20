@@ -25,12 +25,18 @@ class TransactionRequestFormType extends AbstractType
                 'help' => 'A requester-set unique id that can be used to identify this transaction. If not unique, a fault will be thrown. Note that UNIVERSIGN generate its own unique id for
                 each transaction and return it to the requester'
             ])
-            ->add('signers', TransactionSignerFormType::class,[
-                'required'   => false,
+            ->add('signers', SignersFormType::class, [
+                'label' => false,
+                'attr' => array(
+                    'class' => 'signers',
+                ),
                 'help' => 'The signers that will have to take part to the transaction.Must contain at least one element.'
             ])
-            ->add('documents', TransactionDocumentFormType::class,[
+            ->add('documents', DocumentsFormType::class,[
                 'required'   => false,
+                'attr' => array(
+                    'class' => 'documents',
+                ),
                 'help' => 'The documents to be signed. Must contain at least one element. The size limit of each document is set to 10MB.'
             ])
             ->add('mustContactFirstSigner', CheckboxType::class,[
@@ -159,6 +165,6 @@ class TransactionRequestFormType extends AbstractType
 
     public function getBlockPrefix(): string
     {
-        return 'tansaction_request';
+        return 'TransactionRequestFormType';
     }
 }

@@ -2,11 +2,9 @@
 
 namespace App\Form\Type;
 
-use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class SepaDataFormType extends AbstractType
@@ -30,7 +28,8 @@ class SepaDataFormType extends AbstractType
                 'required'   => false,
                 'help' => 'The debtor Bank Identifier Code.'
             ])
-            ->add('recurring', Boolean::class,[
+            ->add('recurring', CheckboxType::class,[
+                'label' => 'This SEPA mandate describe a recurring payment (true)',
                 'required'   => false,
                 'help' => 'Whether this SEPA mandate describe a recurring payment (true) or a single-shot payement (false).'
             ])
@@ -47,6 +46,6 @@ class SepaDataFormType extends AbstractType
 
     public function getBlockPrefix(): string
     {
-        return 'sepa_data';
+        return 'SepaDataFormType';
     }
 }

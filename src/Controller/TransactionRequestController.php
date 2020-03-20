@@ -2,19 +2,13 @@
 
 namespace App\Controller;
 
-use App\Form\Type\DocSignatureFormType;
-use App\Form\Type\DocumentFormType;
 use App\Form\Type\TransactionRequestFormType;
-use App\Form\Type\TransactionSignerFormType;
-use App\Util\DataTool;
 use App\Util\DocSignatureFieldDataTool;
 use App\Util\TransactionDocumentDataTool;
 use App\Util\TransactionRequestDataTool;
 use App\Util\TransactionSignerDataTool;
-use Gondellier\UniversignBundle\Classes\Request\TransactionRequest;
 use Gondellier\UniversignBundle\Service\TransactionRequestService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,6 +27,7 @@ class TransactionRequestController extends AbstractController
         $defaultData = ['send' => ''];
         $form = $this->createFormBuilder($defaultData)
             ->add('transactionrequest',TransactionRequestFormType::class,['label' => false,])
+            ->add('send', SubmitType::class)
             ->getForm();
 
         $form->handleRequest($request);
@@ -55,14 +50,14 @@ class TransactionRequestController extends AbstractController
             $transactionRequestService = new TransactionRequestService($this->getParameter('univ.uri'));
             $transactionRequestService->validate($transactionRequest);
 
-            return $this->render('universign/transactionrequest.html.twig', [
+            return $this->render('transactionrequest.html.twig', [
                 'form' => $form->createView(),
                 'originalResult' => $transactionRequestService->getOriginalResult(),
                 'service' => $transactionRequestService
             ]);
         }
 
-        return $this->render('universign/transactionrequest.html.twig', [
+        return $this->render('transactionrequest.html.twig', [
             'form' => $form->createView()
         ]);
     }

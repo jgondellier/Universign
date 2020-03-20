@@ -6,7 +6,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DocSignatureFormType extends AbstractType
 {
@@ -46,6 +45,6 @@ class DocSignatureFormType extends AbstractType
 
     public function getBlockPrefix():string
     {
-        return 'docSignatureFormType';
+        return 'DocSignatureFormType';
     }
 }

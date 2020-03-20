@@ -3,7 +3,6 @@
 namespace App\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -23,6 +22,6 @@ class RedirectionConfigFormType extends AbstractType
 
     public function getBlockPrefix(): string
     {
-        return 'redirection_config';
+        return 'RedirectionConfigFormType';
     }
 }
