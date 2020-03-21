@@ -2,7 +2,7 @@ twig:
     default_path: '%kernel.project_dir%/Templates'
     form_themes: [
         'bootstrap_4_layout.html.twig',
-        'Form/DocSignatureFormType-theme.html.twig',
+        'Form/CollectionDocsignaturesFormType-theme.html.twig',
         'Templates/document-theme.html.twig',
         'Form/TransactionRequestFormType-theme.html.twig',
         'Form/CollectionMailFormType-theme.html.twig',

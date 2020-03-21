@@ -34,23 +34,17 @@ class TransactionDocumentFormType extends AbstractType
             ])
             ->add('content', FileType::class,[
                 'required' => false,
-                'row_attr' => array(
-                    'class' => 'loadtypecontent',
-                ),
                 'help'=>'The raw content of the PDF document. You can provide the document using the url field, otherwise this field is mandatory.'
             ])
             ->add('url', UrlType::class,[
                 'required'   => false,
-                'row_attr' => array(
-                    'class' => 'loadtypeurl',
-                ),
                 'help' =>'The URL to download the PDF document. Note that this field is mandatory if the content is not set'
             ])
             ->add('fileName', TextType::class,[
                 'required'   => false,
                 'help' => 'The file name of this document.'
             ])
-            ->add('signatureFields',DocSignatureFormType::class,[
+            ->add('signatureFields',DocSignaturesFormType::class,[
                 'required'   => false,
                 'help' => 'A description of a visible PDF signature field.'
             ])

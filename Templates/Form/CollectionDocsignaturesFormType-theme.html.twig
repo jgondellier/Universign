@@ -1,0 +1,25 @@
+{% block DocSignaturesFormType_label %}{% endblock %}
+{% block DocSignaturesFormTypee_errors %}{% endblock %}
+
+{% block DocSignatureFormType_label %}{% endblock %}
+{% block DocSignatureFormType_errors %}{% endblock %}
+
+{% block DocSignatureFormType_row %}
+    {{ form_errors(form) }}
+    {{ form_widget(form) }}
+{% endblock %}
+
+{% block DocSignatureFormType_widget %}
+    <div class="col-md-12 border">
+        {{ include('shared/DocSignature.html.twig',{form:form}) }}
+        <br/>
+        <p class="text-center">
+            <button class="docsignature-remove btn btn-outline-warning" type="button">Supprimer</button>
+        </p>
+    </div>
+{% endblock %}
+
+{% block DocSignaturesFormType_widget %}
+    {{ form_label(form) }}
+    {{ form_widget(form) }}
+{% endblock %}
