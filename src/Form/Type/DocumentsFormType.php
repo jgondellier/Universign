@@ -8,7 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class DocumentsFormType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options):void
     {
         $builder
             ->add('documents', CollectionType::class, [
@@ -23,7 +23,7 @@ class DocumentsFormType extends AbstractType
             ])
         ;
     }
-    public function getBlockPrefix()
+    public function getBlockPrefix():string
     {
         return 'DocumentsFormType';
     }

@@ -16,6 +16,6 @@ class UniversignController extends AbstractController
      */
     public function index(Request $request): Response
     {
-        return $this->render('universign/index.html.twig');
+        return $this->render('Universign/index.html.twig');
     }
 }

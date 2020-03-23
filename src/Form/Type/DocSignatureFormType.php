@@ -3,6 +3,7 @@
 namespace App\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -40,6 +41,14 @@ class DocSignatureFormType extends AbstractType
                 'required' => false,
                 'help' => 'Intitulé de la signature du document.'
                 ])
+            ->add('image',FileType::class,[
+                'required' => false,
+                'attr' => array(
+                    'onchange' => 'loadFileName(this)',
+                ),
+                'help' => 'The image to be displayed in the signature field, it will replace the default UNIVERSIGN logo. Image format must be JPG, JPEG or PNG. 
+                A recommended resolution for this image is 150x36px.The image will be resized if the image has a different resolution.'
+            ])
         ;
     }
 

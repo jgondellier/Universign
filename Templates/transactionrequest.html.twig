@@ -53,7 +53,7 @@
 {% endblock %}
 {% block form_result %}
     {% if service.fault is defined and service.fault is not null %}
-        {{ include('shared/fault.html.twig', {fault: service.fault}) }}
+        {{ include('Shared/Fault.html.twig', {fault: service.fault}) }}
     {% else %}
         {% if originalResult is defined %}
 
@@ -100,7 +100,7 @@
                 allow_up: false,
                 allow_down: false,
                 allow_duplicate: false,
-                add: '<button type="button" class="btn btn-outline-primary m-2">Ajouter un signataire</button>'
+                add: '<button type="button" class="btn btn-outline-primary m-2">Add signer</button>'
             });
             $('.documents').collection({
                 prefix: 'documents',
@@ -109,7 +109,7 @@
                 allow_up: false,
                 allow_down: false,
                 allow_duplicate: false,
-                add: '<button type="button" class="btn btn-outline-primary m-2">Ajouter un document</button>'
+                add: '<button type="button" class="btn btn-outline-primary m-2">Add document</button>'
             });
             $('.docsignature').collection({
                 prefix: 'docsignature',
@@ -118,42 +118,23 @@
                 allow_up: false,
                 allow_down: false,
                 allow_duplicate: false,
-                add: '<button type="button" class="btn btn-outline-primary m-2">Ajouter une signature</button>'
+                add: '<button type="button" class="btn btn-outline-primary m-2">Add signature</button>'
             });
-
-
-
-
-
-
-            $('.conf-doc-sign').collection({
-                prefix: 'config-sign-collection',
+            $('.listcheckBoxTexts').collection({
+                prefix: 'listcheckBoxTexts',
                 init_with_n_elements: 1,
-                add_at_the_end: false,
-                allow_up: false,
-                allow_down: false,
-                allow_duplicate: false,
-                add: '<button type="button" class="btn btn-outline-primary m-2">Ajouter</button>',
-                remove: '<button type="button" class="btn btn-outline-primary m-2">Supprimer</button>',
-            });
-            $('.read-documents').collection({
-                prefix: 'read-documents-collection',
                 add_at_the_end: true,
-                allow_duplicate: false,
                 allow_up: false,
                 allow_down: false,
-                add: '<button type="button" class="btn btn-outline-primary m-2">Ajouter un document à lire</button>',
-                remove: '<button type="button" class="btn btn-outline-primary">Supprimer</button>',
-            });
-            $('.sign-documents').collection({
-                prefix: 'sign-documents-collection',
-                add_at_the_end: true,
                 allow_duplicate: false,
-                allow_up: false,
-                allow_down: false,
-                add: '<button type="button" class="btn btn-outline-primary m-2">Ajouter un document à signer</button>',
-                remove: '<button type="button" class="btn btn-outline-primary">Supprimer</button>',
+                add: '<button type="button" class="btn btn-outline-primary m-2">Add agreement checkboxes text</button>'
             });
+
+
+
+
+
+
             $('.finalDocCCeMails').collection({
                 prefix: 'final-doc-ccemails',
                 init_with_n_elements: 1,

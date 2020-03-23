@@ -1,0 +1,50 @@
+<div class="row">
+    <div class="col-md-6">
+        {{ form_row(form.id) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_row(form.documentType) }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 load-doc-content">
+        {{ form_row(form.content) }}
+    </div>
+    <div class="col-md-6 load-doc-url">
+        {{ form_row(form.url) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_row(form.fileName) }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        {{ form_row(form.checkBoxTexts) }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        {{ form_row(form.title) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_row(form.metaData) }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        {{ form_row(form.signatureFields) }}
+    </div>
+</div>
+
+{#            <div>#}
+{#                <div class="custom-control custom-radio custom-control-inline">#}
+{#                    <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input" onclick="toggleDisplay(this)"#}
+{#                           data-hide="load-doc-url" data-show="load-doc-content">#}
+{#                    <label class="custom-control-label" for="customRadioInline1">Load document from file</label>#}
+{#                </div>#}
+{#                <div class="custom-control custom-radio custom-control-inline">#}
+{#                    <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input" onclick="toggleDisplay(this)"#}
+{#                           data-hide="load-doc-content" data-show="load-doc-url">#}
+{#                    <label class="custom-control-label" for="customRadioInline2">Load document from url</label>#}
+{#                </div>#}
+{#            </div>#}

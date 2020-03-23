@@ -2,7 +2,9 @@
     <div class="row">
         <div class="col-md-8 mb-2">
             <div class="input-group">
+                {{ form_label(form.document) }}
                 {{ form_widget(form.document) }}
+                {{ form_errors(form.document) }}
             </div>
         </div>
     </div>

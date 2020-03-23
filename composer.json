@@ -30,7 +30,8 @@
         "symfony/validator": "5.0.*",
         "symfony/web-link": "5.0.*",
         "symfony/yaml": "5.0.*",
-        "ninsuo/symfony-collection": "2.1.33"
+        "ninsuo/symfony-collection": "2.1.33",
+      "ext-gd": "*"
     },
     "require-dev": {
         "symfony/debug-pack": "*",
