@@ -100,11 +100,11 @@ class TransactionDocument extends Base
     }
 
     /**
-     * @param DocSignatureField $signatureFields
+     * @param array $signatureFields
      */
-    public function setSignatureFields(DocSignatureField $signatureFields): void
+    public function setSignatureFields(array $signatureFields): void
     {
-        $this->signatureFields = $signatureFields->getArray();
+        $this->signatureFields = $signatureFields;
     }
 
     /**

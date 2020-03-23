@@ -34,17 +34,14 @@ class TransactionRequestController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             var_dump($data);
-            $docSignatureFieldDatTool = new DocSignatureFieldDataTool();
             $transactionSignerDataTool = new TransactionSignerDataTool();
             $transactionDocumentDataTool = new TransactionDocumentDataTool();
             $transactionRequestDataTool = new TransactionRequestDataTool;
-            $transactionSigner = $transactionSignerDataTool->setData($data);
-            $docSignatureField = $docSignatureFieldDatTool->setData($data);
-            $transactionDocument = $transactionDocumentDataTool->setData($data);
-            $transactionDocument->setSignatureFields($docSignatureField);
-            $transactionRequest = $transactionRequestDataTool->setData($data);
+            $transactionSigner = $transactionSignerDataTool->setData($data['transactionrequest']['signers']['signers']);
+            $transactionDocuments = $transactionDocumentDataTool->setData($data['transactionrequest']['documents']['documents']);
+            $transactionRequest = $transactionRequestDataTool->setData($data['transactionrequest']);
             $transactionRequest->setSigners($transactionSigner);
-            $transactionRequest->setDocuments($transactionDocument);
+            $transactionRequest->setDocuments($transactionDocuments);
             var_dump($transactionRequest);
 
             $transactionRequestService = new TransactionRequestService($this->getParameter('univ.uri'));

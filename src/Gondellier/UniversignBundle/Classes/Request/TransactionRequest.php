@@ -258,19 +258,25 @@ class TransactionRequest extends Base
     }
 
     /**
-     * @param TransactionSigner $signers
+     * @param array $signers
      */
-    public function setSigners(TransactionSigner $signers): void
+    public function setSigners(array $signers): void
     {
-        $this->signers = $signers->getArray();
+        foreach($signers as $signer){
+            /**@var TransactionSigner $signer*/
+            $this->signers[] = $signer->getArray();
+        }
     }
 
     /**
-     * @param TransactionDocument $documents
+     * @param array $documents
      */
-    public function setDocuments(TransactionDocument $documents): void
+    public function setDocuments(array $documents): void
     {
-        $this->documents = $documents->getArray();
+        foreach($documents as $document){
+            /**@var TransactionDocument $document*/
+            $this->documents[] = $document->getArray();
+        }
     }
 
     /**
@@ -282,9 +288,9 @@ class TransactionRequest extends Base
     }
 
     /**
-     * @param string $autoValidationURL
+     * @param array $autoValidationURL
      */
-    public function setAutoValidationURL(string $autoValidationURL): void
+    public function setAutoValidationURL(array $autoValidationURL): void
     {
         $this->autoValidationURL = $autoValidationURL;
     }
@@ -330,25 +336,25 @@ class TransactionRequest extends Base
     }
 
     /**
-     * @param mixed $successRedirection
+     * @param array $successRedirection
      */
-    public function setSuccessRedirection($successRedirection): void
+    public function setSuccessRedirection(array $successRedirection): void
     {
         $this->successRedirection = $successRedirection;
     }
 
     /**
-     * @param mixed $cancelRedirection
+     * @param array $cancelRedirection
      */
-    public function setCancelRedirection($cancelRedirection): void
+    public function setCancelRedirection(array $cancelRedirection): void
     {
         $this->cancelRedirection = $cancelRedirection;
     }
 
     /**
-     * @param mixed $failRedirection
+     * @param array $failRedirection
      */
-    public function setFailRedirection($failRedirection): void
+    public function setFailRedirection(array $failRedirection): void
     {
         $this->failRedirection = $failRedirection;
     }

@@ -29,8 +29,9 @@ class TransactionRequestService
 
     public function validate(TransactionRequest $transactionRequest)
     {
-
         var_dump($transactionRequest->getArray());
+        var_dump(xmlrpc_encode_request('requester.requestTransaction',$transactionRequest->getArray()));
+        file_put_contents('RPC_DEBUG_TransactionRequest.xml', xmlrpc_encode_request('requester.requestTransaction',$transactionRequest->getArray()));
         $response = $this->client->request('POST', $this->uri.'/sign/rpc/', [
             'body' => xmlrpc_encode_request('requester.requestTransaction',$transactionRequest->getArray())
         ]);

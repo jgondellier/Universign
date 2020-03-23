@@ -2,7 +2,7 @@
 
 {% block title %}Signature de documents{% endblock %}
 
-{% block form_content %}{{ dump(form) }}
+{% block form_content %}
     <div class="accordion" id="accordionExample">
         <div class="card">
             <div class="card-header" id="headingOne">
@@ -109,10 +109,11 @@
                 allow_up: false,
                 allow_down: false,
                 allow_duplicate: false,
-                add: '<button type="button" class="btn btn-outline-primary m-2">Add document</button>'
+                add: '<button type="button" class="btn btn-outline-primary m-2">Add document</button>',
             });
             $('.docsignature').collection({
                 prefix: 'docsignature',
+                preserve_names: true,
                 init_with_n_elements: 1,
                 add_at_the_end: true,
                 allow_up: false,
@@ -122,22 +123,16 @@
             });
             $('.listcheckBoxTexts').collection({
                 prefix: 'listcheckBoxTexts',
-                init_with_n_elements: 1,
+                preserve_names: true,
                 add_at_the_end: true,
                 allow_up: false,
                 allow_down: false,
                 allow_duplicate: false,
                 add: '<button type="button" class="btn btn-outline-primary m-2">Add agreement checkboxes text</button>'
             });
-
-
-
-
-
-
-            $('.finalDocCCeMails').collection({
+        $('.finalDocCCeMails').collection({
                 prefix: 'final-doc-ccemails',
-                init_with_n_elements: 1,
+                init_with_n_elements: 0,
                 add_at_the_end: true,
                 allow_duplicate: false,
                 allow_up: false,
