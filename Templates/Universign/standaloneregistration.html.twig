@@ -12,7 +12,7 @@
 {% endblock %}
 {% block form_result %}
     {% if service.fault is defined and service.fault is not null %}
-        {{ include('universign/shared/fault.html.twig', {fault: service.fault}) }}
+        {{ include('Shared/Fault.html.twig', {fault: service.fault}) }}
     {% else %}
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createAccount" data-whatever="@mdo">Ouverture de la creation de compte
         </button>

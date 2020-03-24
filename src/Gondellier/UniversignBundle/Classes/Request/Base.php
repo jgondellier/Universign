@@ -13,7 +13,8 @@ class Base
     {
         $listField = get_object_vars($this);
         foreach ($listField as $fieldName => $fieldValue) {
-            if (empty($fieldValue)) {
+            //Not empty because some value is 0
+            if ($fieldValue === '' || $fieldValue === null) {
                 unset($listField[$fieldName]);
             }
         }

@@ -31,9 +31,10 @@ class TransactionRequestController extends AbstractController
             ->getForm();
 
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            var_dump($data);
+            //var_dump($data);
             $transactionSignerDataTool = new TransactionSignerDataTool();
             $transactionDocumentDataTool = new TransactionDocumentDataTool();
             $transactionRequestDataTool = new TransactionRequestDataTool;
@@ -42,7 +43,7 @@ class TransactionRequestController extends AbstractController
             $transactionRequest = $transactionRequestDataTool->setData($data['transactionrequest']);
             $transactionRequest->setSigners($transactionSigner);
             $transactionRequest->setDocuments($transactionDocuments);
-            var_dump($transactionRequest);
+            //var_dump($transactionRequest->getArray());exit;
 
             $transactionRequestService = new TransactionRequestService($this->getParameter('univ.uri'));
             $transactionRequestService->validate($transactionRequest);

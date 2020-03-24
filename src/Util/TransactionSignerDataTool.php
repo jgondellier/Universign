@@ -60,26 +60,14 @@ class TransactionSignerDataTool
             $succesUrl = new RedirectionConfig();
             if(array_key_exists('successRedirection',$signer) && !empty($signer['successRedirection'])){
                 $transactionSigner->setSuccessRedirection($signer['successRedirection']);
-            }else{
-                $succesUrl->setURL('https://localhost/success');
-                $succesUrl->setDisplayName('SuccessUrl');
-                $transactionSigner->setSuccessRedirection($succesUrl);
             }
             $cancelUrl = new RedirectionConfig();
             if(array_key_exists('cancelRedirection',$signer) && !empty($signer['cancelRedirection'])){
                 $transactionSigner->setCancelRedirection($signer['cancelRedirection']);
-            }else{
-                $cancelUrl->setURL('https://localhost/cancel');
-                $cancelUrl->setDisplayName('CancelUrl');
-                $transactionSigner->setCancelRedirection($cancelUrl);
             }
             $failUrl = new RedirectionConfig();
             if(array_key_exists('failRedirection',$signer) && !empty($signer['failRedirection'])){
                 $transactionSigner->setFailRedirection($signer['failRedirection']);
-            }else{
-                $failUrl->setURL('https://localhost/fail');
-                $failUrl->setDisplayName('FailUrl');
-                $transactionSigner->setFailRedirection($failUrl);
             }
             if(array_key_exists('certificateType',$signer) && !empty($signer['certificateType'])){
                 $transactionSigner->setCertificateType($signer['certificateType']);

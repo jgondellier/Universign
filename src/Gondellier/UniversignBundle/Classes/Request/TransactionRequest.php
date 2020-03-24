@@ -58,7 +58,7 @@ class TransactionRequest extends Base
      * - advanced Allows signers to perform a level 3 signature.
      * The default value is simple.
      */
-    public $certificateType;
+    //public $certificateType;
     /**
      * The interface language for this transaction. The valid values are:
      * bg for Bulgarian
@@ -216,7 +216,7 @@ class TransactionRequest extends Base
     /**
      * @param string $certificateType
      */
-    public function setCertificateType(string $certificateType): void
+    /*public function setCertificateType(string $certificateType): void
     {
         if($certificateType !== self::CERTIFICATE_TYPE_LOCAL &&
             $certificateType !== self::CERTIFICATE_TYPE_SIMPLE &&
@@ -228,7 +228,7 @@ class TransactionRequest extends Base
                 ' or '.self::CERTIFICATE_TYPE_ADVANCED);
         }
         $this->certificateType = $certificateType;
-    }
+    }*/
 
     /**
      * @param string $language

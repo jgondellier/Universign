@@ -33,7 +33,7 @@ class TransactionRequestFormType extends AbstractType
                 'help' => 'The signers that will have to take part to the transaction.Must contain at least one element.'
             ])
             ->add('documents', DocumentsFormType::class,[
-                'required'   => false,
+                'required'   => true,
                 'attr' => array(
                     'class' => 'documents',
                 ),
@@ -59,7 +59,7 @@ class TransactionRequestFormType extends AbstractType
                 'required'   => false,
                 'help' =>'Description or title of the signature.'
             ])
-            ->add('certificateType', ChoiceType::class, [
+            /*->add('certificateType', ChoiceType::class, [
                 'choices' => [
                     'simple' => 'simple',
                     'certified' => 'certified',
@@ -68,7 +68,7 @@ class TransactionRequestFormType extends AbstractType
                 'empty_data' => 'certified',
                 'preferred_choices' => ['certified'],
                 'help' =>'Option that indicates which certificate type will be used to perform the signature (and therefore which type of signature is expected).'
-            ])
+            ])*/
             ->add('language', ChoiceType::class, [
                 'choices' => [
                     'Bulgarian' => 'bg',

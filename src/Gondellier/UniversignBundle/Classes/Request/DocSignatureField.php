@@ -105,4 +105,14 @@ class DocSignatureField extends Base
     {
         $this->y = $y;
     }
+
+    public function check():void
+    {
+        if(empty($this->name) || (empty($this->page) && empty($this->x) && empty($this->y)) ){
+            Throw new \InvalidArgumentException('At least name or page,x and y must be filled.');
+        }
+        if($this->signerIndex === '' || $this->signerIndex === null ){
+            Throw new \InvalidArgumentException('SignerIndex must be filled.');
+        }
+    }
 }

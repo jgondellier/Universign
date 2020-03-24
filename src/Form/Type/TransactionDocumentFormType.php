@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\File;
 
 class TransactionDocumentFormType extends AbstractType
 {
@@ -28,7 +29,7 @@ class TransactionDocumentFormType extends AbstractType
                     'pdf-optional' => 'pdf-optional',
                     'sepa' => 'sepa',
                 ],
-                'required' => false,
+                'required' => true,
                 'help'=>'This TransactionDocument type. Valid values are: pdf The default value. Makes all TransactionDocument members relevant, except for SEPAData
                         pdf-for-presentation This value marks the document as view only. pdf-optional This type of PDF document can be refused and not signed by any signer without canceling the transaction.
                         sepa Using this value, no PDF document is provided,but UNIVERSIGN creates a SEPA mandate from data sent in SEPAData, which becomes the single relevant member.',
@@ -37,8 +38,19 @@ class TransactionDocumentFormType extends AbstractType
                 'label' => 'content',
                 'attr' => array(
                     'onchange' => 'loadFileName(this)',
+                    'accept' => 'application/pdf,application/x-pdf'
                 ),
-                'required' => false,
+                'required' => true,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '10M',
+                        'mimeTypes' => [
+                            'application/pdf',
+                            'application/x-pdf',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid PDF document',
+                    ])
+                ],
                 'help'=>'The raw content of the PDF document. You can provide the document using the url field, otherwise this field is mandatory.'
             ])
             ->add('url', UrlType::class,[
@@ -46,7 +58,7 @@ class TransactionDocumentFormType extends AbstractType
                 'help' =>'The URL to download the PDF document. Note that this field is mandatory if the content is not set'
             ])
             ->add('fileName', TextType::class,[
-                'required'   => false,
+                'required'   => true,
                 'help' => 'The file name of this document.'
             ])
             ->add('signatureFields',DocSignaturesFormType::class,[

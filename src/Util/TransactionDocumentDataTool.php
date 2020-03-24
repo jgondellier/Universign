@@ -8,6 +8,7 @@ class TransactionDocumentDataTool
 {
     public function setData(array $documents): array
     {
+        $docSignatureFieldDataTool = new DocSignatureFieldDataTool();
         $transactionDocuments = array();
         foreach ($documents as $document) {
             $transactionDocument = new TransactionDocument();
@@ -17,16 +18,14 @@ class TransactionDocumentDataTool
             if (array_key_exists('url', $document) && !empty($document['url'])) {
                 $transactionDocument->setUrl($document['url']);
             }
-            if (array_key_exists('name', $document) && !empty($document['name'])) {
-                $transactionDocument->setFileName($document['name']);
+            if (array_key_exists('documentType', $document) && !empty($document['documentType'])) {
+                $transactionDocument->setDocumentType($document['documentType']);
+            }
+            if (array_key_exists('fileName', $document) && !empty($document['fileName'])) {
+                $transactionDocument->setFileName($document['fileName']);
             }
             if (array_key_exists('signatureFields', $document) && array_key_exists('docsignature', $document['signatureFields'])) {
-                $docSignatureFields = array();
-                foreach($document['signatureFields']['docsignature'] as $docSignatureField){
-                    /**var DocSignatureField $docSignatureField**/
-                    $docSignatureFields[] = $docSignatureField;
-                }
-                $transactionDocument->setSignatureFields($docSignatureFields);
+                $transactionDocument->setSignatureFields($docSignatureFieldDataTool->setData($document['signatureFields']['docsignature']));
             }
 
             if (array_key_exists('checkBoxTexts', $document) && array_key_exists('listcheckBoxTexts', $document['checkBoxTexts'])) {
@@ -41,6 +40,7 @@ class TransactionDocumentDataTool
             if (array_key_exists('metaData', $document) && !empty($document['metaData'])) {
                 $transactionDocument->setMetaData($document['metaData']);
             }
+            //$transactionDocument->check();
             $transactionDocuments[] = $transactionDocument;
         }
 

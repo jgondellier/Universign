@@ -4,7 +4,7 @@
 
 {% block form_content %}
     <div class="card-header">
-        Recherche de compte universign
+        Recherche de compte Universign
     </div>
     <div class="card-body">
         <div class="row">
@@ -27,18 +27,18 @@
 {% endblock %}
 {% block form_result %}
     {% if service.fault is defined and service.fault is not null %}
-        {{ include('universign/shared/fault.html.twig', {fault: service.fault}) }}
+        {{ include('Shared/Fault.html.twig', {fault: service.fault}) }}
     {% endif %}
     {% if service.bestResult is defined and service.bestResult is not null %}
         <div class="col-md-4">
             {% if service.bestResult.findMobile is defined %}
-                {{ include('universign/shared/resultAccount.html.twig', {account: service.bestResult.findMobile}) }}
+                {{ include('Shared/ResultAccount.html.twig', {account: service.bestResult.findMobile}) }}
             {% endif %}
             {% if service.bestResult.findEmail is defined %}
-                {{ include('universign/shared/resultAccount.html.twig', {account: service.bestResult.findEmail}) }}
+                {{ include('Shared/ResultAccount.html.twig', {account: service.bestResult.findEmail}) }}
             {% endif %}
             {% if service.bestResult.email is defined %}
-                {{ include('universign/shared/resultAccount.html.twig', {account: service.bestResult}) }}
+                {{ include('Shared/ResultAccount.html.twig', {account: service.bestResult}) }}
             {% endif %}
         </div>
         {% if service.explanation is defined and service.explanation is not null %}

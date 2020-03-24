@@ -18,7 +18,7 @@ class DocSignatureFormType extends AbstractType
                 'help' => 'Nom du champ de signature déjà présent dans le document : lors de la signature, ce champ sera remplacé par le cartouche de signature. Si le nom est renseigné, la page, et les coordonnées x et y deviennent alors optionnels. Le cartouche de signature existant doit avoir la même taille que le cartouche de signature électronique. Si le champ correspondant au name n’est pas trouvé dans le document PDF, alors, les attributs x, y et page sont obligatoires',
                 ])
             ->add('page', IntegerType::class,[
-                'required' => false,
+                'required' => true,
                 'help' => 'Numéro de la page du document qui commence à 1. La valeur -1 correspond à la dernière page.'
                 ])
             ->add('x', IntegerType::class,[

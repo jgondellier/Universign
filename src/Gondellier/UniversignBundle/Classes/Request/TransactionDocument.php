@@ -61,15 +61,13 @@ class TransactionDocument extends Base
             $documentType !== self::DOCUMENT_TYPE_PDF_FOR_PRESENTATION &&
             $documentType !== self::DOCUMENT_TYPE_PDF_OPTIONAL &&
             $documentType !== self::DOCUMENT_TYPE_SEPA ){
-            $this->documentType = $documentType;
-        }else{
             Throw new \InvalidArgumentException('The documentType field should be : '.self::DOCUMENT_TYPE_PDF.
                 ' or '.self::DOCUMENT_TYPE_PDF_FOR_PRESENTATION.
                 ' or '.self::DOCUMENT_TYPE_PDF_OPTIONAL.
                 ' or '.self::DOCUMENT_TYPE_SEPA
             );
         }
-
+        $this->documentType = $documentType;
     }
 
     /**
@@ -77,7 +75,9 @@ class TransactionDocument extends Base
      */
     public function setContent($content): void
     {
-        $this->content = $content;
+        $documentContent  = file_get_contents($content);
+        xmlrpc_set_type($documentContent,'base64');
+        $this->content = $documentContent;
     }
 
     /**
@@ -139,9 +139,16 @@ class TransactionDocument extends Base
         $this->SEPAData = $SEPAData->getArray();
     }
 
-    public function check(){
+    public function check():void
+    {
         if(empty($this->content) && empty($this->url) ){
-            Throw new \InvalidArgumentException('At least content or url must be not empty');
+            Throw new \InvalidArgumentException('At least content or url must be not empty.');
+        }
+        if(empty($this->fileName)){
+            Throw new \InvalidArgumentException('fileName must be filled.');
+        }
+        if(empty($this->documentType)){
+            Throw new \InvalidArgumentException('documentType must be filled.');
         }
     }
 }
