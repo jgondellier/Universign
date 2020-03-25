@@ -30,9 +30,9 @@ class TransactionRequestDataTool
         if (array_key_exists('description', $data) && !empty($data['description'])) {
             $transactionRequest->setDescription($data['description']);
         }
-        if (array_key_exists('certificateType', $data) && !empty($data['certificateType'])) {
+        /*if (array_key_exists('certificateType', $data) && !empty($data['certificateType'])) {
             $transactionRequest->setCertificateType($data['certificateType']);
-        }
+        }*/
         if (array_key_exists('language', $data) && !empty($data['language'])) {
             $transactionRequest->setLanguage($data['language']);
         }

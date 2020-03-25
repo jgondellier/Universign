@@ -18,15 +18,17 @@
         <div class="navbar-nav">
             <a class="nav-item nav-link" href="/">Accueil <span class="sr-only">(current)</span></a>
             <a class="nav-item nav-link {{ (app.request.get('_route')=='matchaccount')?'active':'' }}" href="{{ path('matchaccount') }}">MatchAccount</a>
-            <a class="nav-item nav-link {{ (app.request.get('_route')=='prevalidation')?'active':'' }}" href="{{ path('prevalidation') }}">Prevalidation</a>
+            <a class="nav-item nav-link {{ (app.request.get('_route')=='validationrequest')?'active':'' }}" href="{{ path('validationrequest') }}">ValidationRequest</a>
             <a class="nav-item nav-link {{ (app.request.get('_route')=='standaloneregistration')?'active':'' }}"
                href="{{ path('standaloneregistration') }}">StandaloneRegistration</a>
             <a class="nav-item nav-link {{ (app.request.get('_route')=='transactionrequest')?'active':'' }}" href="{{ path('transactionrequest') }}">TransactionRequest</a>
+            <a class="nav-item nav-link {{ (app.request.get('_route')=='transactioninfo')?'active':'' }}" href="{{ path('transactioninfo') }}">TransactionInfo</a>
+            <a class="nav-item nav-link {{ (app.request.get('_route')=='getdocuments')?'active':'' }}" href="{{ path('getdocuments') }}">GetDocuments</a>
         </div>
     </div>
 </nav>
 
-{% block body %}{% endblock %}
+<div class="container mt-2">{% block body %}{% endblock %}</div>
 <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
 <script src="{{ asset('js/popper.min.js') }}"></script>
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>

@@ -1,0 +1,35 @@
+{% extends 'base_form.html.twig' %}
+
+{% block title %}Récupération de documents signés{% endblock %}
+
+{% block form_content %}
+    <div class="card-header">
+        Récupération de documents
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-8">
+                {{ form_row(form.id) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.type) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block form_result %}
+    {% if service.fault is defined and service.fault is not null %}
+        {{ include('Shared/Fault.html.twig', {fault: service.fault}) }}
+    {% else %}
+        {% if originalResult is defined %}
+            <ul class="list-group">
+                {% for document in documents %}
+                <li class="list-group-item">
+                    <a class="btn btn-success" href="{{ document.filePath }}" role="button" target="_blank">Download - {{ document.fileName }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+
+        {% endif %}
+    {% endif %}
+{% endblock %}

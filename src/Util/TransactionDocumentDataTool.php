@@ -30,9 +30,9 @@ class TransactionDocumentDataTool
 
             if (array_key_exists('checkBoxTexts', $document) && array_key_exists('listcheckBoxTexts', $document['checkBoxTexts'])) {
                 $checkBoxTexts = array();
-                foreach ($document['checkBoxTexts']['listcheckBoxTexts'] as $checkBoxTexts) {
-                    if (array_key_exists('checkBoxTexts', $checkBoxTexts)) {
-                        $checkBoxTexts[] = $checkBoxTexts['checkBoxTexts'];
+                foreach ($document['checkBoxTexts']['listcheckBoxTexts'] as $listcheckBoxTexts) {
+                    if (array_key_exists('checkBoxTexts', $listcheckBoxTexts)) {
+                        $checkBoxTexts[] = $listcheckBoxTexts['checkBoxTexts'];
                     }
                 }
                 $transactionDocument->setCheckBoxTexts($checkBoxTexts);

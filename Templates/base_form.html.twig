@@ -1,51 +1,50 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="container mt-2">
-        {{ form_start(form, {'attr': {'id': 'myform'}}) }}
-        <div class="my-custom-class-for-errors">
-            {{ form_errors(form) }}
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    {% block form_content %}{% endblock %}
-                    <div class="card-footer text-center">
-                        <div class="row">
-                            <div class="col-md-12 text-center">
-                                {{ form_row(form.send) }}
-                                <div class="spinner-grow text-primary" role="status" id="spinner" style="display: none">
-                                    <span class="sr-only">Loading...</span>
-                                </div>
-                            </div>
 
-                            {{ form_end(form) }}
+    {{ form_start(form, {'attr': {'id': 'myform'}}) }}
+    <div class="my-custom-class-for-errors">
+        {{ form_errors(form) }}
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                {% block form_content %}{% endblock %}
+                <div class="card-footer text-center">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            {{ form_row(form.send) }}
+                            <div class="spinner-grow text-primary" role="status" id="spinner" style="display: none">
+                                <span class="sr-only">Loading...</span>
+                            </div>
                         </div>
+
+                        {{ form_end(form) }}
                     </div>
                 </div>
             </div>
         </div>
-        {% if service is defined %}
+    </div>
+    {% if service is defined %}
         <div class="row mt-2">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        Résultat
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            {% block form_result %}{% endblock %}
-                        </div>
-                    </div>
-                    <div class="card-footer text-muted">
-                        {% block form_orinal_result %}
-                            {{ include('Shared/CompleteResponse.html.twig',{originalResult:originalResult}) }}
-                        {% endblock %}
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    Résultat
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% block form_result %}{% endblock %}
                     </div>
                 </div>
+                <div class="card-footer text-muted">
+                    {% block form_orinal_result %}
+                        {{ include('Shared/CompleteResponse.html.twig',{originalResult:originalResult}) }}
+                    {% endblock %}
+                </div>
             </div>
-            {% endif %}
         </div>
+    {% endif %}
     </div>
 {% endblock %}
 {% block javascripts %}
@@ -53,13 +52,15 @@
         $("#myform").on("submit", function () {
             $("#spinner").show();
         });
-        function loadFileName(selectObject){
+
+        function loadFileName(selectObject) {
             var fileName = selectObject.value;
             var n = fileName.lastIndexOf('\\');
-            n = (n === undefined)?fileName.lastIndexOf('/'):n;
+            n = (n === undefined) ? fileName.lastIndexOf('/') : n;
             var result = fileName.substring(n + 1);
             $(selectObject).next('.custom-file-label').html(result);
         }
+
         function changeCertificateTypeChoice() {
             let certificateTypeChoice = document.getElementById("form_certificateType").value;
             if (certificateTypeChoice === "simple") {
@@ -72,6 +73,7 @@
                 $('#prevalCNI').show();
             }
         }
+
         $(function () {
             $('[data-toggle="popover"]').popover();
             $('.popover-dismiss').popover({

@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Universign{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">MatchAccount</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Recherche de compte dans Universign</h6>
+                    <p class="card-text">Le service MatchAccount d'universign permet la recherche de compte chez universign.</p>
+                    <p class="card-text">On recherche avec un nom, un prenom, un email et un telephone mobile.</p>
+                    <a class="card-link" href="{{ path('matchaccount') }}">MatchAccount</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">ValidationRequest</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Validation de carte d'identité</h6>
+                    <p class="card-text">Le service ValidationRequest d'universign permet de faire valider des carte d'identité en dehors du parcours de signature.</p>
+                    <p class="card-text">On valide avec un nom, un prenom, date de naissance et une piece d'identité.</p>
+                    <a class="card-link" href="{{ path('validationrequest') }}">ValidationRequest</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">StandaloneRegistrationRequest</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Création d'un compte Universign</h6>
+                    <p class="card-text">Le service StandaloneRegistrationRequest d'universign permet de créer un compte en dehors du parcours de signature.</p>
+                    <p class="card-text">La creation de compte peut ce faire de niveau 1,2 ou 3. Avec une carte d'identité prévalider ou non.</p>
+                    <a class="card-link" href="{{ path('standaloneregistration') }}">StandaloneRegistrationRequest</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">TransactionRequest</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Signature d'un document pdf.</h6>
+                    <p class="card-text">Le service TransactionRequest d'universign permet de signer electroniquement un document.</p>
+                    <p class="card-text">La signature peut se faire avec ou sans compte déjà créé. </p>
+                    <a class="card-link" href="{{ path('transactionrequest') }}">TransactionRequest</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

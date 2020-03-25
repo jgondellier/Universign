@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class MatchAccountController extends AbstractController
 {
     /**
-     * @Route("/universign/matchaccount", name="matchaccount")
+     * @Route("/matchaccount", name="matchaccount")
      * @param Request $request
      * @return Response
      */

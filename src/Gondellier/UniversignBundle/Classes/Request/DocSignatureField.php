@@ -71,7 +71,9 @@ class DocSignatureField extends Base
      */
     public function setImage($image): void
     {
-        $this->image = $image;
+        $imageContent  = file_get_contents($image);
+        xmlrpc_set_type($imageContent,'base64');
+        $this->image = $imageContent;
     }
 
     /**

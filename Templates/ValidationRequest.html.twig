@@ -34,8 +34,8 @@
     </div>
 {% endblock %}
 {% block form_result %}
-    {% if validationRequestService.fault is defined and validationRequestService.fault is not null %}
-        {{ include('universign/shared/fault.html.twig', {fault: validationRequestService.fault}) }}
+    {% if service.fault is defined and service.fault is not null %}
+        {{ include('Shared/Fault.html.twig', {fault: service.fault}) }}
     {% else %}
         {% if originalResult.status == 1 %}
             <div class="alert alert-success col-md-2 offset-md-5 text-center" role="alert">

@@ -30,9 +30,11 @@
 {% block form_javascripts %}
     <script>
         $(document).ready(function () {
-            let intFrameHeight = window.innerHeight;
-            $('#createAccountiframe').height(intFrameHeight);
-            $('#createAccount').modal('show');
+            if ( $( "#createAccount" ).length ) {
+                let intFrameHeight = window.innerHeight;
+                $('#createAccountiframe').height(intFrameHeight);
+                $('#createAccount').modal('show');
+            }
         });
     </script>
 {% endblock %}

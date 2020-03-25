@@ -10,12 +10,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class UniversignController extends AbstractController
 {
     /**
-     * @Route("/universign", name="universign")
+     * @Route("/", name="accueil")
      * @param Request $request
      * @return Response
      */
     public function index(Request $request): Response
     {
-        return $this->render('Universign/index.html.twig');
+        return $this->render('Index.html.twig');
     }
 }

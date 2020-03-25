@@ -2,16 +2,13 @@
 
 namespace App\Util;
 
-
-use Gondellier\UniversignBundle\Classes\Request\TransactionSigner;
-
 class ImageSignature
 {
     private $colour;
     private $font;
     private $size;
 
-    public function create(TransactionSigner $signer,$text)
+    public function create($text)
     {
         $img = imagecreatetruecolor(150, 36);
         $this->colour = imagecolorallocate($img, 24, 33, 29);

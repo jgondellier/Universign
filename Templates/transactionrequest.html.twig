@@ -45,7 +45,7 @@
             </div>
             <div id="collapseFoor" class="collapse" aria-labelledby="headingFoor" data-parent="#accordionExample">
                 <div class="card-body">
-                   {{ form_row(form.transactionrequest) }}
+                    {{ form_row(form.transactionrequest) }}
                 </div>
             </div>
         </div>
@@ -56,42 +56,50 @@
         {{ include('Shared/Fault.html.twig', {fault: service.fault}) }}
     {% else %}
         {% if originalResult is defined %}
-            {{ dump(originalResult) }}
+            <div class="modal fade" id="createTransaction" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content">
+                        <iframe src="{{ originalResult.url }}" id="createIframe"></iframe>
+                    </div>
+                </div>
+            </div>
         {% endif %}
     {% endif %}
 {% endblock %}
 {% block form_javascripts %}
     <script>
-        function commuteDisplay(selectObject){
+        function commuteDisplay(selectObject) {
             const cible = $(selectObject).data("linkedfields");
             const fields = cible.split(',');
             let fieldValue = $(selectObject).find(":checked").val();
-            for (var i=0; i < fields.length; i++) {
-                if(fields[i].includes(fieldValue)){
-                    $('.'+fields[i]).show();
-                }else{
-                    $('.'+fields[i]).hide();
+            for (var i = 0; i < fields.length; i++) {
+                if (fields[i].includes(fieldValue)) {
+                    $('.' + fields[i]).show();
+                } else {
+                    $('.' + fields[i]).hide();
                 }
             }
         }
-        function toggleDisplay(selectObject){
+
+        function toggleDisplay(selectObject) {
             const hide = $(selectObject).data("hide");
             const show = $(selectObject).data("show");
             const listshow = show.split(',');
             console.log(listshow);
-            for (var i=0; i < listshow.length; i++) {
+            for (var i = 0; i < listshow.length; i++) {
                 console.log(listshow[i]);
-                $('.'+listshow[i]).show();
+                $('.' + listshow[i]).show();
             }
             const listhide = hide.split(',');
             console.log(listhide);
-            for (var i=0; i < listhide.length; i++) {
+            for (var i = 0; i < listhide.length; i++) {
                 console.log(listhide[i]);
-                $('.'+listhide[i]).hide();
+                $('.' + listhide[i]).hide();
             }
 
 
         }
+
         jQuery(document).ready(function () {
             $('.signers').collection({
                 prefix: 'signers',
@@ -130,7 +138,7 @@
                 allow_duplicate: false,
                 add: '<button type="button" class="btn btn-outline-primary m-2">Add agreement checkboxes text</button>'
             });
-        $('.finalDocCCeMails').collection({
+            $('.finalDocCCeMails').collection({
                 prefix: 'final-doc-ccemails',
                 init_with_n_elements: 0,
                 add_at_the_end: true,
@@ -139,6 +147,11 @@
                 allow_down: false,
                 add: '<button type="button" class="btn btn-outline-primary m-2">Ajouter un mail</button>',
             });
+            if ( $( "#createTransaction" ).length ) {
+                let intFrameHeight = window.innerHeight;
+                $('#createIframe').height(intFrameHeight);
+                $('#createTransaction').modal('show');
+            }
         });
 
     </script>

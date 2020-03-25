@@ -45,14 +45,17 @@ class TransactionRequestFormType extends AbstractType
             ])
             ->add('finalDocSent', CheckboxType::class,[
                 'required'   => false,
+                'data' => true,
                 'help' => 'Tells whether each signer must receive the signed documents by e-mail when the transaction is completed. False by default.'
             ])
             ->add('finalDocRequesterSent', CheckboxType::class,[
                 'required'   => false,
+                'data' => true,
                 'help' =>'Tells whether the requester must receive the signed documents via e-mail when the transaction is completed. False by default.'
             ])
             ->add('finalDocObserverSent', CheckboxType::class,[
                 'required'   => false,
+                'data' => true,
                 'help' =>'Tells whether the observers must receive the signed documents via e-mail when the transaction is completed. It takes the finalDocSent value by default.'
             ])
             ->add('description', TextType::class,[

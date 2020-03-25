@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class StandaloneRegistrationController extends AbstractController
 {
     /**
-     * @Route("/universign/standaloneregistration", name="standaloneregistration")
+     * @Route("/standaloneregistration", name="standaloneregistration")
      * @param Request $request
      * @return Response
      * @throws \Exception
@@ -83,13 +83,13 @@ class StandaloneRegistrationController extends AbstractController
             $standaloneRegistrationRequestService->validate($standaloneRegistration);
 
 
-            return $this->render('universign/standaloneregistration.html.twig', [
+            return $this->render('standaloneregistration.html.twig', [
                 'form' => $form->createView(),
                 'service' => $standaloneRegistrationRequestService,
                 'originalResult' => $standaloneRegistrationRequestService->getOriginalResult(),
             ]);
         }
-        return $this->render('universign/standaloneregistration.html.twig', [
+        return $this->render('standaloneregistration.html.twig', [
             'form' => $form->createView()
         ]);
     }

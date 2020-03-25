@@ -16,16 +16,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ValidationController extends AbstractController
+class ValidationRequestController extends AbstractController
 {
     /**
-     * @Route("/universign/prevalidation", name="prevalidation")
+     * @Route("/validationrequest", name="validationrequest")
      * @param Request $request
      * @return Response
      */
-    public function prevalidation(Request $request): Response
+    public function validationrequest(Request $request): Response
     {
-        $defaultData = ['lastname' => ''];
+        $defaultData = ['send' => ''];
         $form = $this->createFormBuilder($defaultData)
             ->add('lastname', TextType::class)
             ->add('firstname', TextType::class)
@@ -70,7 +70,7 @@ class ValidationController extends AbstractController
             $validationRequestService = new ValidationRequestService($this->getParameter('univ.uri'));
             $validationRequestService->validate($validationRequest);
 
-            return $this->render('universign/prevalidation.html.twig', [
+            return $this->render('ValidationRequest.html.twig', [
                 'form' => $form->createView(),
                 'originalResult' => $validationRequestService->getOriginalResult(),
                 'service' => $validationRequestService,
@@ -78,7 +78,7 @@ class ValidationController extends AbstractController
             ]);
         }
 
-        return $this->render('Universign/prevalidation.html.twig', [
+        return $this->render('ValidationRequest.html.twig', [
             'form' => $form->createView()
         ]);
     }
