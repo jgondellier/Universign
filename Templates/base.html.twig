@@ -19,6 +19,7 @@
             <a class="nav-item nav-link" href="/">Accueil <span class="sr-only">(current)</span></a>
             <a class="nav-item nav-link {{ (app.request.get('_route')=='matchaccount')?'active':'' }}" href="{{ path('matchaccount') }}">MatchAccount</a>
             <a class="nav-item nav-link {{ (app.request.get('_route')=='validationrequest')?'active':'' }}" href="{{ path('validationrequest') }}">ValidationRequest</a>
+            <a class="nav-item nav-link {{ (app.request.get('_route')=='prevalidation')?'active':'' }}" href="{{ path('prevalidation') }}">PreValidation</a>
             <a class="nav-item nav-link {{ (app.request.get('_route')=='standaloneregistration')?'active':'' }}"
                href="{{ path('standaloneregistration') }}">StandaloneRegistration</a>
             <a class="nav-item nav-link {{ (app.request.get('_route')=='transactionrequest')?'active':'' }}" href="{{ path('transactionrequest') }}">TransactionRequest</a>

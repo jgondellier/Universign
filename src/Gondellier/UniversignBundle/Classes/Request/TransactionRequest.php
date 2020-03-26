@@ -262,10 +262,11 @@ class TransactionRequest extends Base
      */
     public function setSigners(array $signers): void
     {
-        foreach($signers as $signer){
-            /**@var TransactionSigner $signer*/
-            $this->signers[] = $signer->getArray();
-        }
+        $this->signers = $signers;
+    }
+    public function addSigner(TransactionSigner $signer): void
+    {
+        $this->signers[] = $signer->getArray();
     }
 
     /**

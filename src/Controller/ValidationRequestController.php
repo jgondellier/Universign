@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Form\Type\ValidationFormType;
+use App\Util\ValidationDataTool;
 use Gondellier\UniversignBundle\Classes\Request\IdDocument;
 use Gondellier\UniversignBundle\Classes\Request\PersonalInfo;
 use Gondellier\UniversignBundle\Classes\Request\ValidationRequest;
@@ -27,20 +29,7 @@ class ValidationRequestController extends AbstractController
     {
         $defaultData = ['send' => ''];
         $form = $this->createFormBuilder($defaultData)
-            ->add('lastname', TextType::class)
-            ->add('firstname', TextType::class)
-            ->add('birthdate', BirthdayType::class,['format' => 'dd-MM-yyyy',])
-            ->add('type', ChoiceType::class, [
-                'choices' => [
-                    'carte nationale d’identité' => 0,
-                    'passeport' => 1,
-                    'permis de séjour' => 2,
-                    'permis de conduire Européen' => 3,
-                ]])
-            ->add('cni1', FileType::class,[
-                'required' => true,
-            ])
-            ->add('cni2', FileType::class,['required' => false,])
+            ->add('validation', ValidationFormType::class, ['label' => false,])
             ->add('send', SubmitType::class)
             ->getForm();
 
@@ -49,23 +38,8 @@ class ValidationRequestController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
-            $IdDocument = new IdDocument();
-            $IdDocument->setType(0);
-            $IdDocument->addPhotos($data['cni1']);
-            if(isset($data['cni2'])){
-                $IdDocument->addPhotos($data['cni2']);
-            }
-
-            $personalInfo = new PersonalInfo();
-            $personalInfo->setFirstname($data['firstname']);
-            $personalInfo->setLastname($data['lastname']);
-            $personalInfo->setBirthDate($data['birthdate']);
-
-            $validationRequest = new ValidationRequest();
-            $validationRequest->setPersonalInfo($personalInfo);
-            $validationRequest->setIdDocument($IdDocument);
-            $validationRequest->setAllowManual(0);
-            $validationRequest->setCallbackURL('http://localhost/toto');
+            $validationDataTool = new ValidationDataTool();
+            $validationRequest = $validationDataTool->setData($data['validation']);
 
             $validationRequestService = new ValidationRequestService($this->getParameter('univ.uri'));
             $validationRequestService->validate($validationRequest);

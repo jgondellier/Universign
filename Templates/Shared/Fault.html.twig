@@ -1,8 +1,25 @@
 {% if fault is defined %}
 <div class="alert alert-danger col-md-12" role="alert">
     <h4 class="alert-heading">Erreur dans la requête</h4>
+    {% if  fault.faultString is defined %}
     <p><span>Description : </span>{{ fault.faultString }}</p>
-    <hr>
-    <p class="mb-0">Code Erreur : {{ fault.faultCode }}</p>
+    {% endif %}
+    {% if  fault.faultCode is defined %}
+        <hr>
+        <p class="mb-0">Code Erreur : {{ fault.faultCode }}</p>
+    {% endif %}
+    {% if  fault.error_description is defined %}
+        <p><span>Description : </span>{{ fault.error_description }}</p>
+    {% endif %}
+    {% if  fault.type is defined %}
+        <hr>
+        <p class="mb-0">Code Erreur : {{ fault.type }}</p>
+    {% endif %}
+    {% if  fault.error is defined %}
+        <p class="mb-0">Erreur : {{ fault.error }}</p>
+    {% endif %}
+    {% if  fault.param is defined %}
+        <p class="mb-0">Param : {{ fault.param }}</p>
+    {% endif %}
 </div>
 {% endif %}

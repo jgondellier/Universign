@@ -23,7 +23,7 @@ class MatchAccountController extends AbstractController
      */
     public function matchaccount(Request $request): Response
     {
-        $defaultData = ['lastname' => ''];
+        $defaultData = ['send' => ''];
         $form = $this->createFormBuilder($defaultData)
             ->add('lastname', TextType::class)
             ->add('firstname', TextType::class)

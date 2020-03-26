@@ -10,4 +10,5 @@ twig:
         'Form/CollectionSignersFormType-theme.html.twig',
         'Form/CollectionCheckBoxTextsFormType-theme.html.twig',
         'Form/CollectionDocumentsFormType-theme.html.twig',
+        'Form/CollectionDocumentTypeFormType-theme.html.twig',
         'jquery.collection.html.twig']

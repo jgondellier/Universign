@@ -9,26 +9,26 @@
     <div class="card-body">
         <div class="row">
             <div class="col-md-4">
-                {{ form_row(form.lastname) }}
+                {{ form_row(form.validation.lastname) }}
             </div>
             <div class="col-md-4">
-                {{ form_row(form.firstname) }}
+                {{ form_row(form.validation.firstname) }}
             </div>
             <div class="col-md-4">
-                {{ form_row(form.birthdate) }}
+                {{ form_row(form.validation.birthdate) }}
             </div>
         </div>
         <div class="row">
             <div class="col-md-6">
-                {{ form_row(form.type) }}
+                {{ form_row(form.validation.type) }}
             </div>
         </div>
         <div class="row">
             <div class="col-md-6">
-                {{ form_row(form.cni1) }}
+                {{ form_row(form.validation.cni1) }}
             </div>
             <div class="col-md-6">
-                {{ form_row(form.cni2) }}
+                {{ form_row(form.validation.cni2) }}
             </div>
         </div>
     </div>
@@ -58,20 +58,4 @@
     {% endif %}
 {% endblock %}
 {% block form_javascripts %}
-    <script>
-        $('#form_cni1').on('change', function () {
-            let fileName = $(this).val();
-            let n = fileName.lastIndexOf('\\');
-            n = (n === undefined) ? fileName.lastIndexOf('/') : n;
-            let result = fileName.substring(n + 1);
-            $(this).next('.custom-file-label').html(result);
-        })
-        $('#form_cni2').on('change', function () {
-            let fileName = $(this).val();
-            let n = fileName.lastIndexOf('\\');
-            n = (n === undefined) ? fileName.lastIndexOf('/') : n;
-            let result = fileName.substring(n + 1);
-            $(this).next('.custom-file-label').html(result);
-        })
-    </script>
 {% endblock %}

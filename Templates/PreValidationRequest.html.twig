@@ -1,0 +1,94 @@
+{% extends 'base_form.html.twig' %}
+
+{% block title %}Prevalidation de Carte d'Identité{% endblock %}
+
+{% block form_content %}
+    <div class="card-header">
+        Pré-validation d'une pièce d'identité (APIREST)
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">
+                {{ form_row(form.validation.family_name) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.validation.given_name) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.validation.birth_date) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(form.validation.document_type) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_row(form.validation.cni1) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.validation.cni2) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                {{ form_row(form.validation.color_required) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.validation.profile) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.validation.expires_after) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block form_result %}
+    {% if service.fault is defined and service.fault is not null %}
+        {{ include('Shared/Fault.html.twig', {fault: service.fault}) }}
+    {% else %}
+        {% if service.originalResult.extraction_success is defined and service.originalResult.extraction_success == false %}
+            <div class="col-md-12">
+                <div class="alert alert-danger" role="alert">
+                    Impossible de lire le document !
+                </div>
+            </div>
+        {% endif %}
+        {% if service.originalResult.failed_checks is not empty %}
+            <div class="col-md-6">
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-light">Success</li>
+                    {% for success in service.originalResult.successful_checks %}
+                        <li class="list-group-item list-group-item-success">{{ success }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        {% if service.originalResult.failed_checks is not empty %}
+            <div class="col-md-6">
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-light">Error</li>
+                    {% for failed in service.originalResult.failed_checks %}
+                        <li class="list-group-item list-group-item-danger">{{ failed }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    {% endif %}
+{% endblock %}
+{% block form_javascripts %}
+    <script>
+        jQuery(document).ready(function () {
+            $('.document_type').collection({
+                prefix: 'document_type',
+                init_with_n_elements: 1,
+                add_at_the_end: true,
+                allow_up: false,
+                allow_down: false,
+                allow_duplicate: false,
+                add: '<button type="button" class="btn btn-outline-primary m-2">Add document_type</button>'
+            });
+        });
+    </script>
+{% endblock %}

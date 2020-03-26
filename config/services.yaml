@@ -8,6 +8,8 @@ parameters:
     univ.user: '%env(UNIV_USER)%'
     univ.pass: '%env(UNIV_PASS)%'
     univ.uri: 'https://%univ.user%:%univ.pass%@%univ.path%'
+    univ.apirest: '%env(UNIV_APIREST)%'
+    univ.token: '%env(UNIV_TOKEN)%'
     univ.matchaccount: 'matcher.matchAccount'
     univ.validation: 'validatore.validate'
 

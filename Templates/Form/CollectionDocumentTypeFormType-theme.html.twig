@@ -1,0 +1,15 @@
+{% block CollectionDocumentTypeFormType_widget %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    {{ form_label(form.document_type,null,{'label_attr':{'class':'input-group-text'}}) }}
+                </div>
+                {{ form_widget(form.document_type) }}
+                <div class="input-group-append">
+                    <button class="document_type-remove btn btn-outline-secondary" type="button">Supprimer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

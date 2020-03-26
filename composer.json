@@ -31,7 +31,8 @@
         "symfony/web-link": "5.0.*",
         "symfony/yaml": "5.0.*",
         "ninsuo/symfony-collection": "2.1.33",
-      "ext-gd": "*"
+      "ext-gd": "*",
+      "ext-json": "*"
     },
     "require-dev": {
         "symfony/debug-pack": "*",

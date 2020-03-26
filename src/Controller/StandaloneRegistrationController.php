@@ -3,6 +3,9 @@
 namespace App\Controller;
 
 use App\Form\Type\TransactionSignerFormType;
+use App\Util\TransactionDocumentDataTool;
+use App\Util\TransactionRequestDataTool;
+use App\Util\TransactionSignerDataTool;
 use Gondellier\UniversignBundle\Classes\Request\RedirectionConfig;
 use Gondellier\UniversignBundle\Classes\Request\RegistrationRequest;
 use Gondellier\UniversignBundle\Classes\Request\StandaloneRegistration;
@@ -35,17 +38,9 @@ class StandaloneRegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
-            $transactionSigner = new TransactionSigner();
-            $transactionSigner->setFirstname($data['firstname']);
-            $transactionSigner->setLastname($data['lastname']);
-            $transactionSigner->setBirthDate($data['birthdate']);
-            $transactionSigner->setOrganization('2');
-            $transactionSigner->setProfile('default');
-            $transactionSigner->setEmailAddress($data['email']);
-            $transactionSigner->setPhoneNum($data['mobile']);
-            $transactionSigner->setLanguage('fr');
-            $transactionSigner->setRole('signer');
-            //$transactionSigner->setUniversignId('qsfsdq');
+            $transactionSignerDataTool = new TransactionSignerDataTool();
+            $transactionSigner = $transactionSignerDataTool->setData($data['signer']);
+
             $succesUrl = new RedirectionConfig();
             $succesUrl->setURL('https://localhost/success');
             $succesUrl->setDisplayName('SuccessUrl');
@@ -58,23 +53,6 @@ class StandaloneRegistrationController extends AbstractController
             $failUrl->setURL('https://localhost/fail');
             $failUrl->setDisplayName('FailUrl');
             $transactionSigner->setFailRedirection($failUrl);
-            $transactionSigner->setCertificateType($data['certificateType']);
-            if($data['cni1']){
-                $registrationRequest = new RegistrationRequest();
-                $registrationRequest->setType($data['type']);
-                $registrationRequest->addDocuments($data['cni1']);
-                $registrationRequest->addDocuments($data['cni2']);
-                if($registrationRequest){
-                    $transactionSigner->setIdDocuments($registrationRequest);
-                }
-            }
-            if(!empty($data['validationSessionId'])){
-                $transactionSigner->setValidationSessionId($data['validationSessionId']);
-            }
-
-            $transactionSigner->setRedirectPolicy('dashboard');
-            $transactionSigner->setRedirectWait(5);
-            $transactionSigner->setAutoSendAgreements(false);
 
             $standaloneRegistration = new StandaloneRegistration();
             $standaloneRegistration->setProfile('default');
