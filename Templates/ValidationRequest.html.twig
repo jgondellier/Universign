@@ -46,6 +46,9 @@
             </div>
         {% else %}
             {% if explanation is defined %}
+                <div class="alert alert-danger col-md-2 offset-md-5 text-center" role="alert">
+                    Refusé !
+                </div>
                 <div class="col-md-12">
                     <ul class="list-group">
                         {% for explain in explanation %}
