@@ -49,21 +49,23 @@ class GetDocumentsController extends AbstractController
             }
 
             $originalResult = $getDocumentService->getOriginalResult();
-            $documentDirectory = 'documents/' . $id;
-            if (!file_exists($documentDirectory) && !mkdir($documentDirectory, 0777, true) && !is_dir($documentDirectory)) {
-                die('Echec lors de la création des répertoires...');
-            }
             $documents = array();
-            foreach ($originalResult as $result) {
-                $documentName = $originalResult[0]['fileName'] . '.pdf';
-                $documentPath = $documentDirectory . '/' . $documentName;
-                file_put_contents($documentPath, $result['content']->scalar);
-                $documents[] = ['fileName' => $documentName, 'filePath' => '/'.$documentPath];
+            if(!$getDocumentService->fault){
+                $documentDirectory = 'documents/' . $id;
+                if (!file_exists($documentDirectory) && !mkdir($documentDirectory, 0777, true) && !is_dir($documentDirectory)) {
+                    die('Echec lors de la création des répertoires...');
+                }
+                foreach ($originalResult as $result) {
+                    $documentName = $result['fileName'] . '.pdf';
+                    $documentPath = $documentDirectory . '/' . $documentName;
+                    file_put_contents($documentPath, $result['content']->scalar);
+                    $documents[] = ['fileName' => $documentName, 'filePath' => '/'.$documentPath];
+                }
             }
 
             return $this->render('getdocuments.html.twig', [
                 'form' => $form->createView(),
-                'service' => $getDocumentService->getOriginalResult(),
+                'service' => $getDocumentService,
                 'originalResult' => $getDocumentService->getOriginalResult(),
                 'documents' => $documents
             ]);
