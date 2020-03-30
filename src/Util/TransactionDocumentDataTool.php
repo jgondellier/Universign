@@ -2,7 +2,7 @@
 
 namespace App\Util;
 
-use Gondellier\UniversignBundle\Classes\Request\TransactionDocument;
+use Gondellier\UniversignBundle\Classes\TransactionDocument;
 
 class TransactionDocumentDataTool
 {

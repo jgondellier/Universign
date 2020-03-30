@@ -90,6 +90,9 @@
     "egulias/email-validator": {
         "version": "2.1.17"
     },
+    "gondellier/universign-bundle": {
+        "version": "dev-master"
+    },
     "guzzlehttp/guzzle": {
         "version": "6.5.2"
     },
@@ -149,6 +152,9 @@
     },
     "ralouphie/getallheaders": {
         "version": "3.0.3"
+    },
+    "roave/security-advisories": {
+        "version": "dev-master"
     },
     "sensio/framework-extra-bundle": {
         "version": "5.2",

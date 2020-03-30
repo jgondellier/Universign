@@ -2,9 +2,8 @@
 
 namespace App\Controller;
 
-use Gondellier\UniversignBundle\Classes\Request\MatchAccount;
+use Gondellier\UniversignBundle\Classes\MatchAccount;
 use Gondellier\UniversignBundle\Service\MatchAccountRequestService;
-use Gondellier\UniversignBundle\Service\UniversignRequestService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -38,7 +37,7 @@ class MatchAccountController extends AbstractController
 
             $data = $form->getData();
 
-            $matchAccount = new MatchAccount();
+            $matchAccount = new MatchAccount;
             $matchAccount->setFirstname($data['firstname']);
             $matchAccount->setLastname($data['lastname']);
             $matchAccount->setEmail($data['email']);

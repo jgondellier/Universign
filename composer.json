@@ -1,6 +1,13 @@
 {
     "type": "project",
     "license": "proprietary",
+    "description": "Project to use universign services with universign-bundle.",
+    "authors": [
+        {
+            "name": "Jonathan Gondellier",
+            "email": "jgondellier@yahoo.fr"
+        }
+    ],
     "require": {
         "php": "^7.2.5",
         "ext-ctype": "*",
@@ -32,9 +39,11 @@
         "symfony/twig-pack": "*",
         "symfony/validator": "5.0.*",
         "symfony/web-link": "5.0.*",
-        "symfony/yaml": "5.0.*"
+        "symfony/yaml": "5.0.*",
+        "gondellier/universign-bundle": "1.0.1"
     },
     "require-dev": {
+        "roave/security-advisories": "dev-master",
         "symfony/debug-pack": "*",
         "symfony/maker-bundle": "^1.0",
         "symfony/profiler-pack": "*",

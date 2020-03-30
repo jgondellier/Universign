@@ -1,7 +1,7 @@
 <?php
 namespace App\Util;
 
-use Gondellier\UniversignBundle\Classes\Request\DocSignatureField;
+use Gondellier\UniversignBundle\Classes\DocSignatureField;
 
 class DocSignatureFieldDataTool
 {

@@ -2,9 +2,9 @@
 
 namespace App\Util;
 
-use Gondellier\UniversignBundle\Classes\Request\IdDocument;
-use Gondellier\UniversignBundle\Classes\Request\PersonalInfo;
-use Gondellier\UniversignBundle\Classes\Request\ValidationRequest;
+use Gondellier\UniversignBundle\Classes\IdDocument;
+use Gondellier\UniversignBundle\Classes\PersonalInfo;
+use Gondellier\UniversignBundle\Classes\ValidationRequest;
 
 class ValidationDataTool
 {

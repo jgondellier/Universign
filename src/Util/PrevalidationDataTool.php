@@ -2,7 +2,7 @@
 
 namespace App\Util;
 
-use App\Gondellier\UniversignBundle\Classes\Request\PrevalidationRequest;
+use App\Gondellier\UniversignBundle\Classes\PrevalidationRequest;
 
 class PrevalidationDataTool
 {

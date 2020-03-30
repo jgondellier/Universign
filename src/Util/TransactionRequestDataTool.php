@@ -2,7 +2,7 @@
 
 namespace App\Util;
 
-use Gondellier\UniversignBundle\Classes\Request\TransactionRequest;
+use Gondellier\UniversignBundle\Classes\TransactionRequest;
 
 class TransactionRequestDataTool
 {

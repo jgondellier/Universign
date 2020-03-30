@@ -2,9 +2,9 @@
 
 namespace App\Util;
 
-use Gondellier\UniversignBundle\Classes\Request\RedirectionConfig;
-use Gondellier\UniversignBundle\Classes\Request\RegistrationRequest;
-use Gondellier\UniversignBundle\Classes\Request\TransactionSigner;
+use Gondellier\UniversignBundle\Classes\RedirectionConfig;
+use Gondellier\UniversignBundle\Classes\RegistrationRequest;
+use Gondellier\UniversignBundle\Classes\TransactionSigner;
 
 class TransactionSignerDataTool
 {

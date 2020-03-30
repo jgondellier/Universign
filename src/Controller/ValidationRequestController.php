@@ -4,9 +4,9 @@ namespace App\Controller;
 
 use App\Form\Type\ValidationFormType;
 use App\Util\ValidationDataTool;
-use Gondellier\UniversignBundle\Classes\Request\IdDocument;
-use Gondellier\UniversignBundle\Classes\Request\PersonalInfo;
-use Gondellier\UniversignBundle\Classes\Request\ValidationRequest;
+use Gondellier\UniversignBundle\Classes\IdDocument;
+use Gondellier\UniversignBundle\Classes\PersonalInfo;
+use Gondellier\UniversignBundle\Classes\ValidationRequest;
 use Gondellier\UniversignBundle\Service\ValidationRequestService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
