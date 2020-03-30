@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "196ca59b85b483ec578797291301fe0b",
+    "content-hash": "09bd61cf07ca2f13f515ebe9453d1ccb",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1209,16 +1209,16 @@
         },
         {
             "name": "gondellier/universign-bundle",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jgondellier/universign-bundle.git",
-                "reference": "d2ce40511757aa78750374658cd6a460e6ac61fd"
+                "reference": "5ad338b318a21f5fded7e84ce28aba303d860e3a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jgondellier/universign-bundle/zipball/d2ce40511757aa78750374658cd6a460e6ac61fd",
-                "reference": "d2ce40511757aa78750374658cd6a460e6ac61fd",
+                "url": "https://api.github.com/repos/jgondellier/universign-bundle/zipball/5ad338b318a21f5fded7e84ce28aba303d860e3a",
+                "reference": "5ad338b318a21f5fded7e84ce28aba303d860e3a",
                 "shasum": ""
             },
             "require": {
@@ -1246,7 +1246,7 @@
                 }
             ],
             "description": "Minimal project to use universign services.",
-            "time": "2020-03-30T12:19:44+00:00"
+            "time": "2020-03-30T13:07:04+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
