@@ -40,11 +40,11 @@
         "symfony/validator": "5.0.*",
         "symfony/web-link": "5.0.*",
         "symfony/yaml": "5.0.*",
-        "symfony/debug-pack": "*",
         "gondellier/universign-bundle": "1.0.2"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
+        "symfony/debug-pack": "*",
         "symfony/maker-bundle": "^1.0",
         "symfony/profiler-pack": "*",
         "symfony/test-pack": "*"
