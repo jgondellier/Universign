@@ -3,7 +3,7 @@
 {% block title %}Universign{% endblock %}
 
 {% block body %}
-    <div class="row">
+    <div class="row mt-4">
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
@@ -38,7 +38,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row mt-4">
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
@@ -50,5 +50,27 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">TransactionInfo</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Recuperation d'information.</h6>
+                    <p class="card-text">Le service TransactionInfo d'universign permet de récupérer des informations sur une transaction.</p>
+                    <p class="card-text">On peut retrouver le statut, le signer, la date de création... </p>
+                    <a class="card-link" href="{{ path('transactioninfo') }}">TransactionInfo</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">GetDocuments</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Récupération des documents signés.</h6>
+                    <p class="card-text">Le service GetDocuments d'universign permet récupérer les documents signés.</p>
+                    <a class="card-link" href="{{ path('getdocuments') }}">GetDocuments</a>
+                </div>
+            </div>
+        </div>
     </div>
+
 {% endblock %}
