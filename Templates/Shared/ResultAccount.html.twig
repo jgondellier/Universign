@@ -33,18 +33,38 @@
                 <span{% if '**' not in  account.firstname %} class="text-success"{% endif %}>{{ account.firstname }}</span>
             </div>
         </div>
+        {% if account.certificateStatus is defined %}
+        <div class="row">
+            <div class="col-md-4">
+                <span>Certificate status : </span>
+            </div>
+            <div class="col-md-8">
+                {% if account.certificateStatus == "valid" %}
+                    <span class="text-success">{{ account.certificateStatus }}</span>
+                {% elseif account.certificateStatus == "awaiting_validation" %}
+                    <span class="text-danger">{{ account.certificateStatus }}</span>
+                {% elseif account.certificateStatus == "awaiting_agreement" %}
+                    <span class="text-danger">{{ account.certificateStatus }}</span>
+                {% else %}
+                    <span class="text-warning">{{ account.certificateStatus }}</span>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+        {% if account.certificateLevel is defined %}
         <div class="row">
             <div class="col-md-4">
                 <span>Certificat : </span>
             </div>
             <div class="col-md-8">
-                {% if account.certificateLevel is defined %}
+                {% if account.certificateLevel == "certified" %}
                     <span class="text-success">{{ account.certificateLevel }}</span>
                 {% else %}
-                    <span>Aucun</span>
+                    <span>{{ account.certificateLevel }}</span>
                 {% endif %}
             </div>
         </div>
+        {% endif %}
     </div>
 </div>
 {% endif %}

@@ -163,6 +163,10 @@ class TransactionRequestFormType extends AbstractType
                 'required'   => false,
                 'help' =>'The configuration of the signer redirection in the event that the signing process fails.'
             ])
+            ->add('invitationMessage', TextType::class, [
+                'required' => false,
+                'help' => 'A custom message added to the invitation email for signing for every signer. This field can be overridden in TransactionSigner for a specific signer.'
+            ])
         ;
     }
 

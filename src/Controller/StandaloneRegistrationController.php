@@ -41,7 +41,7 @@ class StandaloneRegistrationController extends AbstractController
             $transactionSignerDataTool = new TransactionSignerDataTool();
             $transactionSigner = $transactionSignerDataTool->setData($data['signer']);
 
-            $succesUrl = new RedirectionConfig();
+            /*$succesUrl = new RedirectionConfig();
             $succesUrl->setURL('https://localhost/success');
             $succesUrl->setDisplayName('SuccessUrl');
             $transactionSigner->setSuccessRedirection($succesUrl);
@@ -52,10 +52,10 @@ class StandaloneRegistrationController extends AbstractController
             $failUrl = new RedirectionConfig();
             $failUrl->setURL('https://localhost/fail');
             $failUrl->setDisplayName('FailUrl');
-            $transactionSigner->setFailRedirection($failUrl);
+            $transactionSigner->setFailRedirection($failUrl);*/
 
             $standaloneRegistration = new StandaloneRegistration();
-            $standaloneRegistration->setProfile('default');
+            //$standaloneRegistration->setProfile('default');
             $standaloneRegistration->setSigner($transactionSigner);
             $standaloneRegistrationRequestService = new StandaloneRegistrationRequestService($this->getParameter('univ.uri'));
             $standaloneRegistrationRequestService->validate($standaloneRegistration);

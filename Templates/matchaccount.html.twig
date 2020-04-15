@@ -30,7 +30,7 @@
         {{ include('Shared/Fault.html.twig', {fault: service.fault}) }}
     {% endif %}
     {% if service.bestResult is defined and service.bestResult is not null %}
-        <div class="col-md-4">
+        <div class="col-md-6">
             {% if service.bestResult.findMobile is defined %}
                 {{ include('Shared/ResultAccount.html.twig', {account: service.bestResult.findMobile}) }}
             {% endif %}
@@ -42,7 +42,7 @@
             {% endif %}
         </div>
         {% if service.explanation is defined and service.explanation is not null %}
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
                         {{ service.explanation }}

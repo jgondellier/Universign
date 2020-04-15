@@ -38,3 +38,45 @@
         {{ form_row(form.validationSessionId) }}
     </div>
 </div>
+<button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#transactionSignerOption" aria-expanded="false" aria-controls="transactionSignerOption">
+    Options
+</button>
+<div class="collapse" id="transactionSignerOption">
+    <div class="card card-body">
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(form.invitationMessage) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                {{ form_row(form.organization) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.profile) }}
+            </div>
+            <div class="col-md-4">
+                {{ form_row(form.language) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_row(form.role) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.universignId) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(form.successRedirection) }}
+            </div>
+            <div class="col-md-12">
+                {{ form_row(form.cancelRedirection) }}
+            </div>
+            <div class="col-md-12">
+                {{ form_row(form.failRedirection) }}
+            </div>
+        </div>
+    </div>
+</div>

@@ -30,6 +30,7 @@
 {% block form_javascripts %}
     <script>
         $(document).ready(function () {
+            $('.js-transactionSigner-delete').hide();
             if ( $( "#createAccount" ).length ) {
                 let intFrameHeight = window.innerHeight;
                 $('#createAccountiframe').height(intFrameHeight);

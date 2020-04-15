@@ -11,7 +11,7 @@ class TransactionSignerDataTool
     /**
      * Return trnsactionSigner list
      *
-     * @param array $signers
+     * @param array $signer
      * @return TransactionSigner
      */
     public function setData(array $signer): TransactionSigner
@@ -55,15 +55,12 @@ class TransactionSignerDataTool
         if (array_key_exists('universignId', $signer) && !empty($signer['universignId'])) {
             $transactionSigner->setUniversignId($signer['universignId']);
         }
-        $succesUrl = new RedirectionConfig();
         if (array_key_exists('successRedirection', $signer) && !empty($signer['successRedirection'])) {
             $transactionSigner->setSuccessRedirection($signer['successRedirection']);
         }
-        $cancelUrl = new RedirectionConfig();
         if (array_key_exists('cancelRedirection', $signer) && !empty($signer['cancelRedirection'])) {
             $transactionSigner->setCancelRedirection($signer['cancelRedirection']);
         }
-        $failUrl = new RedirectionConfig();
         if (array_key_exists('failRedirection', $signer) && !empty($signer['failRedirection'])) {
             $transactionSigner->setFailRedirection($signer['failRedirection']);
         }
@@ -78,6 +75,9 @@ class TransactionSignerDataTool
                 $registrationRequest->addDocuments($signer['cni2']);
             }
             $transactionSigner->setIdDocuments($registrationRequest);
+        }
+        if (array_key_exists('validationSessionId', $signer) && !empty($signer['validationSessionId'])) {
+            $transactionSigner->setValidationSessionId($signer['validationSessionId']);
         }
         if (array_key_exists('redirectPolicy', $signer) && !empty($signer['redirectPolicy'])) {
             $transactionSigner->setRedirectPolicy($signer['redirectPolicy']);
