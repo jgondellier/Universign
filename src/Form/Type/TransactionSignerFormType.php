@@ -140,7 +140,7 @@ number (for example, in France 33 XXXXXXXXX).'
                 'required'   => false,
                 'help' =>'The configuration of the signer redirection in the event that the signing process is canceled.'
             ])
-            ->add('failRedirection', TextType::class,[
+            ->add('failRedirection', RedirectionConfigFormType::class,[
                 'required'   => false,
                 'help' =>'The configuration of the signer redirection in the event that the signing process fails.'
             ])

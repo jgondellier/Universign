@@ -55,14 +55,32 @@ class TransactionSignerDataTool
         if (array_key_exists('universignId', $signer) && !empty($signer['universignId'])) {
             $transactionSigner->setUniversignId($signer['universignId']);
         }
-        if (array_key_exists('successRedirection', $signer) && !empty($signer['successRedirection'])) {
-            $transactionSigner->setSuccessRedirection($signer['successRedirection']);
+        $succesRedirectionUrl = new RedirectionConfig();
+        if (array_key_exists('successRedirection', $signer)
+            && !empty($signer['successRedirection'])
+            && array_key_exists('URL', $signer['successRedirection'])
+            && !empty($signer['successRedirection']['URL'])) {
+            $succesRedirectionUrl->setDisplayName($signer['successRedirection']['displayName']);
+            $succesRedirectionUrl->setURL($signer['successRedirection']['URL']);
+            $transactionSigner->setSuccessRedirection($succesRedirectionUrl);
         }
-        if (array_key_exists('cancelRedirection', $signer) && !empty($signer['cancelRedirection'])) {
-            $transactionSigner->setCancelRedirection($signer['cancelRedirection']);
+        $cancelRedirectionUrl = new RedirectionConfig();
+        if (array_key_exists('cancelRedirection', $signer)
+            && !empty($signer['cancelRedirection'])
+            && array_key_exists('URL', $signer['cancelRedirection'])
+            && !empty($signer['cancelRedirection']['URL'])) {
+            $cancelRedirectionUrl->setDisplayName($signer['cancelRedirection']['displayName']);
+            $cancelRedirectionUrl->setURL($signer['cancelRedirection']['URL']);
+            $transactionSigner->setCancelRedirection($cancelRedirectionUrl);
         }
-        if (array_key_exists('failRedirection', $signer) && !empty($signer['failRedirection'])) {
-            $transactionSigner->setFailRedirection($signer['failRedirection']);
+        $failRedirectionUrl = new RedirectionConfig();
+        if (array_key_exists('failRedirection', $signer)
+            && !empty($signer['failRedirection'])
+            && array_key_exists('URL', $signer['failRedirection'])
+            && !empty($signer['failRedirection']['URL'])) {
+            $failRedirectionUrl->setDisplayName($signer['failRedirection']['displayName']);
+            $failRedirectionUrl->setURL($signer['failRedirection']['URL']);
+            $transactionSigner->setFailRedirection($failRedirectionUrl);
         }
         if (array_key_exists('certificateType', $signer) && !empty($signer['certificateType'])) {
             $transactionSigner->setCertificateType($signer['certificateType']);
