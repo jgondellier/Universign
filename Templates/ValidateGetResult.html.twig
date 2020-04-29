@@ -1,0 +1,25 @@
+{% extends 'base_form.html.twig' %}
+
+{% block title %}Information sur une prevalidation de CNI{% endblock %}
+
+{% block form_content %}
+    <div class="card-header">
+        Information sur une prevalidation de CNI
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-8">
+                {{ form_row(form.id) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block form_result %}
+    {% if service.fault is defined and service.fault is not null %}
+        {{ include('Shared/Fault.html.twig', {fault: service.fault}) }}
+    {% else %}
+        {{ include('Shared/ValidateGetResult.html.twig', {originalResult: originalResult,}) }}
+    {% endif %}
+{% endblock %}
+{% block form_javascripts %}
+{% endblock %}

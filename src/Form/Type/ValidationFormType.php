@@ -4,6 +4,7 @@ namespace App\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -39,6 +40,18 @@ class ValidationFormType extends AbstractType
                     'accept' => 'application/pdf,application/x-pdf,image/x-png,image/jpeg'
                 ),
                 ])
+            ->add('allowManual', CheckboxType::class,[
+                'required'   => false,
+                'help' =>'Whether to allow manual validation or not.'
+            ])
+            ->add('callbackURL', TextType::class,[
+                'required'   => false,
+                'help' =>'The callback URL to be requested, once the validation session is completed (i.e. its status is VALID or INVALID).
+                 A GET request will be performed with following parameters appended to the URL:
+                    id : Validation session identifier.
+                    status : Validation session status. See ValidatorResult.
+                    Example: http://www.company.com/vs?id=123-abc&status=1'
+            ])
          ;
 
 

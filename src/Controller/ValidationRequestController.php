@@ -56,4 +56,36 @@ class ValidationRequestController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+    /**
+     * @Route("/validationrequest/getresult", name="validationrequestGetresult")
+     * @param Request $request
+     * @return Response
+     */
+    public function getResult(Request $request): Response
+    {
+        $defaultData = ['send' => ''];
+        $form = $this->createFormBuilder($defaultData)
+            ->add('id', TextType::class)
+            ->add('send', SubmitType::class)
+            ->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            $validationRequestService = new ValidationRequestService($this->getParameter('univ.uri'));
+            $validationRequestService->getResult($data['id']);
+
+            return $this->render('ValidateGetResult.html.twig', [
+                'form' => $form->createView(),
+                'originalResult' => $validationRequestService->getOriginalResult(),
+                'service' => $validationRequestService,
+                'explanation' => $validationRequestService->getExplanation()
+            ]);
+        }
+
+        return $this->render('ValidateGetResult.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
 }

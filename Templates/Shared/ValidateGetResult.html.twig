@@ -1,0 +1,47 @@
+{% if originalResult is defined %}
+    <div class="col-md-2 offset-md-5 text-center alert
+        {% if originalResult.status == 1 %}alert-success{% endif %}
+        {% if originalResult.status == 0 %}alert-warning{% endif %}
+         {% if originalResult.status == 2 %}alert-danger{% endif %}" role="alert">
+        {% if originalResult.status == 1 %} SUCCESS {% endif %}
+        {% if originalResult.status == 0 %} PENDING VALIDATION {% endif %}
+        {% if originalResult.status == 2 %} INVALID {% endif %}
+    </div>
+    <div class="col-md-12">
+        <span class="text-secondary">Id de validation : </span><span>{{ originalResult.id }}</span>
+    </div>
+    {% if originalResult.reason is defined %}
+        <div class="col-md-12">
+            <span class="text-secondary">Reason : </span><span>{{ originalResult.reason }}</span>
+        </div>
+    {% endif %}
+    {% if originalResult.reasonMessage is defined  %}
+        <div class="col-md-12">
+            <span class="text-secondary">ReasonMessage : </span><span>{{ originalResult.reasonMessage }}</span>
+        </div>
+    {% endif %}
+    {% if originalResult is defined and originalResult.result is defined %}
+        {% for field, result in originalResult.result %}
+            <div class="col-md-12 alert {% if result.valid == false %}alert-danger{% else %}alert-success{% endif %}">
+                <div class="row">
+                    <div class="col-md-12">
+                        <strong>{{ field }} : </strong>
+                    </div>
+                </div>
+                {% for param, value in result %}
+                    {% if param != 'valid' %}
+                        <div class="row">
+                            <div class="col-md-2"><span class="p-2">{{ param }}</span></div>
+                            <div class="col-md-8"><span class="p-2">{{ value }}</span></div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+            </div>
+        {% endfor %}
+    {% endif %}
+{% else %}
+    <div class="col-md-2 offset-md-5 text-center alert alert-danger" role="alert">
+        NO RESPONSE !!!
+    </div>
+{% endif %}

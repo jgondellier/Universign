@@ -3,14 +3,9 @@
 namespace App\Controller;
 
 use App\Form\Type\PreValidationFormType;
-use App\Form\Type\TransactionRequestFormType;
-use App\Form\Type\ValidationFormType;
 use App\Util\PrevalidationDataTool;
-use Gondellier\UniversignBundle\Service\GetDocumentsService;
 use Gondellier\UniversignBundle\Service\PrevalidationRequestService;
-use GuzzleHttp\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;

@@ -31,33 +31,21 @@
                 {{ form_row(form.validation.cni2) }}
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_row(form.validation.callbackURL) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.validation.allowManual) }}
+            </div>
+        </div>
     </div>
 {% endblock %}
 {% block form_result %}
     {% if service.fault is defined and service.fault is not null %}
         {{ include('Shared/Fault.html.twig', {fault: service.fault}) }}
     {% else %}
-        {% if originalResult.status == 1 %}
-            <div class="alert alert-success col-md-2 offset-md-5 text-center" role="alert">
-                Validé !
-            </div>
-            <div class="col-md-12">
-                <span class="">Id de validation : {{ originalResult.id }}</span>
-            </div>
-        {% else %}
-            {% if explanation is defined %}
-                <div class="alert alert-danger col-md-2 offset-md-5 text-center" role="alert">
-                    Refusé !
-                </div>
-                <div class="col-md-12">
-                    <ul class="list-group">
-                        {% for explain in explanation %}
-                            <li class="list-group-item">{{ explain }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            {% endif %}
-        {% endif %}
+        {{ include('Shared/ValidateGetResult.html.twig', {originalResult: originalResult,}) }}
     {% endif %}
 {% endblock %}
 {% block form_javascripts %}
