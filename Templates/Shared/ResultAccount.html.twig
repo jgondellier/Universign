@@ -1,6 +1,7 @@
 {% if account is defined %}
 <div class="card">
     <div class="card-body">
+        {% if account.email is defined %}
         <div class="row">
             <div class="col-md-4">
                 <span>Email : </span>
@@ -9,6 +10,8 @@
                 <span{% if '**' not in  account.email %} class="text-success"{% endif %}>{{ account.email }}</span>
             </div>
         </div>
+        {% endif %}
+        {% if account.mobile is defined %}
         <div class="row">
             <div class="col-md-4">
                 <span>Mobile : </span>
@@ -17,6 +20,8 @@
                 <span {% if '**' not in  account.mobile %} class="text-success"{% endif %}>{{ account.mobile }}</span>
             </div>
         </div>
+        {% endif %}
+        {% if account.lastname is defined %}
         <div class="row">
             <div class="col-md-4">
                 <span>Nom : </span>
@@ -25,6 +30,8 @@
                 <span{% if '**' not in  account.lastname %} class="text-success"{% endif %}>{{ account.lastname }}</span>
             </div>
         </div>
+        {% endif %}
+        {% if account.firstname is defined %}
         <div class="row">
             <div class="col-md-4">
                 <span>Prénom : </span>
@@ -33,6 +40,7 @@
                 <span{% if '**' not in  account.firstname %} class="text-success"{% endif %}>{{ account.firstname }}</span>
             </div>
         </div>
+        {% endif %}
         {% if account.certificateStatus is defined %}
         <div class="row">
             <div class="col-md-4">
