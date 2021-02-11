@@ -1,6 +1,7 @@
 # See https://github.com/docker-library/php/blob/master/7.1/fpm/Dockerfile
 FROM php:7.4-fpm
 ARG TIMEZONE
+ARG UPSTREAMPORT
 
 MAINTAINER Jonathan Gondellier <jgondellier@yahoo.fr>
 
@@ -19,6 +20,10 @@ RUN apt-get update && apt-get install -y \
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer --version
 
+# Custom upstream port
+#RUN sed -i 's/listen = 9000/listen = 9001/' /usr/local/etc/php-fpm.d/zz-docker.conf
+RUN printf '[global]\ndaemonize = no\n\n[www]\nlisten = "%s"' ${UPSTREAMPORT} > /usr/local/etc/php-fpm.d/zz-docker.conf
+
 # Set timezone
 RUN ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && echo ${TIMEZONE} > /etc/timezone
 RUN printf '[PHP]\ndate.timezone = "%s"\n', ${TIMEZONE} > /usr/local/etc/php/conf.d/tzone.ini
@@ -31,18 +36,18 @@ RUN docker-php-ext-install -j$(nproc) gd mbstring mysqli pdo pdo_mysql shmop xml
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 
 # install xdebug
-RUN pecl install xdebug
-RUN docker-php-ext-enable xdebug
-RUN echo "error_reporting = E_ALL" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-RUN echo "display_startup_errors = On" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-RUN echo "display_errors = On" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-RUN echo "xdebug.remote_enable=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-RUN echo "xdebug.remote_connect_back=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-RUN echo "xdebug.idekey=\"PHPSTORM\"" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-RUN echo "xdebug.remote_port=9001" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-RUN echo "xdebug.var_display_max_depth=10" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-RUN echo "xdebug.var_display_max_children=128" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-RUN echo "xdebug.var_display_max_data = 512" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+#RUN pecl install xdebug
+#RUN docker-php-ext-enable xdebug
+#RUN echo "error_reporting = E_ALL" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+#RUN echo "display_startup_errors = On" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+#RUN echo "display_errors = On" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+#RUN echo "xdebug.remote_enable=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+#RUN echo "xdebug.remote_connect_back=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+#RUN echo "xdebug.idekey=\"PHPSTORM\"" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+#RUN echo "xdebug.remote_port=9001" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+#RUN echo "xdebug.var_display_max_depth=10" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+#RUN echo "xdebug.var_display_max_children=128" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+#RUN echo "xdebug.var_display_max_data = 512" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 # define conf
 RUN echo "memory_limit=4G" >> /usr/local/etc/php/conf.d/docker-php-conf.ini
@@ -56,7 +61,6 @@ RUN echo "opcache.validate_timestamps=0" >> /usr/local/etc/php/conf.d/docker-php
 RUN echo "realpath_cache_size=4096K" >> /usr/local/etc/php/conf.d/docker-php-conf.ini
 RUN echo "realpath_cache_ttl=600" >> /usr/local/etc/php/conf.d/docker-php-conf.ini
 
-RUN echo 'alias sf="php app/console"' >> ~/.bashrc
-RUN echo 'alias sf3="php bin/console"' >> ~/.bashrc
+RUN echo 'alias sf="php bin/console"' >> ~/.bashrc
 
 WORKDIR /var/www/symfony
