@@ -49,17 +49,29 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 #RUN echo "xdebug.var_display_max_children=128" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 #RUN echo "xdebug.var_display_max_data = 512" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
+# OPCACHE
+RUN echo '\
+opcache.enable=1\n\
+opcache.revalidate_freq=0\n\
+opcache.validate_timestamps=1\n\
+opcache.max_accelerated_files=20000\n\
+opcache.memory_consumption=512\n\
+opcache.max_wasted_percentage=10\n\
+opcache.interned_strings_buffer=16\n\
+opcache.fast_shutdown=1\n\
+' >> /usr/local/etc/php/conf.d/docker-opcache.ini
+
 # define conf
-RUN echo "memory_limit=4G" >> /usr/local/etc/php/conf.d/docker-php-conf.ini
-RUN echo "upload_max_filesize=8M" >> /usr/local/etc/php/conf.d/docker-php-conf.ini
-RUN echo "post_max_size=8M" >> /usr/local/etc/php/conf.d/docker-php-conf.ini
-RUN echo "max_execution_time=60000" >> /usr/local/etc/php/conf.d/docker-php-conf.ini
-RUN echo "opcache.enable=1" >> /usr/local/etc/php/conf.d/docker-php-conf.ini
-RUN echo "opcache.memory_consumption=512" >> /usr/local/etc/php/conf.d/docker-php-conf.ini
-RUN echo "opcache.max_accelerated_files=20000" >> /usr/local/etc/php/conf.d/docker-php-conf.ini
-RUN echo "opcache.validate_timestamps=0" >> /usr/local/etc/php/conf.d/docker-php-conf.ini
-RUN echo "realpath_cache_size=4096K" >> /usr/local/etc/php/conf.d/docker-php-conf.ini
-RUN echo "realpath_cache_ttl=600" >> /usr/local/etc/php/conf.d/docker-php-conf.ini
+RUN echo '\
+    memory_limit=4G\n\
+    max_execution_time=60000\n\
+    realpath_cache_size=4096K\n\
+    realpath_cache_ttl=600\n\
+    default_socket_timeout=360\n\
+    upload_max_filesize = 30M\n\
+    post_max_size = 256M\n\
+    ' >> /usr/local/etc/php/conf.d/docker-php-conf.ini
+
 
 RUN echo 'alias sf="php bin/console"' >> ~/.bashrc
 

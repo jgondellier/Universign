@@ -16,3 +16,7 @@
 ###< symfony/phpunit-bridge ###
 /.idea
 /public/documents
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
