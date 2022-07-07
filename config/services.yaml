@@ -5,9 +5,17 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     univ.path: '%env(UNIV_PATH)%'
+    univ.path.test: '%env(UNIV_PATH_TEST)%'
+    univ.path.prod: '%env(UNIV_PATH_PROD)%'
     univ.user: '%env(UNIV_USER)%'
+    univ.user.test: '%env(UNIV_USER_TEST)%'
+    univ.user.prod: '%env(UNIV_USER_PROD)%'
     univ.pass: '%env(UNIV_PASS)%'
+    univ.pass.test: '%env(UNIV_PASS_TEST)%'
+    univ.pass.prod: '%env(UNIV_PASS_PROD)%'
     univ.uri: 'https://%univ.user%:%univ.pass%@%univ.path%'
+    univ.uri.test: 'https://%univ.user.test%:%univ.pass.test%@%univ.path.test%'
+    univ.uri.prod: 'https://%univ.user.prod%:%univ.pass.prod%@%univ.path.prod%'
     univ.apirest: '%env(UNIV_APIREST)%'
     univ.token: '%env(UNIV_TOKEN)%'
     univ.matchaccount: 'matcher.matchAccount'

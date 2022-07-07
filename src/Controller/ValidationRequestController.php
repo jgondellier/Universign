@@ -65,6 +65,14 @@ class ValidationRequestController extends AbstractController
     {
         $defaultData = ['send' => ''];
         $form = $this->createFormBuilder($defaultData)
+            ->add('environnement', ChoiceType::class,[
+                'required'   => false,
+                'choices' => [
+                    'Production' => 'prod',
+                    'Recette' => 'test'
+                ],
+                'data' => 'test'
+            ])
             ->add('id', TextType::class)
             ->add('send', SubmitType::class)
             ->getForm();
@@ -73,7 +81,13 @@ class ValidationRequestController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
-            $validationRequestService = new ValidationRequestService($this->getParameter('univ.uri'));
+            if(array_key_exists('environnement',$data) && !is_null($data['environnement'])){
+                $url = $this->getParameter('univ.uri.'.$data['environnement']);
+            }else{
+                $url = $this->getParameter('univ.uri');
+            }
+
+            $validationRequestService = new ValidationRequestService($url);
             $validationRequestService->getResult($data['id']);
 
             return $this->render('ValidateGetResult.html.twig', [

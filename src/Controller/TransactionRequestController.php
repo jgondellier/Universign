@@ -19,6 +19,7 @@ class TransactionRequestController extends AbstractController
      * @Route("/transactionrequest", name="transactionrequest")
      * @param Request $request
      * @return Response
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function transactionrequest(Request $request): Response
     {

@@ -1,0 +1,32 @@
+{% extends 'base_form.html.twig' %}
+
+{% block title %}Relancer une transaction{% endblock %}
+
+{% block form_content %}
+    <div class="card-header">
+        Relancer la transaction
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                {{ form_row(form.id) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block form_result %}
+    {% if service.fault is defined and service.fault is not null %}
+        {{ include('Shared/Fault.html.twig', {fault: service.fault}) }}
+    {% else %}
+        {% if originalResult is defined %}
+            <div class="card col-md-12">
+                <div class="card-body">
+                    <h5 class="card-title">{{ originalResult.transactionId }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{originalResult.initiatorInfo.firstName}} {{originalResult.initiatorInfo.lastName}} {{originalResult.initiatorInfo.email}} </h6>
+                    <p class="card-text"><span><b>Date de création : </b></span><span>{{originalResult.creationDate.scalar}}</span></p>
+                    <p class="card-text"><span><b>Status : </b></span><span>{{originalResult.status}}</span></p>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+{% endblock %}
